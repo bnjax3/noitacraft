@@ -12,10 +12,6 @@ public class ModItems {
 
     public static final RegistryObject<Item> TEST_ITEM = ITEMS.register("test_item", () -> new Item(new Item.Properties().tab(ModItemGroup.NOITACRAFT_GROUP)));
 
-
-
-
-
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
     }
