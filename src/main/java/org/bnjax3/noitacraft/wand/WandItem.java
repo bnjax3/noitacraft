@@ -11,6 +11,7 @@ import org.bnjax3.noitacraft.wand.Wand;
 public class WandItem extends Item {
     public final Wand Wand1;
     public static Spell[] spells;
+    public int GroupIndex = 0;
     public WandItem(Properties itemProperties, Wand wand) {
         super(itemProperties);
         Wand1 = wand;
@@ -20,7 +21,8 @@ public class WandItem extends Item {
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
         World world = context.getLevel();
         if (!world.isClientSide){
-            Wand1.Cast(context, world, spells);
+            Wand1.Cast(context, world, spells, GroupIndex);
+            GroupIndex++;
         }
 
         return super.onItemUseFirst(stack, context);

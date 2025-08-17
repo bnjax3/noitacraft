@@ -1,8 +1,10 @@
 package org.bnjax3.noitacraft.spell;
 
+import org.bnjax3.noitacraft.wand.SpellGroup;
+
 public class TimerSpell extends ProjectileSpell{
     public final int timerLifetime; // ticks
-    public Spell[] payload;
+    public SpellGroup payload;
 
     public TimerSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, int radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, int timerLifetime)
     {
