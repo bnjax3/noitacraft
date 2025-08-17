@@ -49,8 +49,10 @@ public class Wand {
         ArrayList<SpellGroup> spellGroups = new ArrayList<>();
         int index = 0;
         if (Shuffle){
+            //shufflear
             List<Spell> spellslist = Arrays.asList(spells);
-            spells = Collections.shuffle(spellslist);
+            Collections.shuffle(spellslist);
+            spells = spellslist.toArray(new Spell[0]);
         }
         while (spells.length > index){
             int spellsToGrab = SpellsCast;
