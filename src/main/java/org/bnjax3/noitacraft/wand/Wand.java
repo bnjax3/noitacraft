@@ -6,9 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.world.World;
-import org.bnjax3.noitacraft.spell.ModifierSpell;
-import org.bnjax3.noitacraft.spell.MulticastSpell;
-import org.bnjax3.noitacraft.spell.Spell;
+import org.bnjax3.noitacraft.spell.*;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
@@ -37,59 +35,109 @@ public class Wand {
         SpeedMult = speedMult;
     }
 
-    public void Cast(ItemUseContext context, World world, Spell[] spells, int groupIndex){
+    public void Cast(ItemUseContext context, World world, SpellGroup[] spellGroups, int groupIndex){
         PlayerEntity player = context.getPlayer();
         ItemStack stack = context.getItemInHand();
-        SpellGroup[] spellGroups = GroupSpells(spells);
-
         spellGroups[groupIndex].Cast(player, stack, world);
 
     }
     public SpellGroup[] GroupSpells(Spell[] spells){
-        ArrayList<SpellGroup> spellGroups = new ArrayList<>();
-        int index = 0;
-        if (Shuffle){
-            //shufflear
-            List<Spell> spellslist = Arrays.asList(spells);
-            Collections.shuffle(spellslist);
-            spells = spellslist.toArray(new Spell[0]);
-        }
-        while (spells.length > index){
-            int spellsToGrab = SpellsCast;
-            int count = 0;
-            ArrayList<Spell> Casted = new ArrayList<>();
-            ArrayList<Spell> Modifiers = new ArrayList<>();
-            ArrayList<Spell> Multicasts = new ArrayList<>();
-            while (count < spellsToGrab){
-                if (spells.length > index){
-                    Spell spell = spells[index];
-                    // faltan triggers y timers
-                    if (spell instanceof MulticastSpell){
-                        spellsToGrab += ((MulticastSpell) spell).Draws;
-                        Multicasts.add(spell);
-                    }
-                    if (spell.countsTowardCast){
-                        count++;
-                        Casted.add(spell);
-                    } else {
-                        Modifiers.add(spell);
-                    }
-                    index++;
-                } else {
+        ArrayList<SpellGroup> toReturn = new ArrayList<>();
+        boolean reachedEndOfWand = false;
+        while (!reachedEndOfWand){
+            int index = 0;
+            int countedSpells = 0;
+            int toDraw = SpellsCast;
+            ArrayList<Spell> casted = new ArrayList<>();
+            ArrayList<Spell> modifiers = new ArrayList<>();
+            while (countedSpells < toDraw){
+                // triggers are missing
+                if (index >= spells.length){
                     // try wrap
-                    for (int i = 0; true; i++){
-                        if (spells[i].countsTowardCast && !(spells[i] instanceof MulticastSpell)){
-                            Casted.add(spells[i]);
-                            break;
-                        } else if (spells[i] instanceof ModifierSpell){
-                            Modifiers.add(spells[i]);
-                        }
-                    }
+                    index = 0;
+                    reachedEndOfWand = true;
                 }
+                Spell spell = spells[index];
+                // hay que poner fe en que esta funcion diferencia entre objetos distintos de misma clase y propiedades
+                if (casted.contains(spell)){
+                    reachedEndOfWand = true;
+                    break;
+                }
+
+                if (spell.countsTowardCast){
+                    countedSpells++;
+                    if (spell instanceof MulticastSpell){
+                        toDraw += ((MulticastSpell) spell).Draws;
+                    } else if (spell instanceof TriggerSpell) {
+                        SpellGroup payload = getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count);
+                        casted.add( new TriggerSpell( ((TriggerSpell) spell), payload ));
+                        // creo que no tiene que tener en cuenta el wrap esto pero si termina fallando puede ser que sea eso
+                        // esto se saltea los hechizos que hayan sido anadidos a la payload del trigger o timer
+                        index += payload.AmountOfSpells() - 1;
+                    } else if (spell instanceof TimerSpell){
+                        SpellGroup payload = getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count);
+                        casted.add( new TimerSpell( ((TimerSpell) spell), payload));
+                        index += payload.AmountOfSpells() - 1;
+                    }
+                    else {
+                        casted.add(spell);
+                    }
+                } else {
+                    modifiers.add(spell);
+                }
+                index++;
             }
-            spellGroups.add(new SpellGroup(Casted, Modifiers, Multicasts));
+            toReturn.add(new SpellGroup(casted, modifiers,index));
         }
-        return (SpellGroup[]) spellGroups.toArray();
+        return toReturn.toArray(new SpellGroup[0]);
+
+    }
+    public SpellGroup getTriggerPayload(Spell[] spells, int indexToStart, int count){
+        int index = indexToStart;
+        int countedSpells = 0;
+        int toDraw = count;
+        ArrayList<Spell> casted = new ArrayList<>();
+        ArrayList<Spell> modifiers = new ArrayList<>();
+        while (countedSpells < toDraw){
+            if (index == spells.length){
+                // try wrap
+                index = 0;
+            }
+            Spell spell = spells[index];
+            if (casted.contains(spell)){
+                break;
+            }
+            if (spell.countsTowardCast){
+                countedSpells++;
+                if (spell instanceof MulticastSpell){
+                    toDraw += ((MulticastSpell) spell).Draws;
+                } else if (spell instanceof TriggerSpell) {
+                    casted.add( new TriggerSpell( ((TriggerSpell) spell), getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count) ) );
+                } else if (spell instanceof TimerSpell){
+                    casted.add( new TimerSpell( ((TimerSpell) spell), getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count) ) );
+                }
+                else {
+                    casted.add(spell);
+                }
+            } else {
+                modifiers.add(spell);
+            }
+            index++;
+        }
+        return new SpellGroup(casted, modifiers);
+    }
+
+    public int getFinalRechargeTime(SpellGroup[] spellGroups){
+        int toReturn = RechargeTime;
+        for(SpellGroup spellGroup : spellGroups){
+            for (Spell spell : spellGroup.Casted){
+                toReturn += spell.RechargeTime;
+            }
+            for (Spell spell : spellGroup.Modifiers){
+                toReturn += spell.RechargeTime;
+            }
+        }
+        return toReturn;
     }
 
 }

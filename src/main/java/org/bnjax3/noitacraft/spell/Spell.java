@@ -19,4 +19,22 @@ public class Spell {
         Type = type;
         this.countsTowardCast = countsTowardCast;
     }
+    public void Cast(){
+        ExecuteBeforeCast();
+        Modify();
+        ExecuteOnCast();
+        ExecuteAfterCast();
+    }
+    public void ExecuteOnCast(){
+
+    }
+    public void ExecuteBeforeCast(){
+
+    }
+    public void ExecuteAfterCast(){
+
+    }
+    public void Modify(){
+
+    }
 }
