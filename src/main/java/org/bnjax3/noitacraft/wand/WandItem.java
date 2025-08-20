@@ -26,6 +26,7 @@ public class WandItem extends Item {
             if (!(groupIndex < spellGroups.length)){
                 assert player != null;
                 player.getCooldowns().addCooldown(this, Wand1.getFinalRechargeTime(spellGroups));
+                groupIndex = 0;
             }
             Wand1.Cast(context, world, spellGroups, groupIndex);
             groupIndex++;

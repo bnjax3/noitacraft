@@ -13,17 +13,20 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 public class Wand {
+    // unchangeable
     public final boolean Shuffle;
     public final int SpellsCast;
-    public final int CastDelay; // in ticks
-    public final int RechargeTime; // in ticks
     public final int ManaMax;
-    public final int ManaChargeSpeed;
     public final int Capacity;
+    public final int ManaChargeSpeed;
+    // spells can change in  block:
+    public final int CastDelay; // in ticks
     public final float Spread; // degrees
     public final float SpeedMult;
+    // global through wand :
+    public final int RechargeTime; // in ticks
 
-    public Wand(boolean shuffle, int spellsCast, int castDelay, int rechargeTime, int manaMax, int manaChargeSpeed, int capacity, int spread, float speedMult) {
+    public Wand(boolean shuffle, int spellsCast, int castDelay, int rechargeTime, int manaMax, int manaChargeSpeed, int capacity, float spread, float speedMult) {
         Shuffle = shuffle;
         SpellsCast = spellsCast;
         CastDelay = castDelay;
@@ -38,7 +41,7 @@ public class Wand {
     public void Cast(ItemUseContext context, World world, SpellGroup[] spellGroups, int groupIndex){
         PlayerEntity player = context.getPlayer();
         ItemStack stack = context.getItemInHand();
-        spellGroups[groupIndex].Cast(player, stack, world);
+        spellGroups[groupIndex].Cast(player, stack, world, context);
 
     }
     public SpellGroup[] GroupSpells(Spell[] spells){
@@ -87,7 +90,7 @@ public class Wand {
                 }
                 index++;
             }
-            toReturn.add(new SpellGroup(casted, modifiers,index));
+            toReturn.add(new SpellGroup(casted, modifiers, index, this));
         }
         return toReturn.toArray(new SpellGroup[0]);
 
@@ -112,9 +115,15 @@ public class Wand {
                 if (spell instanceof MulticastSpell){
                     toDraw += ((MulticastSpell) spell).Draws;
                 } else if (spell instanceof TriggerSpell) {
-                    casted.add( new TriggerSpell( ((TriggerSpell) spell), getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count) ) );
+                    SpellGroup payload = getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count);
+                    casted.add( new TriggerSpell( ((TriggerSpell) spell), payload ));
+                    // creo que no tiene que tener en cuenta el wrap esto pero si termina fallando puede ser que sea eso
+                    // esto se saltea los hechizos que hayan sido anadidos a la payload del trigger o timer
+                    index += payload.AmountOfSpells() - 1;
                 } else if (spell instanceof TimerSpell){
-                    casted.add( new TimerSpell( ((TimerSpell) spell), getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count) ) );
+                    SpellGroup payload = getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count);
+                    casted.add( new TimerSpell( ((TimerSpell) spell), payload));
+                    index += payload.AmountOfSpells() - 1;
                 }
                 else {
                     casted.add(spell);
@@ -124,18 +133,14 @@ public class Wand {
             }
             index++;
         }
-        return new SpellGroup(casted, modifiers);
+        return new SpellGroup(casted, modifiers,this);
     }
 
     public int getFinalRechargeTime(SpellGroup[] spellGroups){
         int toReturn = RechargeTime;
-        for(SpellGroup spellGroup : spellGroups){
-            for (Spell spell : spellGroup.Casted){
-                toReturn += spell.RechargeTime;
-            }
-            for (Spell spell : spellGroup.Modifiers){
-                toReturn += spell.RechargeTime;
-            }
+        for(SpellGroup spellGroup : spellGroups)
+        {
+            toReturn += spellGroup.GetRechargeTimeModifier();
         }
         return toReturn;
     }
