@@ -1,8 +1,10 @@
 package org.bnjax3.noitacraft.spell;
 
+import org.bnjax3.noitacraft.wand.Wand;
+
 public class SpellProperties {
-    public int CastDelay = 0;
-    public float Spread = 0;
+    public int CastDelay;
+    public float Spread;
     public float Recoil = 0;
     public float speedMult = 1;
     public float critChanceBonus = 0;
@@ -11,8 +13,9 @@ public class SpellProperties {
     public boolean friendlyFire = false;
     public int bounces = 0;
     // public float gravity = 0; // block/tick
-    public SpellProperties(){
-
+    public SpellProperties(Wand wand){
+        CastDelay = wand.CastDelay;
+        Spread = wand.Spread;
     }
     public void Change(Spell spell){
         CastDelay += spell.CastDelay;

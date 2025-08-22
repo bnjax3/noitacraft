@@ -38,10 +38,8 @@ public class Wand {
         SpeedMult = speedMult;
     }
 
-    public void Cast(ItemUseContext context, World world, SpellGroup[] spellGroups, int groupIndex){
-        PlayerEntity player = context.getPlayer();
-        ItemStack stack = context.getItemInHand();
-        spellGroups[groupIndex].Cast(player, stack, world, context);
+    public void Cast(World world, PlayerEntity player, SpellGroup[] spellGroups, int groupIndex){
+        spellGroups[groupIndex].Cast(player, world);
 
     }
     public SpellGroup[] GroupSpells(Spell[] spells){
@@ -51,8 +49,7 @@ public class Wand {
             int index = 0;
             int countedSpells = 0;
             int toDraw = SpellsCast;
-            ArrayList<Spell> casted = new ArrayList<>();
-            ArrayList<Spell> modifiers = new ArrayList<>();
+            ArrayList<Spell> toCast = new ArrayList<>();
             while (countedSpells < toDraw){
                 // triggers are missing
                 if (index >= spells.length){
@@ -62,7 +59,7 @@ public class Wand {
                 }
                 Spell spell = spells[index];
                 // hay que poner fe en que esta funcion diferencia entre objetos distintos de misma clase y propiedades
-                if (casted.contains(spell)){
+                if (toCast.contains(spell)){
                     reachedEndOfWand = true;
                     break;
                 }
@@ -73,24 +70,24 @@ public class Wand {
                         toDraw += ((MulticastSpell) spell).Draws;
                     } else if (spell instanceof TriggerSpell) {
                         SpellGroup payload = getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count);
-                        casted.add( new TriggerSpell( ((TriggerSpell) spell), payload ));
+                        toCast.add( new TriggerSpell( ((TriggerSpell) spell), payload ));
                         // creo que no tiene que tener en cuenta el wrap esto pero si termina fallando puede ser que sea eso
                         // esto se saltea los hechizos que hayan sido anadidos a la payload del trigger o timer
                         index += payload.AmountOfSpells() - 1;
                     } else if (spell instanceof TimerSpell){
                         SpellGroup payload = getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count);
-                        casted.add( new TimerSpell( ((TimerSpell) spell), payload));
+                        toCast.add( new TimerSpell( ((TimerSpell) spell), payload));
                         index += payload.AmountOfSpells() - 1;
                     }
                     else {
-                        casted.add(spell);
+                        toCast.add(spell);
                     }
                 } else {
-                    modifiers.add(spell);
+                    toCast.add(spell);
                 }
                 index++;
             }
-            toReturn.add(new SpellGroup(casted, modifiers, index, this));
+            toReturn.add(new SpellGroup(toCast, index, this));
         }
         return toReturn.toArray(new SpellGroup[0]);
 
@@ -99,41 +96,43 @@ public class Wand {
         int index = indexToStart;
         int countedSpells = 0;
         int toDraw = count;
-        ArrayList<Spell> casted = new ArrayList<>();
-        ArrayList<Spell> modifiers = new ArrayList<>();
+        ArrayList<Spell> toCast = new ArrayList<>();
         while (countedSpells < toDraw){
-            if (index == spells.length){
+            // triggers are missing
+            if (index >= spells.length){
                 // try wrap
                 index = 0;
             }
             Spell spell = spells[index];
-            if (casted.contains(spell)){
+            // hay que poner fe en que esta funcion diferencia entre objetos distintos de misma clase y propiedades
+            if (toCast.contains(spell)){
                 break;
             }
+
             if (spell.countsTowardCast){
                 countedSpells++;
                 if (spell instanceof MulticastSpell){
                     toDraw += ((MulticastSpell) spell).Draws;
                 } else if (spell instanceof TriggerSpell) {
                     SpellGroup payload = getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count);
-                    casted.add( new TriggerSpell( ((TriggerSpell) spell), payload ));
+                    toCast.add( new TriggerSpell( ((TriggerSpell) spell), payload ));
                     // creo que no tiene que tener en cuenta el wrap esto pero si termina fallando puede ser que sea eso
                     // esto se saltea los hechizos que hayan sido anadidos a la payload del trigger o timer
                     index += payload.AmountOfSpells() - 1;
                 } else if (spell instanceof TimerSpell){
                     SpellGroup payload = getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count);
-                    casted.add( new TimerSpell( ((TimerSpell) spell), payload));
+                    toCast.add( new TimerSpell( ((TimerSpell) spell), payload));
                     index += payload.AmountOfSpells() - 1;
                 }
                 else {
-                    casted.add(spell);
+                    toCast.add(spell);
                 }
             } else {
-                modifiers.add(spell);
+                toCast.add(spell);
             }
             index++;
         }
-        return new SpellGroup(casted, modifiers,this);
+        return new SpellGroup(toCast,this);
     }
 
     public int getFinalRechargeTime(SpellGroup[] spellGroups){
