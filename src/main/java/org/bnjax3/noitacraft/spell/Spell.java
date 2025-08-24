@@ -1,8 +1,7 @@
 package org.bnjax3.noitacraft.spell;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
@@ -23,22 +22,26 @@ public class Spell {
         Recoil = recoil;
         this.countsTowardCast = countsTowardCast;
     }
-    public void Cast(SpellGroup spellGroup, PlayerEntity player, World world){
-        ExecuteBeforeCast(spellGroup, player, world);
-        ExecuteOnCast(spellGroup, player, world);
-        ExecuteAfterCast(spellGroup, player, world);
+    public void Cast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
+        ExecuteBeforeCast(spellGroup, player, world, position, xRot, yRot);
+        ExecuteOnCast(spellGroup, player, world, position, xRot, yRot);
+        ExecuteAfterCast(spellGroup, player, world, position, xRot, yRot);
     }
     public void Modify(SpellGroup spellGroup){
+        // applies the properties of this spell to the spell group
         spellGroup.spellProperties.Change(this);
     }
 
-    public void ExecuteOnCast(SpellGroup spellGroup, PlayerEntity player, World world){
+    public void ExecuteOnCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
 
     }
-    public void ExecuteBeforeCast(SpellGroup spellGroup, PlayerEntity player, World world){
+    public void ExecuteBeforeCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
 
     }
-    public void ExecuteAfterCast(SpellGroup spellGroup, PlayerEntity player, World world){
+    public void ExecuteAfterCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
 
+    }
+    public void ExecuteOnProjectileTick(MagicProjectile projectile){
+        // function is executed by every projectile in the spell group every tick
     }
 }

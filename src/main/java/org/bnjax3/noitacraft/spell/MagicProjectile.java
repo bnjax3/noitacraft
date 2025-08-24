@@ -1,21 +1,25 @@
 package org.bnjax3.noitacraft.spell;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import org.bnjax3.noitacraft.wand.SpellGroup;
+
+import javax.annotation.Nullable;
 
 public abstract class MagicProjectile extends ProjectileEntity {
     public ProjectileSpell Spell;
-    private int bounces;
-    private int lifetime;
+    public int bounces;
+    public int lifetime;
+    private SpellGroup spellGroup;
+    private SpellProperties spellProperties;
 
-    MagicProjectile(EntityType<? extends net.minecraft.entity.projectile.ProjectileEntity> projectileEntity, World world, ProjectileSpell spell) {
+    MagicProjectile(EntityType<? extends net.minecraft.entity.projectile.ProjectileEntity> projectileEntity, World world, ProjectileSpell spell, @Nullable SpellGroup spellGroup) {
         super(projectileEntity, world);
-        Spell = spell;
-        bounces = spell.bounces;
-        lifetime = spell.lifetime;
+        this.spellGroup = spellGroup;
     }
 
     @Override
@@ -25,7 +29,7 @@ public abstract class MagicProjectile extends ProjectileEntity {
             bounce(hitBlock.getDirection());
             bounces--;
         } else {
-            Spell.ExecuteOnHit();
+            Spell.ExecuteOnHit((PlayerEntity) getOwner(),getCommandSenderWorld(), this);
             this.remove();
         }
 
@@ -36,14 +40,16 @@ public abstract class MagicProjectile extends ProjectileEntity {
         super.onHitEntity(hitEntity);
 
     }
+
     public void tick() {
         if (lifetime <= 0){
-            Spell.ExecuteOnHit();
+            Spell.ExecuteOnHit((PlayerEntity) getOwner(),getCommandSenderWorld(),this);
             this.remove();
         }
         super.tick();
         Vector3d deltaMovement = this.getDeltaMovement();
-
+        Spell.ExecuteOnProjectileTickUnshared(this);
+        doTickFunctionalities();
         if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
             float f = MathHelper.sqrt(getHorizontalDistanceSqr(deltaMovement));
             this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * (double)(180F / (float)Math.PI));
@@ -53,6 +59,13 @@ public abstract class MagicProjectile extends ProjectileEntity {
         }
         lifetime--;
     }
+
+    private void doTickFunctionalities() {
+        for (Spell spell : spellGroup.Spells){
+            spell.ExecuteOnProjectileTick(this);
+        }
+    }
+
     private void bounce(Direction direction){
         // si no anda probablemente sea un problema de hitBlock.getDirection()
         Vector3d deltaMovement = getDeltaMovement();
@@ -70,5 +83,20 @@ public abstract class MagicProjectile extends ProjectileEntity {
         this.xRotO = this.xRot;
     }
 
+    public void ShootSpell(){
+        
+    }
+    public void setSpellGroup(SpellGroup spellGroup) {
+        this.spellGroup = spellGroup;
+    }
+    public void setSpellProperties(SpellProperties spellProperties){
+        this.spellProperties = spellProperties;
+        applyProperties();
+    }
+    private void applyProperties(){
+        spellProperties.ChangeByAll(Spell);
+        this.bounces = spellProperties.bounces;
+        this.lifetime = spellProperties.lifetime;
+    }
 
 }

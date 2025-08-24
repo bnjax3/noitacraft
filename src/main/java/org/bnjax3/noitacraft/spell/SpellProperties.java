@@ -34,4 +34,14 @@ public class SpellProperties {
         }
 
     }
+    // qlia puros nombres de mierda pongo a las funciones
+    public void ChangeByAll(Spell spell){
+        critChanceBonus += ((ProjectileSpell) spell).critChanceBonus;
+        damageBonus += ((ProjectileSpell) spell).damage;
+        lifetime += ((ProjectileSpell) spell).lifetime;
+        if (((ProjectileSpell) spell).friendlyFire){
+            friendlyFire = true;
+        }
+        bounces += ((ProjectileSpell) spell).bounces;
+    }
 }

@@ -3,6 +3,7 @@ package org.bnjax3.noitacraft.wand;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import org.bnjax3.noitacraft.spell.*;
 
@@ -21,13 +22,13 @@ public class SpellGroup {
     public SpellGroup(ArrayList<Spell> spells, Wand wand){
         this(spells, 0, wand);
     }
-    public void Cast(PlayerEntity player, World world){
+    public void Cast(PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
         spellProperties = new SpellProperties(wand);
         for (Spell spell : Spells){
             spell.Modify(this);
         }
         for (Spell spell : Spells){
-            spell.Cast(this, player, world);
+            spell.Cast(this, player, world, position, xRot, yRot);
         }
 
 
@@ -40,22 +41,16 @@ public class SpellGroup {
             }
             return count;
         }
-        // [min, max]
-        // dowsnt work with spell wrapping
-        public int[] RangeOfSpellGroup(){
-            return new int[]{IndexGroupStart, IndexGroupStart + AmountOfSpells() - 1};
-        }
-
-        public int GetRechargeTimeModifier(){
-            int toReturn = 0;
-            for (Spell spell : Spells){
-                toReturn += spell.RechargeTime;
-                if (spell instanceof PayloadSpell){
-                    toReturn += ((PayloadSpell) spell).payload.GetRechargeTimeModifier();
-                }
+    public int GetRechargeTimeModifier(){
+        int toReturn = 0;
+        for (Spell spell : Spells){
+            toReturn += spell.RechargeTime;
+            if (spell instanceof PayloadSpell){
+                toReturn += ((PayloadSpell) spell).payload.GetRechargeTimeModifier();
             }
-            return toReturn;
         }
+        return toReturn;
+    }
 
 
 
