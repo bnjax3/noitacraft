@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
 public class ProjectileSpell extends Spell {
-    public final int radius;
+    public final float radius;
     public final float speed;
     public final float critChanceBonus;
     public final float damage;
@@ -16,7 +16,7 @@ public class ProjectileSpell extends Spell {
     public final float gravity; // block/tick
     public final MagicProjectile projectile;
 
-    public ProjectileSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, int radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, MagicProjectile projectile) {
+    public ProjectileSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, MagicProjectile projectile) {
         super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, true);
         this.radius = radius;
         this.speed = speed;

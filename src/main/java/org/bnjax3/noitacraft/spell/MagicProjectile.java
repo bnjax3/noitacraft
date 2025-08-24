@@ -2,6 +2,7 @@ package org.bnjax3.noitacraft.spell;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
@@ -10,17 +11,18 @@ import org.bnjax3.noitacraft.wand.SpellGroup;
 
 import javax.annotation.Nullable;
 
-public abstract class MagicProjectile extends ProjectileEntity {
+public class MagicProjectile extends ProjectileEntity {
     public ProjectileSpell Spell;
     public int bounces;
     public int lifetime;
     private SpellGroup spellGroup;
     private SpellProperties spellProperties;
 
-    MagicProjectile(EntityType<? extends net.minecraft.entity.projectile.ProjectileEntity> projectileEntity, World world, ProjectileSpell spell, @Nullable SpellGroup spellGroup) {
+    public MagicProjectile(EntityType<? extends net.minecraft.entity.projectile.ProjectileEntity> projectileEntity, World world, ProjectileSpell spell, @Nullable SpellGroup spellGroup) {
         super(projectileEntity, world);
         this.spellGroup = spellGroup;
     }
+
 
     @Override
     protected void onHitBlock(BlockRayTraceResult hitBlock) {
@@ -41,9 +43,15 @@ public abstract class MagicProjectile extends ProjectileEntity {
 
     }
 
+
+    @Override
+    protected void defineSynchedData() {
+
+    }
+
     public void tick() {
         if (lifetime <= 0){
-            Spell.ExecuteOnHit((PlayerEntity) getOwner(),getCommandSenderWorld(),this);
+            Spell.ExecuteOnHit((PlayerEntity) getOwner(),this.level,this);
             this.remove();
         }
         super.tick();
@@ -59,6 +67,12 @@ public abstract class MagicProjectile extends ProjectileEntity {
         }
         lifetime--;
     }
+
+    @Override
+    public IPacket<?> getAddEntityPacket() {
+        return null;
+    }
+
 
     private void doTickFunctionalities() {
         for (Spell spell : spellGroup.Spells){
@@ -84,7 +98,7 @@ public abstract class MagicProjectile extends ProjectileEntity {
     }
 
     public void ShootSpell(){
-        
+
     }
     public void setSpellGroup(SpellGroup spellGroup) {
         this.spellGroup = spellGroup;

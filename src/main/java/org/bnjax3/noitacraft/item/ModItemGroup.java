@@ -11,4 +11,16 @@ public class ModItemGroup {
             return new ItemStack(ModItems.TEST_ITEM.get());
         }
     };
+    public static final ItemGroup WANDS_GROUP = new ItemGroup("Wands"){
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(ModItems.TEST_ITEM.get());
+        }
+    };
+    public static final ItemGroup SPELLS_GROUP = new ItemGroup("Spells"){
+        @Override
+        public ItemStack makeIcon() {
+            return new ItemStack(ModItems.TEST_ITEM.get());
+        }
+    };
 }
