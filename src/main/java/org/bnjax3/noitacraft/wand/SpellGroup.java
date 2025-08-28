@@ -22,13 +22,13 @@ public class SpellGroup {
     public SpellGroup(ArrayList<Spell> spells, Wand wand){
         this(spells, 0, wand);
     }
-    public void Cast(PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
+    public void Cast(PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
         spellProperties = new SpellProperties(wand);
         for (Spell spell : Spells){
             spell.Modify(this);
         }
         for (Spell spell : Spells){
-            spell.Cast(this, player, world, position, xRot, yRot);
+            spell.Cast(this, player, world, position, viewVector);
         }
 
 

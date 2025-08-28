@@ -1,26 +1,49 @@
 package org.bnjax3.noitacraft.spell;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.network.IPacket;
+import net.minecraft.network.play.server.SSpawnObjectPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import org.bnjax3.noitacraft.entity.ModEntities;
+import org.bnjax3.noitacraft.other.Simplifier;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
-import javax.annotation.Nullable;
-
-public class MagicProjectile extends ProjectileEntity {
+public class MagicProjectile extends ThrowableEntity {
     public ProjectileSpell Spell;
     public int bounces;
     public int lifetime;
     private SpellGroup spellGroup;
     private SpellProperties spellProperties;
 
-    public MagicProjectile(EntityType<? extends net.minecraft.entity.projectile.ProjectileEntity> projectileEntity, World world, ProjectileSpell spell, @Nullable SpellGroup spellGroup) {
-        super(projectileEntity, world);
-        this.spellGroup = spellGroup;
+    public MagicProjectile(EntityType<? extends ThrowableEntity> entityType, World world){
+        super(entityType, world);
+    }
+    public MagicProjectile(EntityType<? extends ThrowableEntity> entityType, World world, ProjectileSpell spell) {
+        this(entityType, world);
+        Spell = spell;
+        // para que no se use el metodo de la super que es una cagada
+        this.setNoGravity(true);
+    }
+
+    public MagicProjectile(EntityType<? extends ThrowableEntity> entityType, double x, double y, double z, World world, ProjectileSpell spell) {
+        this(entityType, world, spell);
+        this.setPos(x,y,z);
+    }
+    public MagicProjectile(EntityType<? extends ThrowableEntity> entityType, Vector3d vector3d, World world, ProjectileSpell spell) {
+        this(entityType, world, spell);
+        this.setPos(vector3d.x, vector3d.y, vector3d.z);
+    }
+
+    public MagicProjectile(EntityType<? extends ThrowableEntity> entityType, LivingEntity shooter, World world, ProjectileSpell spell) {
+        this(entityType,shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), world, spell);
+        this.setOwner(shooter);
     }
 
 
@@ -31,6 +54,7 @@ public class MagicProjectile extends ProjectileEntity {
             bounce(hitBlock.getDirection());
             bounces--;
         } else {
+            bounce(hitBlock.getDirection());
             Spell.ExecuteOnHit((PlayerEntity) getOwner(),getCommandSenderWorld(), this);
             this.remove();
         }
@@ -58,19 +82,25 @@ public class MagicProjectile extends ProjectileEntity {
         Vector3d deltaMovement = this.getDeltaMovement();
         Spell.ExecuteOnProjectileTickUnshared(this);
         doTickFunctionalities();
+        // rotate towards deltaMovement
         if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
             float f = MathHelper.sqrt(getHorizontalDistanceSqr(deltaMovement));
-            this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * (double)(180F / (float)Math.PI));
-            this.xRot = (float)(MathHelper.atan2(deltaMovement.y, f) * (double)(180F / (float)Math.PI));
+            this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * Simplifier.RadToDeg);
+            this.xRot = (float)(MathHelper.atan2(deltaMovement.y, f) * Simplifier.RadToDeg);
             this.yRotO = this.yRot;
             this.xRotO = this.xRot;
         }
+
+        // do gravity
+        this.setDeltaMovement( deltaMovement.x, deltaMovement.y - (double)this.getGravity(), deltaMovement.z);
+
         lifetime--;
     }
 
     @Override
     public IPacket<?> getAddEntityPacket() {
-        return null;
+        Entity entity = this.getOwner();
+        return new SSpawnObjectPacket(this, entity == null ? 0 : entity.getId());
     }
 
 
@@ -91,15 +121,13 @@ public class MagicProjectile extends ProjectileEntity {
             setDeltaMovement(deltaMovement.x, deltaMovement.y, deltaMovement.z * -1);
         }
         float f = MathHelper.sqrt(getHorizontalDistanceSqr(deltaMovement));
-        this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * (double)(180F / (float)Math.PI));
-        this.xRot = (float)(MathHelper.atan2(deltaMovement.y, f) * (double)(180F / (float)Math.PI));
+        this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * Simplifier.RadToDeg);
+        this.xRot = (float)(MathHelper.atan2(deltaMovement.y, f) * Simplifier.RadToDeg);
         this.yRotO = this.yRot;
         this.xRotO = this.xRot;
     }
 
-    public void ShootSpell(){
 
-    }
     public void setSpellGroup(SpellGroup spellGroup) {
         this.spellGroup = spellGroup;
     }
@@ -112,5 +140,6 @@ public class MagicProjectile extends ProjectileEntity {
         this.bounces = spellProperties.bounces;
         this.lifetime = spellProperties.lifetime;
     }
+
 
 }

@@ -22,23 +22,23 @@ public class Spell {
         Recoil = recoil;
         this.countsTowardCast = countsTowardCast;
     }
-    public void Cast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
-        ExecuteBeforeCast(spellGroup, player, world, position, xRot, yRot);
-        ExecuteOnCast(spellGroup, player, world, position, xRot, yRot);
-        ExecuteAfterCast(spellGroup, player, world, position, xRot, yRot);
+    public void Cast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
+        ExecuteBeforeCast(spellGroup, player, world, position, viewVector);
+        ExecuteOnCast(spellGroup, player, world, position, viewVector);
+        ExecuteAfterCast(spellGroup, player, world, position, viewVector);
     }
     public void Modify(SpellGroup spellGroup){
         // applies the properties of this spell to the spell group
         spellGroup.spellProperties.Change(this);
     }
 
-    public void ExecuteOnCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
+    public void ExecuteOnCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
 
     }
-    public void ExecuteBeforeCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
+    public void ExecuteBeforeCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
 
     }
-    public void ExecuteAfterCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
+    public void ExecuteAfterCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
 
     }
     public void ExecuteOnProjectileTick(MagicProjectile projectile){

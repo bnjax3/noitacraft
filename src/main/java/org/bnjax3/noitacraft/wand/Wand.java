@@ -39,7 +39,7 @@ public class Wand {
     }
 
     public void Cast(World world, PlayerEntity player, SpellGroup[] spellGroups, int groupIndex){
-        spellGroups[groupIndex].Cast(player, world, player.getEyePosition(1), player.getViewXRot(1), player.getViewYRot(1));
+        spellGroups[groupIndex].Cast(player, world, player.getEyePosition(1), player.getViewVector(1));
 
     }
     public SpellGroup[] GroupSpells(Spell[] spells){

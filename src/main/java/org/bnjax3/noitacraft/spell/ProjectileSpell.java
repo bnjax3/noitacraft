@@ -1,5 +1,6 @@
 package org.bnjax3.noitacraft.spell;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -14,9 +15,9 @@ public class ProjectileSpell extends Spell {
     public final boolean friendlyFire;
     public final int bounces;
     public final float gravity; // block/tick
-    public final MagicProjectile projectile;
+    public final EntityType<? extends MagicProjectile> projectileTemplate;
 
-    public ProjectileSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, MagicProjectile projectile) {
+    public ProjectileSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, EntityType<? extends MagicProjectile> projectileTemplate) {
         super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, true);
         this.radius = radius;
         this.speed = speed;
@@ -26,20 +27,22 @@ public class ProjectileSpell extends Spell {
         this.friendlyFire = friendlyFire;
         this.bounces = bounces;
         this.gravity = gravity;
-        this.projectile = projectile;
+        this.projectileTemplate = projectileTemplate;
     }
 
     @Override
-    public void ExecuteOnCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot) {
-        Shoot(spellGroup, player, world, position, xRot, yRot);
+    public void ExecuteOnCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector) {
+        Shoot(spellGroup, player, world, position, viewVector);
 
     }
 
-    public void Shoot(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, float xRot, float yRot){
+    public void Shoot(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
+        MagicProjectile projectile = new MagicProjectile(projectileTemplate, position, world, this);
         projectile.setSpellGroup(spellGroup);
         projectile.setSpellProperties(spellGroup.spellProperties);
-        projectile.ShootSpell();
-        // pa depue
+        projectile.setOwner(player);
+        projectile.shoot(viewVector.x, viewVector.y, viewVector.z, this.speed, this.Spread);
+
     }
 
     public void ExecuteOnHit(PlayerEntity player, World world, MagicProjectile magicProjectile){
@@ -49,5 +52,6 @@ public class ProjectileSpell extends Spell {
     public void ExecuteOnProjectileTickUnshared(MagicProjectile projectile) {
         // same as executeOnProjectileTick but only applied to the projectile of the spell, not the spell group
     }
+
 }
 
