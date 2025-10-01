@@ -1,5 +1,8 @@
 {
     "item.noitacraft.test_item": "Test Item",
+    "item.noitacraft.bomb_wand": "Bomb Wand",
+    "item.noitacraft.starter_wand": "Starter Wand",
+    "item.noitacraft.spark_bolt": "Spark Bolt",
     "itemGroup.Wands": "Noitacraft Wands",
     "itemGroup.Noitacraft": "Noitacraft",
     "itemGroup.Spells": "Noitacraft Spells"

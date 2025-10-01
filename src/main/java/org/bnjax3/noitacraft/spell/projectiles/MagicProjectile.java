@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.spell.projectiles;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,8 +11,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import org.bnjax3.noitacraft.entity.ModEntities;
 import org.bnjax3.noitacraft.other.Simplifier;
+import org.bnjax3.noitacraft.spell.ProjectileSpell;
+import org.bnjax3.noitacraft.spell.Spell;
+import org.bnjax3.noitacraft.spell.SpellProperties;
+import org.bnjax3.noitacraft.spell.SpellsRegistry;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
 public class MagicProjectile extends ThrowableEntity {
@@ -24,6 +27,7 @@ public class MagicProjectile extends ThrowableEntity {
 
     public MagicProjectile(EntityType<? extends ThrowableEntity> entityType, World world){
         super(entityType, world);
+        Spell = (ProjectileSpell) SpellsRegistry.DEFAULT_SPELL;
     }
     public MagicProjectile(EntityType<? extends ThrowableEntity> entityType, World world, ProjectileSpell spell) {
         this(entityType, world);

@@ -14,13 +14,13 @@ public class ModItemGroup {
     public static final ItemGroup WANDS_GROUP = new ItemGroup("Wands"){
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(ModItems.TEST_ITEM.get());
+            return new ItemStack(ModItems.STARTER_WAND.get());
         }
     };
     public static final ItemGroup SPELLS_GROUP = new ItemGroup("Spells"){
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(ModItems.TEST_ITEM.get());
+            return new ItemStack(ModItems.SPARK_BOLT_ITEM.get());
         }
     };
 }

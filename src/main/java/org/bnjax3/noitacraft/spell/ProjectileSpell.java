@@ -4,6 +4,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.RegistryObject;
+import org.bnjax3.noitacraft.spell.projectiles.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
 public class ProjectileSpell extends Spell {
@@ -15,9 +17,9 @@ public class ProjectileSpell extends Spell {
     public final boolean friendlyFire;
     public final int bounces;
     public final float gravity; // block/tick
-    public final EntityType<? extends MagicProjectile> projectileTemplate;
+    public final RegistryObject<EntityType<MagicProjectile>> projectileRegistryObject;
 
-    public ProjectileSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, EntityType<? extends MagicProjectile> projectileTemplate) {
+    public ProjectileSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<EntityType<MagicProjectile>> projectileRegistryObject) {
         super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, true);
         this.radius = radius;
         this.speed = speed;
@@ -27,7 +29,7 @@ public class ProjectileSpell extends Spell {
         this.friendlyFire = friendlyFire;
         this.bounces = bounces;
         this.gravity = gravity;
-        this.projectileTemplate = projectileTemplate;
+        this.projectileRegistryObject = projectileRegistryObject;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class ProjectileSpell extends Spell {
     }
 
     public void Shoot(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
-        MagicProjectile projectile = new MagicProjectile(projectileTemplate, position, world, this);
+        MagicProjectile projectile = new MagicProjectile(projectileRegistryObject.get(), position, world, this);
         projectile.setSpellGroup(spellGroup);
         projectile.setSpellProperties(spellGroup.spellProperties);
         projectile.setOwner(player);

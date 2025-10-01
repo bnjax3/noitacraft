@@ -19,7 +19,7 @@ public class WandItem extends Item {
     public Spell[] spells;
     private int groupIndex = 0;
     public WandItem(Properties itemProperties, Wand wand) {
-        super(new Properties().stacksTo(1));
+        super(itemProperties);
         Wand1 = wand;
     }
 

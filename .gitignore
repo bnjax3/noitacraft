@@ -46,3 +46,7 @@ local.properties
 .DS_Store
 /libs/
 /.gradle
+/.gradle
+/build
+/run
+*.log
