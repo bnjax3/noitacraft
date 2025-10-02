@@ -5,5 +5,15 @@
     "item.noitacraft.spark_bolt": "Spark Bolt",
     "itemGroup.Wands": "Noitacraft Wands",
     "itemGroup.Noitacraft": "Noitacraft",
-    "itemGroup.Spells": "Noitacraft Spells"
+    "itemGroup.Spells": "Noitacraft Spells",
+    "tooltip.noitacraft.shuffle": "Shuffle : ",
+    "tooltip.noitacraft.spellsCast": "Spells / Cast : ",
+    "tooltip.noitacraft.castDelay": "Cast Delay : ",
+    "tooltip.noitacraft.rechargeTime": "Recharge Time : ",
+    "tooltip.noitacraft.manaMax": "Max. Mana : ",
+    "tooltip.noitacraft.manaChargeSpeed": "Mana Chg. Speed : ",
+    "tooltip.noitacraft.capacity": "Capacity : ",
+    "tooltip.noitacraft.spread": "Spread : ",
+    "tooltip.noitacraft.speedMult": "Speed Mult. : ",
+    "tooltip.noitacraft.shiftForDetail": "Press SHIFT for wand details"
 }

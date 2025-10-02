@@ -50,3 +50,5 @@ local.properties
 /build
 /run
 *.log
+*.bin
+*.lock
