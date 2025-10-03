@@ -8,7 +8,7 @@ import org.bnjax3.noitacraft.spell.projectiles.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
 public class PayloadSpell extends ProjectileSpell{
-    public final SpellGroup payload;
+    public SpellGroup payload;
     public final int count;
 
     public PayloadSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<EntityType<MagicProjectile>> projectileTemplate, SpellGroup payload, int count) {

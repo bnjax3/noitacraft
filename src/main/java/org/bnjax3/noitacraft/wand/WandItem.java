@@ -34,6 +34,11 @@ public class WandItem extends Item {
         super(itemProperties);
         Wand1 = wand;
     }
+    public WandItem(Properties itemProperties, Wand wand, Spell[] spells) {
+        super(itemProperties);
+        Wand1 = wand;
+        this.spells = spells;
+    }
     /*
     public final boolean Shuffle;
     public final int SpellsCast;
