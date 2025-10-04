@@ -18,7 +18,7 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<MagicProjectile>> SPARK_BOLT_PROJECTILE = ENTITY_TYPES.register("spark_bolt",() -> EntityType.Builder.<MagicProjectile>of(MagicProjectile::new, EntityClassification.MISC).sized(0.5f,0.5f).build("spark_bolt"));
 
-
+    public static final RegistryObject<EntityType<MagicProjectile>> BOUNCING_BURST_PROJECTILE = ENTITY_TYPES.register("bouncing_burst",() -> EntityType.Builder.<MagicProjectile>of(MagicProjectile::new, EntityClassification.MISC).sized(0.5f,0.5f).build("bouncing_burst"));
 
 
 

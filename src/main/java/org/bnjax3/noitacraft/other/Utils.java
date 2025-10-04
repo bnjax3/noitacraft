@@ -3,10 +3,12 @@ package org.bnjax3.noitacraft.other;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import org.bnjax3.noitacraft.spell.Spell;
+import org.bnjax3.noitacraft.spell.SpellItem;
 
 public abstract class Utils {
     // shit name i know
-    private static char charForFillingThatIMayChange = ' '; // CFFTIMC for short
+    private static final char charForFillingThatIMayChange = ' '; // CFFTIMC for short
     public static String addCharUntilLenghtX(String string, int lenght, char filler){
         String toReturn = string;
         for (int i = 0;  i < lenght - string.length(); i++){
@@ -37,4 +39,11 @@ public abstract class Utils {
         TranslationTextComponent text = new TranslationTextComponent(resourceLocation);
         return (TranslationTextComponent) addCharUntilLenghtX(text, 20, charForFillingThatIMayChange).append(data);
     }
+    public static TranslationTextComponent FormatSpellDescription(SpellItem item){
+        String resourceLocation = "tooltip.noitacraft." + item.getRegistryName().getPath() + "_description";
+        TranslationTextComponent text = new TranslationTextComponent(resourceLocation);
+        return text;
+    }
+
+
 }

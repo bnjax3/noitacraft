@@ -9,6 +9,7 @@ import org.bnjax3.noitacraft.Noitacraft;
 import org.bnjax3.noitacraft.spell.Spell;
 import org.bnjax3.noitacraft.spell.SpellItem;
 import org.bnjax3.noitacraft.spell.SpellsRegistry;
+import org.bnjax3.noitacraft.spell.spells.Light;
 import org.bnjax3.noitacraft.wand.Wand;
 import org.bnjax3.noitacraft.wand.WandItem;
 
@@ -38,9 +39,17 @@ public class ModItems {
 
     public static final RegistryObject<SpellItem> SPARK_BOLT_ITEM = registerSpellItem("spark_bolt", SpellsRegistry.SPARK_BOLT);
 
+    public static final RegistryObject<SpellItem> BOUNCING_BURST_ITEM = registerSpellItem("bouncing_burst", SpellsRegistry.BOUNCING_BURST);
 
+    public static final RegistryObject<SpellItem> DOUBLE_CAST_ITEM = registerSpellItem("double_cast", SpellsRegistry.DOUBLE_CAST);
+    public static final RegistryObject<SpellItem> TRIPLE_CAST_ITEM = registerSpellItem("triple_cast", SpellsRegistry.TRIPLE_CAST);
+    public static final RegistryObject<SpellItem> QUAD_CAST_ITEM = registerSpellItem("quad_cast", SpellsRegistry.QUAD_CAST);
 
+    public static final RegistryObject<SpellItem> LIGHT_ITEM = registerSpellItem("light", SpellsRegistry.LIGHT);
+    public static final RegistryObject<SpellItem> MORE_LIGHT_ITEM = registerSpellItem("more_light", SpellsRegistry.MORE_LIGHT);
 
+    public static final RegistryObject<SpellItem> SPARK_BOLT_TRIGGER_ITEM = registerSpellItem("spark_bolt_trigger", SpellsRegistry.SPARK_BOLT_TRIGGER);
+    public static final RegistryObject<SpellItem> SPARK_BOLT_TIMER_ITEM = registerSpellItem("spark_bolt_timer", SpellsRegistry.SPARK_BOLT_TIMER);
 
     // ----------------------------------------- FUNCTIONS -----------------------------------------------------------
 

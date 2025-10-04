@@ -24,9 +24,10 @@ public class SpellItem extends Item {
     public void appendHoverText(ItemStack itemStack, @Nullable World world, List<ITextComponent> textComponents, ITooltipFlag tooltipFlag) {
         if (Screen.hasShiftDown()){
             // es un chingo de texto
+            textComponents.add(Utils.FormatSpellDescription(this));
             textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.manaDrain", this.spell.ManaDrain));
             if (spell.Uses != -1){
-                textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.uses", String.valueOf(usesLeft) + "/" + String.valueOf(this.spell.Uses)));
+                textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.uses", usesLeft + "/" + this.spell.Uses));
             }
             if (spell.CastDelay > 0){
                 textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.spellCastDelay", this.spell.CastDelay));
@@ -37,41 +38,38 @@ public class SpellItem extends Item {
             if (spell.Spread != 0){
                 textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.spellSpread", this.spell.Spread));
             }
-            if (spell.Recoil != 0) {
+            if (spell.Recoil < 0) {
                 textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.recoil", this.spell.Recoil));
             }
             if (spell instanceof MulticastSpell){
                 textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.draws", ((MulticastSpell) spell).Draws));
             }
             if (spell instanceof ProjectileSpell){
+                /*
+                the speed should not be shown
                 if (((ProjectileSpell) spell).speed != 0) {
                     textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.spellSpeed", ((ProjectileSpell) spell).speed));
                 }
+                if (((ProjectileSpell) spell).lifetime != 0){
+                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.lifetime", ((ProjectileSpell) spell).lifetime));
+                }
+                 */
                 if (((ProjectileSpell) spell).critChanceBonus != 0){
-                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.critChanceBonus", ((ProjectileSpell) spell).critChanceBonus));
+                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.critChanceBonus", "+" +((ProjectileSpell) spell).critChanceBonus + "%"));
                 }
                 if (((ProjectileSpell) spell).damage != 0){
                     textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.damage", ((ProjectileSpell) spell).damage));
-                }
-                if (((ProjectileSpell) spell).lifetime != 0){
-                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.lifetime", ((ProjectileSpell) spell).lifetime));
                 }
                 if (((ProjectileSpell) spell).bounces != 0){
                     textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.bounces", ((ProjectileSpell) spell).bounces));
                 }
             }
             if (spell instanceof ModifierSpell){
-                if (((ModifierSpell) spell).speedMult != 0) {
-                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.spellSpeed", ((ModifierSpell) spell).speedMult));
-                }
                 if (((ModifierSpell) spell).critChanceBonus != 0){
-                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.critChanceBonus", ((ModifierSpell) spell).critChanceBonus));
+                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.critChanceBonus", "+" + ((ModifierSpell) spell).critChanceBonus + "%"));
                 }
                 if (((ModifierSpell) spell).damage != 0){
                     textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.damage", ((ModifierSpell) spell).damage));
-                }
-                if (((ModifierSpell) spell).lifetime != 0){
-                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.lifetime", ((ModifierSpell) spell).lifetime));
                 }
                 if (((ModifierSpell) spell).bounces != 0){
                     textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.bounces", ((ModifierSpell) spell).bounces));

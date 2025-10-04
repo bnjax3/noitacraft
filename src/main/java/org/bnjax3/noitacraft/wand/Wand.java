@@ -70,13 +70,15 @@ public class Wand {
                         toDraw += ((MulticastSpell) spell).Draws;
                     } else if (spell instanceof TriggerSpell) {
                         SpellGroup payload = getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count);
-                        toCast.add( new TriggerSpell( ((TriggerSpell) spell), payload ));
+                        ((TriggerSpell) spell).payload = payload;
+                        toCast.add(spell);
                         // creo que no tiene que tener en cuenta el wrap esto pero si termina fallando puede ser que sea eso
                         // esto se saltea los hechizos que hayan sido anadidos a la payload del trigger o timer
                         index += payload.AmountOfSpells() - 1;
                     } else if (spell instanceof TimerSpell){
                         SpellGroup payload = getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count);
-                        toCast.add( new TimerSpell( ((TimerSpell) spell), payload));
+                        ((TimerSpell) spell).payload = payload;
+                        toCast.add(spell);
                         index += payload.AmountOfSpells() - 1;
                     }
                     else {
@@ -115,13 +117,15 @@ public class Wand {
                     toDraw += ((MulticastSpell) spell).Draws;
                 } else if (spell instanceof TriggerSpell) {
                     SpellGroup payload = getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count);
-                    toCast.add( new TriggerSpell( ((TriggerSpell) spell), payload ));
+                    ((TriggerSpell) spell).payload = payload;
+                    toCast.add(spell);
                     // creo que no tiene que tener en cuenta el wrap esto pero si termina fallando puede ser que sea eso
                     // esto se saltea los hechizos que hayan sido anadidos a la payload del trigger o timer
                     index += payload.AmountOfSpells() - 1;
                 } else if (spell instanceof TimerSpell){
                     SpellGroup payload = getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count);
-                    toCast.add( new TimerSpell( ((TimerSpell) spell), payload));
+                    ((TimerSpell) spell).payload = payload;
+                    toCast.add(spell);
                     index += payload.AmountOfSpells() - 1;
                 }
                 else {
