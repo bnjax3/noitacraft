@@ -1,15 +1,8 @@
 package org.bnjax3.noitacraft.spell;
 
 
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-
-import net.minecraftforge.fml.RegistryObject;
-
 import org.bnjax3.noitacraft.entity.ModEntities;
-import org.bnjax3.noitacraft.item.ModItemGroup;
-import org.bnjax3.noitacraft.item.ModItems;
+import org.bnjax3.noitacraft.spell.main_classes.*;
 import org.bnjax3.noitacraft.spell.spells.Light;
 
 

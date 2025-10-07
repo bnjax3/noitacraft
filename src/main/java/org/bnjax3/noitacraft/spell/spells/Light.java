@@ -1,15 +1,12 @@
 package org.bnjax3.noitacraft.spell.spells;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Blockreader;
 import net.minecraft.world.World;
 import org.bnjax3.noitacraft.block.ModBlocks;
-import org.bnjax3.noitacraft.spell.ModifierSpell;
+import org.bnjax3.noitacraft.spell.main_classes.ModifierSpell;
 import org.bnjax3.noitacraft.spell.projectiles.MagicProjectile;
 
 public class Light extends ModifierSpell {

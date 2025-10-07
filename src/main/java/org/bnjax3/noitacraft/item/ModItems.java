@@ -6,10 +6,9 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.bnjax3.noitacraft.Noitacraft;
-import org.bnjax3.noitacraft.spell.Spell;
+import org.bnjax3.noitacraft.spell.main_classes.Spell;
 import org.bnjax3.noitacraft.spell.SpellItem;
 import org.bnjax3.noitacraft.spell.SpellsRegistry;
-import org.bnjax3.noitacraft.spell.spells.Light;
 import org.bnjax3.noitacraft.wand.Wand;
 import org.bnjax3.noitacraft.wand.WandItem;
 
@@ -60,7 +59,7 @@ public class ModItems {
 
     @SuppressWarnings("unchecked")
     private static <T extends SpellItem>RegistryObject<T> registerSpellItem(String spellName, Spell spell){
-        return (RegistryObject<T>) ITEMS.register(spellName, () -> new SpellItem(new Item.Properties().tab(ModItemGroup.SPELLS_GROUP), spell));
+        return (RegistryObject<T>) ITEMS.register(spellName, () -> new SpellItem(new Item.Properties().stacksTo(1).tab(ModItemGroup.SPELLS_GROUP), spell));
     }
 
     public static void register(IEventBus eventBus){

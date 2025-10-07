@@ -1,15 +1,12 @@
 package org.bnjax3.noitacraft.wand;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.world.World;
-import org.bnjax3.noitacraft.spell.*;
+import org.bnjax3.noitacraft.spell.main_classes.MulticastSpell;
+import org.bnjax3.noitacraft.spell.main_classes.Spell;
+import org.bnjax3.noitacraft.spell.main_classes.TimerSpell;
+import org.bnjax3.noitacraft.spell.main_classes.TriggerSpell;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Modifier;
 import java.util.*;
 
 public class Wand {

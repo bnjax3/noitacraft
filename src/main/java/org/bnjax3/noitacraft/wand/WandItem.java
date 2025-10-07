@@ -1,28 +1,20 @@
 package org.bnjax3.noitacraft.wand;
 
-import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.loading.progress.StartupMessageManager;
-import org.apache.logging.log4j.core.config.builder.api.Component;
-import org.apache.logging.log4j.message.Message;
 import org.bnjax3.noitacraft.other.Utils;
-import org.bnjax3.noitacraft.spell.Spell;
+import org.bnjax3.noitacraft.spell.main_classes.Spell;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.awt.*;
 import java.util.List;
 
 public class WandItem extends Item {
@@ -84,5 +76,23 @@ public class WandItem extends Item {
         return super.use(world, player, hand);
     }
 
-
+    /*
+    public boolean addSpellItem(ItemStack item){
+        if (spells.length < Wand1.Capacity){
+            if (item.getItem() instanceof SpellItem){
+                spells[spells.length] = ((SpellItem) item.getItem()).spell;
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+    public boolean removeSpellItem(ItemStack item){
+        if (spells.length > 0){
+            spells[spells.length - 1] = null;
+            return true;
+        }
+        return false;
+    }
+    */
 }

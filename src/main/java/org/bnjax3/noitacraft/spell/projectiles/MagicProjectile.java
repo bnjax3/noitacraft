@@ -12,8 +12,8 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import org.bnjax3.noitacraft.other.Simplifier;
-import org.bnjax3.noitacraft.spell.ProjectileSpell;
-import org.bnjax3.noitacraft.spell.Spell;
+import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
+import org.bnjax3.noitacraft.spell.main_classes.Spell;
 import org.bnjax3.noitacraft.spell.SpellProperties;
 import org.bnjax3.noitacraft.spell.SpellsRegistry;
 import org.bnjax3.noitacraft.wand.SpellGroup;
@@ -58,17 +58,14 @@ public class MagicProjectile extends ThrowableEntity {
             bounce(hitBlock.getDirection());
             bounces--;
         } else {
-            bounce(hitBlock.getDirection());
-            Spell.ExecuteOnHit((PlayerEntity) getOwner(),getCommandSenderWorld(), this);
-            this.remove();
+            Spell.ExecuteOnHit( this, hitBlock);
         }
 
     }
 
     @Override
     protected void onHitEntity(EntityRayTraceResult hitEntity) {
-        super.onHitEntity(hitEntity);
-
+        Spell.ExecuteOnHit( this, hitEntity);
     }
 
 
@@ -79,7 +76,7 @@ public class MagicProjectile extends ThrowableEntity {
 
     public void tick() {
         if (lifetime <= 0){
-            Spell.ExecuteOnHit((PlayerEntity) getOwner(),this.level,this);
+            Spell.ExecuteOnDeath((PlayerEntity) getOwner(),this.level,this);
             this.remove();
         }
         super.tick();
@@ -114,7 +111,7 @@ public class MagicProjectile extends ThrowableEntity {
         }
     }
 
-    private void bounce(Direction direction){
+    public void bounce(Direction direction){
         // si no anda probablemente sea un problema de hitBlock.getDirection()
         Vector3d deltaMovement = getDeltaMovement();
         if (direction == Direction.UP || direction == Direction.DOWN){

@@ -1,7 +1,11 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.spell.main_classes;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
@@ -33,22 +37,28 @@ public class ProjectileSpell extends Spell {
     }
 
     @Override
-    public void ExecuteOnCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector) {
-        Shoot(spellGroup, player, world, position, viewVector);
+    public void ExecuteOnCast(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation) {
+        Shoot(spellGroup, entity, world, position, rotation);
 
     }
 
-    public void Shoot(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
+    public void Shoot(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation){
         MagicProjectile projectile = new MagicProjectile(projectileRegistryObject.get(), position, world, this);
         projectile.setSpellGroup(spellGroup);
         projectile.setSpellProperties(spellGroup.spellProperties);
-        projectile.setOwner(player);
-        projectile.shoot(viewVector.x, viewVector.y, viewVector.z, this.speed, this.Spread);
+        projectile.setOwner(entity);
+        projectile.shoot(rotation.x, rotation.y, rotation.z, this.speed, this.Spread);
 
     }
 
-    public void ExecuteOnHit(PlayerEntity player, World world, MagicProjectile magicProjectile){
-
+    public void ExecuteOnHit(MagicProjectile magicProjectile, RayTraceResult rayTraceResult){
+        if (rayTraceResult instanceof BlockRayTraceResult){
+            magicProjectile.remove();
+        }
+        if (rayTraceResult instanceof EntityRayTraceResult){
+            ((EntityRayTraceResult) rayTraceResult).getEntity().hurt(DamageSource.GENERIC, damage);
+            magicProjectile.remove();
+        }
     }
 
     public void ExecuteOnProjectileTickUnshared(MagicProjectile projectile) {

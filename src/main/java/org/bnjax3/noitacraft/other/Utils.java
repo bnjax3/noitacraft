@@ -1,9 +1,6 @@
 package org.bnjax3.noitacraft.other;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import org.bnjax3.noitacraft.spell.Spell;
 import org.bnjax3.noitacraft.spell.SpellItem;
 
 public abstract class Utils {

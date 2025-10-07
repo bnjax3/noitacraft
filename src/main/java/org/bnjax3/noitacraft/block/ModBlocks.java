@@ -17,6 +17,7 @@ import org.bnjax3.noitacraft.Noitacraft;
 import org.bnjax3.noitacraft.block.blocks.LitAirBlock;
 import org.bnjax3.noitacraft.block.blocks.LitCaveAirBlock;
 import org.bnjax3.noitacraft.block.blocks.LitWaterBlock;
+import org.bnjax3.noitacraft.block.blocks.WandAltarBlock;
 import org.bnjax3.noitacraft.item.ModItemGroup;
 import org.bnjax3.noitacraft.item.ModItems;
 
@@ -34,7 +35,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> LIT_WATER_BLOCK = BLOCKS.register("lit_water", () -> new LitWaterBlock(Fluids.WATER, AbstractBlock.Properties.of(Material.WATER).noCollission().lightLevel(litBlockEmission())));
 
-
+    public static final RegistryObject<Block> WAND_ALTAR = registerBlock("wand_altar", () -> new WandAltarBlock(AbstractBlock.Properties.of(Material.HEAVY_METAL).harvestTool(ToolType.PICKAXE).strength(20f).harvestLevel(2)));
 
 
     private static ToIntFunction<BlockState> litBlockEmission() {

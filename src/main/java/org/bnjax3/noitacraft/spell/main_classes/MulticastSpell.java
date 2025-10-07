@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.spell.main_classes;
 
 public class MulticastSpell extends Spell{
     public final int Draws;

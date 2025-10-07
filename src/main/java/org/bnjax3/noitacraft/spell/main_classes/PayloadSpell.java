@@ -1,8 +1,6 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.spell.main_classes;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import org.bnjax3.noitacraft.spell.projectiles.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
@@ -16,9 +14,9 @@ public class PayloadSpell extends ProjectileSpell{
         this.count = count;
     }
 
-
-    @Override
-    public void ExecuteOnHit(PlayerEntity player, World world, MagicProjectile magicProjectile) {
-        payload.Cast(player, world, magicProjectile.getPosition(1), magicProjectile.getDeltaMovement());
+    public void CastPayload(MagicProjectile projectile){
+        payload.Cast(projectile.getOwner(),projectile.getCommandSenderWorld(),projectile.position(),projectile.getLookAngle());
     }
+
+
 }

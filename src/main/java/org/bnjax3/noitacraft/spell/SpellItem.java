@@ -8,6 +8,10 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import org.bnjax3.noitacraft.other.Utils;
+import org.bnjax3.noitacraft.spell.main_classes.ModifierSpell;
+import org.bnjax3.noitacraft.spell.main_classes.MulticastSpell;
+import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
+import org.bnjax3.noitacraft.spell.main_classes.Spell;
 
 import javax.annotation.Nullable;
 import java.util.List;

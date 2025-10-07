@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.spell.main_classes;
 
 import net.minecraft.block.Block;
 

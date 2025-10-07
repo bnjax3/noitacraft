@@ -1,5 +1,6 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.spell.main_classes;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -23,26 +24,30 @@ public class Spell {
         Recoil = recoil;
         this.countsTowardCast = countsTowardCast;
     }
-    public void Cast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
-        ExecuteBeforeCast(spellGroup, player, world, position, viewVector);
-        ExecuteOnCast(spellGroup, player, world, position, viewVector);
-        ExecuteAfterCast(spellGroup, player, world, position, viewVector);
+    public void Cast(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation){
+        ExecuteBeforeCast(spellGroup, entity, world, position, rotation);
+        ExecuteOnCast(spellGroup, entity, world, position, rotation);
+        ExecuteAfterCast(spellGroup, entity, world, position, rotation);
     }
     public void Modify(SpellGroup spellGroup){
         // applies the properties of this spell to the spell group
         spellGroup.spellProperties.Change(this);
     }
 
-    public void ExecuteOnCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
+    public void ExecuteOnCast(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation){
 
     }
-    public void ExecuteBeforeCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
+    public void ExecuteBeforeCast(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation){
 
     }
-    public void ExecuteAfterCast(SpellGroup spellGroup, PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
+    public void ExecuteAfterCast(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation){
 
     }
     public void ExecuteOnProjectileTick(MagicProjectile projectile){
         // function is executed by every projectile in the spell group every tick
+    }
+
+    public void ExecuteOnDeath(PlayerEntity owner, World level, MagicProjectile magicProjectile) {
+
     }
 }

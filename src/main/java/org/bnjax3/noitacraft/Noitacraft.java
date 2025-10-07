@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import org.bnjax3.noitacraft.block.ModBlocks;
 import org.bnjax3.noitacraft.entity.ModEntities;
 import org.bnjax3.noitacraft.item.ModItems;
+import org.bnjax3.noitacraft.tileentity.ModTileEntities;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("noitacraft")
@@ -30,6 +31,7 @@ public class Noitacraft {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModBlocks.register(eventBus);
+        ModTileEntities.register(eventBus);
         ModEntities.register(eventBus);
         ModItems.register(eventBus);
 

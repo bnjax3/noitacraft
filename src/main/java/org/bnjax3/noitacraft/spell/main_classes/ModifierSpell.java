@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.spell.main_classes;
 
 public class ModifierSpell extends Spell {
     public final float speedMult;

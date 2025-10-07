@@ -1,11 +1,11 @@
 package org.bnjax3.noitacraft.wand;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import org.bnjax3.noitacraft.spell.*;
+import org.bnjax3.noitacraft.spell.main_classes.PayloadSpell;
+import org.bnjax3.noitacraft.spell.main_classes.Spell;
 
 import java.util.ArrayList;
 
@@ -22,13 +22,13 @@ public class SpellGroup {
     public SpellGroup(ArrayList<Spell> spells, Wand wand){
         this(spells, 0, wand);
     }
-    public void Cast(PlayerEntity player, World world, Vector3d position, Vector3d viewVector){
+    public void Cast(Entity entity, World world, Vector3d position, Vector3d viewVector){
         spellProperties = new SpellProperties(wand);
         for (Spell spell : Spells){
             spell.Modify(this);
         }
         for (Spell spell : Spells){
-            spell.Cast(this, player, world, position, viewVector);
+            spell.Cast(this, entity, world, position, viewVector);
         }
 
 
