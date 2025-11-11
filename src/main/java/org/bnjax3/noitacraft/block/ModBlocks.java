@@ -28,6 +28,9 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Noitacraft.MOD_ID);
     public static final RegistryObject<Block> TEST_BLOCK = registerBlock("test_block", () -> new Block(AbstractBlock.Properties.of(Material.PISTON).harvestTool(ToolType.PICKAXE).strength(2f).harvestLevel(1)));
 
+    public static final RegistryObject<Block> WAND_ALTAR = registerBlock("wand_altar", () -> new WandAltarBlock(AbstractBlock.Properties.of(Material.HEAVY_METAL).harvestTool(ToolType.PICKAXE).strength(20f).harvestLevel(2)));
+
+    /*
     // for dynamic lighting aaaaaaaaaaa
     public static final RegistryObject<Block> LIT_AIR_BLOCK = BLOCKS.register("lit_air", () -> new LitAirBlock(AbstractBlock.Properties.of(Material.AIR).air().lightLevel(litBlockEmission())));
 
@@ -35,12 +38,10 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> LIT_WATER_BLOCK = BLOCKS.register("lit_water", () -> new LitWaterBlock(Fluids.WATER, AbstractBlock.Properties.of(Material.WATER).noCollission().lightLevel(litBlockEmission())));
 
-    public static final RegistryObject<Block> WAND_ALTAR = registerBlock("wand_altar", () -> new WandAltarBlock(AbstractBlock.Properties.of(Material.HEAVY_METAL).harvestTool(ToolType.PICKAXE).strength(20f).harvestLevel(2)));
-
-
     private static ToIntFunction<BlockState> litBlockEmission() {
         return (blockState) -> blockState.getValue(BlockStateProperties.POWER);
     }
+    */
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block)
     {

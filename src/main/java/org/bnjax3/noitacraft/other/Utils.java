@@ -5,6 +5,7 @@ import org.bnjax3.noitacraft.spell.SpellItem;
 
 public abstract class Utils {
     // shit name i know
+    public static final int UNIVERSAL_SLOT_PIXEL_SEPARATION = 18; // USPS for shrot
     private static final char charForFillingThatIMayChange = ' '; // CFFTIMC for short
     public static String addCharUntilLenghtX(String string, int lenght, char filler){
         String toReturn = string;

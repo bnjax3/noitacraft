@@ -4,7 +4,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.ToolItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -16,13 +18,16 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import org.bnjax3.noitacraft.item.ModItems;
 import org.bnjax3.noitacraft.spell.SpellItem;
+import org.bnjax3.noitacraft.spell.main_classes.Spell;
 import org.bnjax3.noitacraft.tileentity.ModTileEntities;
 import org.bnjax3.noitacraft.wand.WandItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
 
 public class WandAltarTile extends TileEntity {
 
@@ -46,13 +51,16 @@ public class WandAltarTile extends TileEntity {
             {
                 return 28;
             }
-
+            // slot 0 -> wand slot
+            // slots 1-28 -> spell slots
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
                 if (slot == 0){
                     return stack.getItem() instanceof WandItem;
-                } else if (slot > 0) {
-                    return stack.getItem() instanceof SpellItem;
+                } else if (!itemStackHandler.getStackInSlot(0).isEmpty()) {
+                    if (slot <= ((WandItem) itemStackHandler.getStackInSlot(0).getItem()).Wand1.Capacity){
+                        return stack.getItem() instanceof SpellItem;
+                    }
                 }
                 return false;
             }
@@ -68,9 +76,37 @@ public class WandAltarTile extends TileEntity {
                 if (!isItemValid(slot, stack)){
                     return stack;
                 }
+                if (slot == 0){
+                    fillSpellSlots(((WandItem) stack.getItem()).spellItems);
+                }
                 return super.insertItem(slot, stack, simulate);
             }
+
+            @Nonnull
+            @Override
+            public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                if (slot == 0){
+                    Item wandItem = getWandWithSpells().getItem();
+                    clearSpellSlots(((WandItem) wandItem).spellItems);
+                }
+                return super.extractItem(slot, amount, simulate);
+            }
         };
+    }
+
+    private void clearSpellSlots(SpellItem[] spellItems){
+        for (int i = 1; i <= spellItems.length; i++)
+        {
+            itemStackHandler.setStackInSlot(i, ItemStack.EMPTY);
+        }
+    }
+    private void fillSpellSlots(SpellItem[] spellItems){
+        System.out.println(Arrays.toString(spellItems));
+        for (int i = 1; i <= spellItems.length; i++){
+            if (spellItems[i - 1] != null){
+                itemStackHandler.setStackInSlot(i, new ItemStack(spellItems[i - 1]));
+            }
+        }
     }
 
     @ParametersAreNonnullByDefault
@@ -90,12 +126,17 @@ public class WandAltarTile extends TileEntity {
     }
 
     public ItemStack getWandWithSpells(){
-        WandItem wandItem = (WandItem) itemStackHandler.getStackInSlot(0).getItem();
-        for (int i = 0;i < wandItem.Wand1.Capacity;i++){
-            SpellItem spellItem = (SpellItem) itemStackHandler.getStackInSlot(i).getItem();
-            wandItem.spells[i] = spellItem.spell;
+        if (itemStackHandler.getStackInSlot(0).getCount() == 0){
+            return ItemStack.EMPTY;
         }
-        return new ItemStack(wandItem,1);
+        WandItem wandItem = (WandItem) itemStackHandler.getStackInSlot(0).getItem();
+        for (int i = 1;i <= wandItem.spellItems.length;i++){
+            Item item = itemStackHandler.getStackInSlot(i).getItem();
+            if (item instanceof SpellItem){
+                wandItem.spellItems[i - 1] = (SpellItem) item;
+            }
+        }
+        return new ItemStack(wandItem);
     }
 
     @Nonnull

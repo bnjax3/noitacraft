@@ -10,26 +10,30 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import org.bnjax3.noitacraft.item.ModItemGroup;
 import org.bnjax3.noitacraft.other.Utils;
+import org.bnjax3.noitacraft.spell.SpellItem;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
 import java.util.List;
 
 public class WandItem extends Item {
 
     public final Wand Wand1;
-    public Spell[] spells;
+    public SpellItem[] spellItems;
     private int groupIndex = 0;
-    public WandItem(Properties itemProperties, Wand wand) {
-        super(itemProperties);
+    public WandItem(Wand wand) {
+        super(new Item.Properties().stacksTo(1).tab(ModItemGroup.WANDS_GROUP));
         Wand1 = wand;
+        this.spellItems = new SpellItem[Wand1.Capacity];
     }
-    public WandItem(Properties itemProperties, Wand wand, Spell[] spells) {
+    public WandItem(Properties itemProperties, Wand wand, SpellItem[] spellItems) {
         super(itemProperties);
         Wand1 = wand;
-        this.spells = spells;
+        this.spellItems = spellItems;
     }
     /*
     public final boolean Shuffle;
@@ -55,6 +59,7 @@ public class WandItem extends Item {
             textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.capacity", this.Wand1.Capacity));
             textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.spread", this.Wand1.Spread));
             textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.speedMult", this.Wand1.SpeedMult));
+            textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.spellsInWand", Arrays.toString(this.spellItems)));
         } else {
             textComponents.add(new TranslationTextComponent("tooltip.noitacraft.shiftForDetail"));
         }
@@ -65,6 +70,13 @@ public class WandItem extends Item {
     @ParametersAreNonnullByDefault
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClientSide){
+            Spell[] spells = new Spell[27];
+            for (int i = 0;i < spellItems.length;i++){
+                SpellItem spellItem = spellItems[i];
+                if (spellItem != null){
+                    spells[i] = spellItem.spell;
+                }
+            }
             SpellGroup[] spellGroups = Wand1.GroupSpells(spells);
             if (!(groupIndex < spellGroups.length)){
                 player.getCooldowns().addCooldown(this, Wand1.getFinalRechargeTime(spellGroups));

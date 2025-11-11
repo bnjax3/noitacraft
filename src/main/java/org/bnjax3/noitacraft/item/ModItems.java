@@ -54,7 +54,7 @@ public class ModItems {
 
     @SuppressWarnings("unchecked")
     private static <T extends WandItem>RegistryObject<T> registerWand(String name, Wand wand){
-        return (RegistryObject<T>) ITEMS.register(name, () -> new WandItem(new Item.Properties().stacksTo(1).tab(ModItemGroup.WANDS_GROUP), wand));
+        return (RegistryObject<T>) ITEMS.register(name, () -> new WandItem(wand));
     }
 
     @SuppressWarnings("unchecked")

@@ -12,7 +12,7 @@ import org.bnjax3.noitacraft.tileentity.tileentities.WandAltarTile;
 public class ModTileEntities {
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Noitacraft.MOD_ID);
 
-    public static final RegistryObject<TileEntityType<WandAltarTile>> WAND_ALTAR_TILEENTITY = TILE_ENTITIES.register("wand_altar_tileentity", () -> TileEntityType.Builder.of(WandAltarTile::new, ModBlocks.WAND_ALTAR.get()).build(null));
+    public static final RegistryObject<TileEntityType<WandAltarTile>> WAND_ALTAR_TILEENTITY = TILE_ENTITIES.register("wand_altar", () -> TileEntityType.Builder.of(WandAltarTile::new, ModBlocks.WAND_ALTAR.get()).build(null));
 
     public static void register(IEventBus eventBus){
         TILE_ENTITIES.register(eventBus);

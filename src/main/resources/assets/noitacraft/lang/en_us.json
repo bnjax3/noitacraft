@@ -29,5 +29,6 @@
     "tooltip.noitacraft.damage": "Damage:",
     "tooltip.noitacraft.lifetime": "Lifetime:",
     "tooltip.noitacraft.bounces": "Bounces:",
-    "tooltip.noitacraft.spark_bolt_description": "A weak but enchanting sparkling projectile"
+    "tooltip.noitacraft.spark_bolt_description": "A weak but enchanting sparkling projectile",
+    "screen.noitacraft.wand_altar": "Wand Altar"
 }

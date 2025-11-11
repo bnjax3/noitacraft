@@ -1,6 +1,7 @@
 package org.bnjax3.noitacraft;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,7 +17,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bnjax3.noitacraft.block.ModBlocks;
+import org.bnjax3.noitacraft.container.ModContainers;
 import org.bnjax3.noitacraft.entity.ModEntities;
+import org.bnjax3.noitacraft.gui.screen.screens.WandAltarScreen;
 import org.bnjax3.noitacraft.item.ModItems;
 import org.bnjax3.noitacraft.tileentity.ModTileEntities;
 
@@ -34,6 +37,7 @@ public class Noitacraft {
         ModTileEntities.register(eventBus);
         ModEntities.register(eventBus);
         ModItems.register(eventBus);
+        ModContainers.register(eventBus);
 
 
         // Register the setup method for modloading
@@ -56,7 +60,7 @@ public class Noitacraft {
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
-
+        ScreenManager.register(ModContainers.WAND_ALTAR_CONTAINER.get(), WandAltarScreen::new);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

@@ -21,6 +21,7 @@ public class Light extends ModifierSpell {
 
     @Override
     public void ExecuteOnProjectileTick(MagicProjectile projectile) {
+        /*
         World world = projectile.getCommandSenderWorld();
         if (!world.isClientSide){
             BlockPos blockPos = new BlockPos(projectile.getX(), projectile.getY(),projectile.getZ());
@@ -50,5 +51,8 @@ public class Light extends ModifierSpell {
             blockPosOfLastTick = blockPos;
             blockStateOfLastTick = currentBlockState;
         }
+
+
+         */
     }
 }

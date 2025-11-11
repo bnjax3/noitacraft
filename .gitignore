@@ -68,3 +68,6 @@ build/classes/java/main/org/bnjax3/noitacraft/Noitacraft$RegistryEvents.class
 run/logs/latest.log
 run/logs/debug.log
 run/config/forge-client.toml
+/.gradle
+*.lock
+*.bin
