@@ -50,4 +50,17 @@ public class Spell {
     public void ExecuteOnDeath(PlayerEntity owner, World level, MagicProjectile magicProjectile) {
 
     }
+
+    @Override
+    public String toString() {
+        return "Spell: {" +
+                "Uses=" + Uses +
+                ", ManaDrain=" + ManaDrain +
+                ", CastDelay=" + CastDelay +
+                ", RechargeTime=" + RechargeTime +
+                ", Spread=" + Spread +
+                ", Recoil=" + Recoil +
+                ", countsTowardCast=" + countsTowardCast +
+                '}';
+    }
 }

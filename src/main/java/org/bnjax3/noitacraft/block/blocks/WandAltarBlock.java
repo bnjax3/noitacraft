@@ -28,6 +28,7 @@ import org.bnjax3.noitacraft.tileentity.ModTileEntities;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@SuppressWarnings("all") // the lion doesnt concern himself with the small ide that barks
 public class WandAltarBlock extends Block {
 
     public WandAltarBlock(Properties properties) {

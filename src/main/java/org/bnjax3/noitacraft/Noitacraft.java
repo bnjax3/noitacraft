@@ -33,6 +33,30 @@ public class Noitacraft {
     public Noitacraft() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        /*
+        TODO: as of 14/11/25
+        - Register wand item info on nbts
+        - Remake the get payload function in wand
+        - Make more sprites and models (now)
+        - Make Utils.formattooltipdata better
+        - add loot tables (long term)
+        - add mana functionality (also on nbts probably) (hellish)
+        - fix the projectile entities and cast function to actually spawn something
+        - add sound effects?? (also long term)
+        - fix the light spells (currently commented out)
+        - maybe fix the burning pile of shit that are all the functions on SpellGroup
+           (and fix the spell propeties thingy because im not sure if it works with other
+             special properties like those in the OnCast method)
+        - different held models for wands (currently look like ass)
+        - also fix the textures because theyre ugly as hell when in hand
+        - add uses to spells (have to change like 90% of the casting code probably AAARRGHGHH)
+        - traducciones a español (solo argentina)(vamos carajo)
+        - hacer que la tooltip de la varita muestre los spells que contiene
+
+        DONE:
+        - nothing (lazy dumbass)
+         */
+
         ModBlocks.register(eventBus);
         ModTileEntities.register(eventBus);
         ModEntities.register(eventBus);
@@ -80,7 +104,6 @@ public class Noitacraft {
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         // do something when the server starts
-
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD

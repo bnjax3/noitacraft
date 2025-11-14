@@ -101,7 +101,6 @@ public class WandAltarTile extends TileEntity {
         }
     }
     private void fillSpellSlots(SpellItem[] spellItems){
-        System.out.println(Arrays.toString(spellItems));
         for (int i = 1; i <= spellItems.length; i++){
             if (spellItems[i - 1] != null){
                 itemStackHandler.setStackInSlot(i, new ItemStack(spellItems[i - 1]));

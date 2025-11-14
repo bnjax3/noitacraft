@@ -11,17 +11,13 @@ import java.util.ArrayList;
 
 public class SpellGroup {
     public ArrayList<Spell> Spells;
-    public final int IndexGroupStart;
     public final Wand wand;
     public SpellProperties spellProperties;
-    public SpellGroup(ArrayList<Spell> spells, int indexGroupStart, Wand wand) {
+    public SpellGroup(ArrayList<Spell> spells, Wand wand) {
         Spells = spells;
-        IndexGroupStart = indexGroupStart;
         this.wand = wand;
     }
-    public SpellGroup(ArrayList<Spell> spells, Wand wand){
-        this(spells, 0, wand);
-    }
+
     public void Cast(Entity entity, World world, Vector3d position, Vector3d viewVector){
         spellProperties = new SpellProperties(wand);
         for (Spell spell : Spells){
@@ -53,11 +49,15 @@ public class SpellGroup {
     }
 
 
-
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "SpellGroup{" +
+                "Spells=" + Spells +
+                ", wand=" + wand +
+                ", spellProperties=" + spellProperties +
+                '}';
+    }
+    public void append(Spell spell){
+        Spells.add(spell);
+    }
 }

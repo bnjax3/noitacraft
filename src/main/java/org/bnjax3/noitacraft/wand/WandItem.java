@@ -5,6 +5,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
@@ -17,6 +18,7 @@ import org.bnjax3.noitacraft.spell.main_classes.Spell;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,11 +31,6 @@ public class WandItem extends Item {
         super(new Item.Properties().stacksTo(1).tab(ModItemGroup.WANDS_GROUP));
         Wand1 = wand;
         this.spellItems = new SpellItem[Wand1.Capacity];
-    }
-    public WandItem(Properties itemProperties, Wand wand, SpellItem[] spellItems) {
-        super(itemProperties);
-        Wand1 = wand;
-        this.spellItems = spellItems;
     }
     /*
     public final boolean Shuffle;
@@ -70,20 +67,23 @@ public class WandItem extends Item {
     @ParametersAreNonnullByDefault
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClientSide){
-            Spell[] spells = new Spell[27];
-            for (int i = 0;i < spellItems.length;i++){
-                SpellItem spellItem = spellItems[i];
+            ArrayList<Spell> spells = new ArrayList<>();
+            // initializes spells with the spellItem array
+            for (SpellItem spellItem : spellItems){
                 if (spellItem != null){
-                    spells[i] = spellItem.spell;
+                    spells.add(spellItem.spell);
                 }
             }
-            SpellGroup[] spellGroups = Wand1.GroupSpells(spells);
-            if (!(groupIndex < spellGroups.length)){
-                player.getCooldowns().addCooldown(this, Wand1.getFinalRechargeTime(spellGroups));
-                groupIndex = 0;
+            SpellGroup[] spellGroups = Wand1.GroupSpellsInWand(spells.toArray(new Spell[0]));
+            if (spellGroups != null) {
+                if (groupIndex >= spellGroups.length) {
+                    player.getCooldowns().addCooldown(this, Wand1.getFinalRechargeTime(spellGroups));
+                    groupIndex = 0;
+                }
+                Wand1.Cast(world, player, spellGroups, groupIndex);
+                player.getCooldowns().addCooldown(this, spellGroups[groupIndex].spellProperties.CastDelay);
+                groupIndex++;
             }
-            Wand1.Cast(world, player, spellGroups, groupIndex);
-            groupIndex++;
         }
         return super.use(world, player, hand);
     }
@@ -107,4 +107,5 @@ public class WandItem extends Item {
         return false;
     }
     */
+    
 }

@@ -48,6 +48,7 @@ public class ProjectileSpell extends Spell {
         projectile.setSpellProperties(spellGroup.spellProperties);
         projectile.setOwner(entity);
         projectile.shoot(rotation.x, rotation.y, rotation.z, this.speed, this.Spread);
+        world.addFreshEntity(projectile);
 
     }
 
