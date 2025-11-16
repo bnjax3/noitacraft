@@ -54,13 +54,14 @@ public class Spell {
     @Override
     public String toString() {
         return "Spell: {" +
-                "Uses=" + Uses +
                 ", ManaDrain=" + ManaDrain +
-                ", CastDelay=" + CastDelay +
                 ", RechargeTime=" + RechargeTime +
                 ", Spread=" + Spread +
-                ", Recoil=" + Recoil +
                 ", countsTowardCast=" + countsTowardCast +
                 '}';
+    }
+
+    public boolean hasPayload() {
+        return false;
     }
 }
