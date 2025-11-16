@@ -1,16 +1,28 @@
 package org.bnjax3.noitacraft.spell.main_classes;
 
+import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.network.play.server.SChangeGameStatePacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import org.bnjax3.noitacraft.spell.projectiles.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
+
+import java.util.Arrays;
 
 public class ProjectileSpell extends Spell {
     public final float radius;
@@ -57,8 +69,41 @@ public class ProjectileSpell extends Spell {
             magicProjectile.remove();
         }
         if (rayTraceResult instanceof EntityRayTraceResult){
-            ((EntityRayTraceResult) rayTraceResult).getEntity().hurt(DamageSource.GENERIC, damage);
-            magicProjectile.remove();
+            Entity entity = ((EntityRayTraceResult) rayTraceResult).getEntity();
+            Entity owner = magicProjectile.getOwner();
+            DamageSource damageSource;
+            if (owner == null) {
+                damageSource = DamageSource.indirectMagic(magicProjectile,null);
+            } else {
+                damageSource = DamageSource.indirectMagic(magicProjectile, owner);
+                if (owner instanceof LivingEntity) {
+                    ((LivingEntity)owner).setLastHurtMob(entity);
+                }
+            }
+
+            if (entity.hurt(damageSource, magicProjectile.spellGroup.spellProperties.damageBonus + this.damage)) {
+                if (entity instanceof LivingEntity) {
+                    LivingEntity livingentity = (LivingEntity)entity;
+
+                        Vector3d vector3d = magicProjectile.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D).normalize().scale( 0.3D * 0.6D);
+                        if (vector3d.lengthSqr() > 0.0D) {
+                            livingentity.push(vector3d.x, 0.2D * vector3d.y, vector3d.z);
+                        }
+                    /* for when i want to make this pierce
+                    if (!entity.isAlive() && this.piercedAndKilledEntities != null) {
+                        this.piercedAndKilledEntities.add(livingentity);
+                    }
+                     */
+
+                }
+                /*
+                this.playSound(this.soundEvent, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+                if (this.getPierceLevel() <= 0) {
+                    this.remove();
+                }
+
+                 */
+            }
         }
     }
 

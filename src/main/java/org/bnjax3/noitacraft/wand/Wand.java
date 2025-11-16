@@ -2,6 +2,7 @@ package org.bnjax3.noitacraft.wand;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+import org.bnjax3.noitacraft.item.ModItems;
 import org.bnjax3.noitacraft.spell.main_classes.*;
 
 import java.util.*;
@@ -34,6 +35,7 @@ public class Wand {
 
     public void Cast(World world, PlayerEntity player, SpellGroup[] spellGroups, int groupIndex){
         System.out.println("--- made it to the cast function!!");
+        System.out.println(Arrays.toString(spellGroups));
         spellGroups[groupIndex].Cast(player, world, player.getEyePosition(1), player.getViewVector(1));
 
     }
@@ -58,7 +60,7 @@ public class Wand {
                     // if trying to wrap with a spell group that hasnt been added a spell
                     // in the last iteration, cancel the wrap
                     if (spellGroupHash.isEmpty()){
-                        System.out.println("failed wrap");
+                        System.out.println("cant wrap");
                         break;
                     }
                 }
@@ -72,18 +74,25 @@ public class Wand {
                         break;
                     }
                     if (spell.countsTowardCast) {
+                        System.out.println("spells to draw : " + spellsToDraw);
                         spellsToDraw--;
-                        System.out.println("spells to draw decreased : " + spellsToDraw);
+
 
                         if (spell instanceof MulticastSpell) {
                             spellsToDraw += ((MulticastSpell) spell).Draws;
 
                         } else if (spell instanceof PayloadSpell) {
-                            SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count);
+                            SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, 1);
+                            System.out.println("---------- We're outside the trigger --------------");
                             ((PayloadSpell) spell).payload = payload;
-                            // creo que no tiene que tener en cuenta el wrap esto pero si termina fallando puede ser que sea eso
-                            // esto se saltea los hechizos que hayan sido anadidos a la payload del trigger o timer
-                            index += payload.AmountOfSpells() - 1;
+                            if (payload != null) {
+                                System.out.println(payload.Spells);
+                                // esto se saltearia los hechizos que hayan sido anadidos a la payload del trigger o timer
+                                // (pero crashea a la re bosta)
+                                index += payload.AmountOfSpells(0);
+                            } else {
+                                System.out.println("the payload is null");
+                            }
                         }
                     }
                     spellGroupHash.put(index,spell);
@@ -98,12 +107,13 @@ public class Wand {
 
                 }
             }
-            // dudo mucho de esta funcion per oespero que ande
-            spellGroups.add(new SpellGroup(new ArrayList<>(spellGroupHash.values()), this));
-            if (spellGroups.size() > 1000){
+            if (!spellGroupHash.isEmpty()) {
+                // dudo mucho de esta funcion per oespero que ande
+                spellGroups.add(new SpellGroup(new ArrayList<>(spellGroupHash.values()), this));
+            }
+            if (spellGroups.size() > 100){
                 System.out.println("2nd emercency stop");
                 return null;
-
             }
         }
 
@@ -130,53 +140,63 @@ public class Wand {
 
     // reciem e doy cuenta que esta desactualizado respecto a la otra funcion AAAAAAAAAAAAAAAAA
     // o no, puede ser que no, no entiendo mi codigo
-    public SpellGroup getTriggerPayload(Spell[] spells, int indexToStart, int count){
-        System.out.println("tryng to get trigger payload");
+    public SpellGroup getTriggerPayload(Spell[] spells, int indexToStart, int count, int recusionSteps){
+        System.out.println("------ trying to get trigger payload ------");
+        if (recusionSteps > 100){
+            return null;
+        }
         int index = indexToStart;
-        int countedSpells = 0;
-        int toDraw = count;
-        ArrayList<Spell> toCast = new ArrayList<>();
-        while (countedSpells < toDraw){
-            // triggers are missing
+        // this is the index of the first payload spell in the recusion chain
+        // so that if this index is found again it stops the function
+        int indexOfTrigger = indexToStart - recusionSteps;
+        int spellsToDraw = count;
+        HashMap<Integer, Spell> payloadGroupHash = new HashMap<>(spells.length);
+        while (spellsToDraw > 0){
+            System.out.println(" ---* We're inside a trigger, index " + index);
+            System.out.println(" ---* We're inside a trigger, og index " + indexOfTrigger);
             if (index >= spells.length){
                 // try wrap
                 index = 0;
-                System.out.println("attempting wrap");
+                System.out.println("trying to wrap inside trigger");
+                // if trying to wrap with a spell group that hasnt been added a spell
+                // in the last iteration, cancel the wrap
+                if (index == indexOfTrigger){
+                    System.out.println("cant wrap inside trigger");
+                    return null;
+                }
             }
-            Spell spell = spells[index];
-            // hay que poner fe en que esta funcion diferencia entre objetos distintos de misma clase y propiedades
-            // por las dudas de que me haya mandado alguna cagada con le codigo
-            if (toCast.contains(spell)){
-                System.out.println("failed wrap");
+            if (index == indexOfTrigger){
                 break;
             }
+            Spell spell = spells[index];
+            if (spell != null) {
+                // its probably this thats breaking everything
+                // fixed
+                if (spell.countsTowardCast) {
+                    System.out.println("spells to draw : " + spellsToDraw);
+                    spellsToDraw--;
 
-            if (spell.countsTowardCast){
-                countedSpells++;
-                if (spell instanceof MulticastSpell){
-                    toDraw += ((MulticastSpell) spell).Draws;
-                } else if (spell instanceof TriggerSpell) {
-                    SpellGroup payload = getTriggerPayload(spells,index + 1, ((TriggerSpell) spell).count);
-                    ((TriggerSpell) spell).payload = payload;
-                    toCast.add(spell);
-                    // creo que no tiene que tener en cuenta el wrap esto pero si termina fallando puede ser que sea eso
-                    // esto se saltea los hechizos que hayan sido anadidos a la payload del trigger o timer
-                    index += payload.AmountOfSpells() - 1;
-                } else if (spell instanceof TimerSpell){
-                    SpellGroup payload = getTriggerPayload(spells,index + 1, ((TimerSpell) spell).count);
-                    ((TimerSpell) spell).payload = payload;
-                    toCast.add(spell);
-                    index += payload.AmountOfSpells() - 1;
+
+                    if (spell instanceof MulticastSpell) {
+                        spellsToDraw += ((MulticastSpell) spell).Draws;
+
+                    } else if (spell instanceof PayloadSpell) {
+                        System.out.println("recursion steps : " + recusionSteps);
+                        SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, recusionSteps + 1);
+                        ((PayloadSpell) spell).payload = payload;
+                        if (payload != null) {
+                            //index += payload.AmountOfSpells();
+                        }
+                    }
                 }
-                else {
-                    toCast.add(spell);
-                }
-            } else {
-                toCast.add(spell);
+                payloadGroupHash.put(index, spell);
+
+                System.out.println(" ---* index :" + index);
+                System.out.println(" ---* spells to grab :" + spellsToDraw);
+                index++;
             }
-            index++;
         }
-        return new SpellGroup(toCast,this);
+        return new SpellGroup(new ArrayList<>(payloadGroupHash.values()), this);
     }
 
     public int getFinalRechargeTime(SpellGroup[] spellGroups){

@@ -5,6 +5,9 @@ import org.bnjax3.noitacraft.entity.ModEntities;
 import org.bnjax3.noitacraft.spell.main_classes.*;
 import org.bnjax3.noitacraft.spell.spells.Light;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class SpellsRegistry {
 
@@ -25,4 +28,14 @@ public class SpellsRegistry {
 
     public static final Spell SPARK_BOLT_TRIGGER = new TriggerSpell(SPARK_BOLT,1);
     public static final Spell SPARK_BOLT_TIMER = new TimerSpell(SPARK_BOLT, 1, 40);
+
+    /*
+    if i ever need to register spells here
+
+    public static final Map<String, Spell> Spells = new HashMap<String, Spell>(1){{
+       put("spark_bolt", SPARK_BOLT);
+       put("bouncing_burst", BOUNCING_BURST);
+    }};
+
+     */
 }

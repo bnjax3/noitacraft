@@ -22,7 +22,7 @@ public class MagicProjectile extends ThrowableEntity {
     public ProjectileSpell Spell;
     public int bounces;
     public int lifetime;
-    private SpellGroup spellGroup;
+    public SpellGroup spellGroup;
     private SpellProperties spellProperties;
 
     public MagicProjectile(EntityType<? extends ThrowableEntity> entityType, World world){

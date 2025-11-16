@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import org.bnjax3.noitacraft.spell.*;
 import org.bnjax3.noitacraft.spell.main_classes.PayloadSpell;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
@@ -30,18 +31,33 @@ public class SpellGroup {
 
     }
 
-    public int AmountOfSpells(){
+    public int AmountOfSpells(int recursionStep){
+            recursionStep++;
+            System.out.println("Recursion Step : " + recursionStep);
             int count = 0;
-            for(Spell spell1 : Spells){
-                count++;
+            if (recursionStep > 10){
+                return 0;
+            }
+            for (Spell spell : this.Spells){
+                if (spell != null){
+                    count++;
+                    System.out.println(spell);
+                    System.out.println(spell.hasPayload());
+                    if (spell.hasPayload()){
+                        count += ((PayloadSpell) spell).payload.AmountOfSpells(recursionStep);
+                    }
+                    System.out.println("Counted : " + count);
+                }
             }
             return count;
         }
+
+
     public int GetRechargeTimeModifier(){
         int toReturn = 0;
         for (Spell spell : Spells){
             toReturn += spell.RechargeTime;
-            if (spell instanceof PayloadSpell){
+            if (spell.hasPayload()){
                 toReturn += ((PayloadSpell) spell).payload.GetRechargeTimeModifier();
             }
         }
@@ -51,11 +67,9 @@ public class SpellGroup {
 
     @Override
     public String toString() {
-        return "SpellGroup{" +
-                "Spells=" + Spells +
-                ", wand=" + wand +
-                ", spellProperties=" + spellProperties +
-                '}';
+        return "SpellGroup{ " +
+                "Spells =" + Spells +
+                " }";
     }
     public void append(Spell spell){
         Spells.add(spell);

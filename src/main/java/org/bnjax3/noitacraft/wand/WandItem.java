@@ -12,14 +12,19 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import org.bnjax3.noitacraft.item.ModItemGroup;
+import org.bnjax3.noitacraft.item.ModItems;
 import org.bnjax3.noitacraft.other.Utils;
 import org.bnjax3.noitacraft.spell.SpellItem;
+import org.bnjax3.noitacraft.spell.SpellsRegistry;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
+import org.bnjax3.noitacraft.spell.main_classes.TimerSpell;
+import org.lwjgl.system.CallbackI;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class WandItem extends Item {
@@ -74,6 +79,27 @@ public class WandItem extends Item {
                     spells.add(spellItem.spell);
                 }
             }
+            ArrayList<Spell> e = new ArrayList<>();
+            e.add(SpellsRegistry.SPARK_BOLT);
+            e.add(SpellsRegistry.SPARK_BOLT);
+            SpellGroup sg1 = new SpellGroup(e,Wand1);
+            e.clear();
+            e.add(SpellsRegistry.SPARK_BOLT_TIMER);
+            e.add(SpellsRegistry.SPARK_BOLT_TIMER);
+            e.add(SpellsRegistry.SPARK_BOLT_TIMER);
+            SpellGroup sg2 = new SpellGroup(e,Wand1);
+            e.clear();
+            TimerSpell spell = new TimerSpell(SpellsRegistry.SPARK_BOLT,1,23);
+            spell.payload = sg2;
+            e.add(spell);
+            SpellGroup sg3 = new SpellGroup(e,Wand1);
+            System.out.println("--- Calling from sg1");
+            System.out.println(sg1.AmountOfSpells(0));
+            System.out.println("--- Calling from sg2");
+            System.out.println(sg2.AmountOfSpells(0));
+            System.out.println("--- Calling from sg3");
+            System.out.println(sg3.AmountOfSpells(0));
+
             SpellGroup[] spellGroups = Wand1.GroupSpellsInWand(spells.toArray(new Spell[0]));
             if (spellGroups != null) {
                 if (groupIndex >= spellGroups.length) {
@@ -84,6 +110,8 @@ public class WandItem extends Item {
                 player.getCooldowns().addCooldown(this, spellGroups[groupIndex].spellProperties.CastDelay);
                 groupIndex++;
             }
+
+
         }
         return super.use(world, player, hand);
     }

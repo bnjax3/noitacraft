@@ -35,26 +35,30 @@ public class Noitacraft {
 
         /*
         TODO: as of 14/11/25
-        - Register wand item info on nbts
-        - Remake the get payload function in wand
-        - Make more sprites and models (now)
+        --- Short term ---
+        - Register wand item info on nbts (or make it be saved somehow)
         - Make Utils.formattooltipdata better
-        - add loot tables (long term)
-        - add mana functionality (also on nbts probably) (hellish)
-        - fix the projectile entities and cast function to actually spawn something
-        - add sound effects?? (also long term)
+        - add mana functionality (as a kind of durability) (hellish)
+        - add the projectile entities for the cast function to actually spawn something
+        - add uses to spells (have to change like 90% of the casting code probably AAARRGHGHH)
+        - hacer que la tooltip de la varita muestre los spells que contiene
+
+        --- Medium-Long term ---
         - fix the light spells (currently commented out)
-        - maybe fix the burning pile of shit that are all the functions on SpellGroup
+        - maybe fix the burning pile of shit that are like half of all the functions on SpellGroup
            (and fix the spell propeties thingy because im not sure if it works with other
-             special properties like those in the OnCast method)
+            special properties like those in the OnCast method)
         - different held models for wands (currently look like ass)
         - also fix the textures because theyre ugly as hell when in hand
-        - add uses to spells (have to change like 90% of the casting code probably AAARRGHGHH)
         - traducciones a español (solo argentina)(vamos carajo)
-        - hacer que la tooltip de la varita muestre los spells que contiene
+        - add loot tables and recipes (long term)
+        - add sound effects?? (also long term)
+
 
         DONE:
         - nothing (lazy dumbass)
+        - Make more sprites and models
+        - Remake the get payload function in wand
          */
 
         ModBlocks.register(eventBus);

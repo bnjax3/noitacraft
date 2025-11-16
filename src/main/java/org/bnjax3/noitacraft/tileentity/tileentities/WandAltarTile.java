@@ -43,6 +43,16 @@ public class WandAltarTile extends TileEntity {
         this(ModTileEntities.WAND_ALTAR_TILEENTITY.get());
     }
 
+    @Override
+    public CompoundNBT serializeNBT() {
+        return super.serializeNBT();
+    }
+
+    @Override
+    public void deserializeNBT(BlockState state, CompoundNBT nbt) {
+        super.deserializeNBT(state, nbt);
+    }
+
     private ItemStackHandler createHandler(){
         return new ItemStackHandler(28)
         {
