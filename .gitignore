@@ -74,3 +74,4 @@ run/config/forge-client.toml
 /.gradle
 /build
 /run
+*.bin
