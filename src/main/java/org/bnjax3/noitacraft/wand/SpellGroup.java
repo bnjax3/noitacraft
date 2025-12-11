@@ -56,9 +56,11 @@ public class SpellGroup {
     public int GetRechargeTimeModifier(){
         int toReturn = 0;
         for (Spell spell : Spells){
-            toReturn += spell.RechargeTime;
-            if (spell.hasPayload()){
-                toReturn += ((PayloadSpell) spell).payload.GetRechargeTimeModifier();
+            if (spell != null) {
+                toReturn += spell.RechargeTime;
+                if (spell.hasPayload()) {
+                    toReturn += ((PayloadSpell) spell).payload.GetRechargeTimeModifier();
+                }
             }
         }
         return toReturn;
@@ -73,5 +75,14 @@ public class SpellGroup {
     }
     public void append(Spell spell){
         Spells.add(spell);
+    }
+
+    public boolean isEmpty() {
+        for (Spell spell : Spells){
+            if (spell != null){
+                return false;
+            }
+        }
+        return true;
     }
 }

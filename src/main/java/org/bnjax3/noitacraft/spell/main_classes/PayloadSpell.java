@@ -24,9 +24,9 @@ public class PayloadSpell extends ProjectileSpell{
 
     @Override
     public String toString() {
-        if (hasPayload()){
+        if (payload != null){
             return "PayloadSpell{" +
-                    "payload =" + hasPayload() +
+                    "payload=" + "not null" +
                     ", count=" + count +
                     '}';
         } else {
@@ -39,6 +39,7 @@ public class PayloadSpell extends ProjectileSpell{
 
     @Override
     public boolean hasPayload() {
-        return (payload != null && !payload.Spells.isEmpty());
+        // System.out.println(payload);
+        return (payload != null  && !payload.isEmpty());
     }
 }

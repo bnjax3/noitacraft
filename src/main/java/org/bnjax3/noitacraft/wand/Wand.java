@@ -43,6 +43,7 @@ public class Wand {
 
     public SpellGroup[] GroupSpellsInWand(Spell[] spells){
         System.out.println("function called");
+        System.out.println("Spells in wand : \n"+Arrays.toString(spells));
         ArrayList<SpellGroup> spellGroups = new ArrayList<>();
         boolean reachedEndOfWand = false;
         int index = 0; // index of the current spell
@@ -82,7 +83,7 @@ public class Wand {
                             spellsToDraw += ((MulticastSpell) spell).Draws;
 
                         } else if (spell instanceof PayloadSpell) {
-                            SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, 1);
+                            SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, index);
                             System.out.println("---------- We're outside the trigger --------------");
                             ((PayloadSpell) spell).payload = payload;
                             if (payload != null) {
@@ -127,46 +128,32 @@ public class Wand {
         }
         return true;
     }
-    // will see if a certain spell is already on the group by comparing the index (slot of the wand) its in
-    // (two spells should not be able to have the same index)
-    private boolean groupAlreadyContains(HashMap<Integer, Spell> groupHash, int indexOfSpell) {
-        for (int i : groupHash.keySet()){
-            if (i == indexOfSpell){
-                return true;
-            }
-        }
-        return false;
-    }
-
     // reciem e doy cuenta que esta desactualizado respecto a la otra funcion AAAAAAAAAAAAAAAAA
     // o no, puede ser que no, no entiendo mi codigo
-    public SpellGroup getTriggerPayload(Spell[] spells, int indexToStart, int count, int recusionSteps){
-        System.out.println("------ trying to get trigger payload ------");
-        if (recusionSteps > 100){
-            return null;
-        }
+    public SpellGroup getTriggerPayload(Spell[] spells, int indexToStart, int count, int parentTriggerIndex){
+        System.out.println("------ trying to get trigger " + indexToStart + " payload ------");
         int index = indexToStart;
         // this is the index of the first payload spell in the recusion chain
         // so that if this index is found again it stops the function
-        int indexOfTrigger = indexToStart - recusionSteps;
         int spellsToDraw = count;
         HashMap<Integer, Spell> payloadGroupHash = new HashMap<>(spells.length);
         while (spellsToDraw > 0){
             System.out.println(" ---* We're inside a trigger, index " + index);
-            System.out.println(" ---* We're inside a trigger, og index " + indexOfTrigger);
+            System.out.println(" ---* We're inside a trigger, og index " + parentTriggerIndex);
             if (index >= spells.length){
                 // try wrap
+                int oldIndex = index;
                 index = 0;
                 System.out.println("trying to wrap inside trigger");
-                // if trying to wrap with a spell group that hasnt been added a spell
-                // in the last iteration, cancel the wrap
-                if (index == indexOfTrigger){
-                    System.out.println("cant wrap inside trigger");
+                // if trying to wrap to the parent trigger, return no payload
+                if (index == parentTriggerIndex) {
+                    System.out.println("cant wrap inside trigger, payload is null for spell index " + oldIndex);
                     return null;
                 }
             }
-            if (index == indexOfTrigger){
-                break;
+            if (index == parentTriggerIndex){
+                System.out.println("attempted to draw parent trigger, payload is null for spell " + index);
+                return null;
             }
             Spell spell = spells[index];
             if (spell != null) {
@@ -181,8 +168,7 @@ public class Wand {
                         spellsToDraw += ((MulticastSpell) spell).Draws;
 
                     } else if (spell instanceof PayloadSpell) {
-                        System.out.println("recursion steps : " + recusionSteps);
-                        SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, recusionSteps + 1);
+                        SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, parentTriggerIndex);
                         ((PayloadSpell) spell).payload = payload;
                         if (payload != null) {
                             //index += payload.AmountOfSpells();
@@ -190,13 +176,21 @@ public class Wand {
                     }
                 }
                 payloadGroupHash.put(index, spell);
-
-                System.out.println(" ---* index :" + index);
-                System.out.println(" ---* spells to grab :" + spellsToDraw);
                 index++;
             }
         }
         return new SpellGroup(new ArrayList<>(payloadGroupHash.values()), this);
+    }
+
+    // will see if a certain spell is already on the group by comparing the index (slot of the wand) its in
+    // (two spells should not be able to have the same index)
+    private boolean groupAlreadyContains(HashMap<Integer, Spell> groupHash, int indexOfSpell) {
+        for (int i : groupHash.keySet()){
+            if (i == indexOfSpell){
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getFinalRechargeTime(SpellGroup[] spellGroups){

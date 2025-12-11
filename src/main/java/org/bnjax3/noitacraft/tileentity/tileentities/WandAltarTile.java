@@ -97,6 +97,7 @@ public class WandAltarTile extends TileEntity {
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
                 if (slot == 0){
                     Item wandItem = getWandWithSpells().getItem();
+                    ((WandItem)wandItem).setGroupIndex(0);
                     clearSpellSlots(((WandItem) wandItem).spellItems);
                 }
                 return super.extractItem(slot, amount, simulate);
@@ -111,9 +112,9 @@ public class WandAltarTile extends TileEntity {
         }
     }
     private void fillSpellSlots(SpellItem[] spellItems){
-        for (int i = 1; i <= spellItems.length; i++){
-            if (spellItems[i - 1] != null){
-                itemStackHandler.setStackInSlot(i, new ItemStack(spellItems[i - 1]));
+        for (int i = 0; i < spellItems.length;i++){
+            if (spellItems[i] != null){
+                itemStackHandler.setStackInSlot(i + 1, new ItemStack(spellItems[i]));
             }
         }
     }
@@ -143,6 +144,8 @@ public class WandAltarTile extends TileEntity {
             Item item = itemStackHandler.getStackInSlot(i).getItem();
             if (item instanceof SpellItem){
                 wandItem.spellItems[i - 1] = (SpellItem) item;
+            } else {
+                wandItem.spellItems[i - 1] = null;
             }
         }
         return new ItemStack(wandItem);

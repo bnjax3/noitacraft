@@ -79,6 +79,7 @@ public class WandItem extends Item {
                     spells.add(spellItem.spell);
                 }
             }
+            /*
             ArrayList<Spell> e = new ArrayList<>();
             e.add(SpellsRegistry.SPARK_BOLT);
             e.add(SpellsRegistry.SPARK_BOLT);
@@ -93,13 +94,19 @@ public class WandItem extends Item {
             spell.payload = sg2;
             e.add(spell);
             SpellGroup sg3 = new SpellGroup(e,Wand1);
-            System.out.println("--- Calling from sg1");
-            System.out.println(sg1.AmountOfSpells(0));
-            System.out.println("--- Calling from sg2");
-            System.out.println(sg2.AmountOfSpells(0));
-            System.out.println("--- Calling from sg3");
-            System.out.println(sg3.AmountOfSpells(0));
 
+            System.out.println("============== SEPARATE TEST =============");
+            System.out.println("--- Calling AOF from sg1");
+            System.out.println(sg1.AmountOfSpells(0));
+            System.out.println("--- Calling AOF from sg2");
+            System.out.println(sg2.AmountOfSpells(0));
+            System.out.println("--- Calling AOF from sg3");
+            System.out.println(sg3.AmountOfSpells(0));
+            System.out.println("==========================================");
+             */
+            System.out.println("LA GRAN CUESTION .....................");
+            System.out.println(spells);
+            System.out.println(Arrays.toString(spells.toArray(new Spell[0])));
             SpellGroup[] spellGroups = Wand1.GroupSpellsInWand(spells.toArray(new Spell[0]));
             if (spellGroups != null) {
                 if (groupIndex >= spellGroups.length) {
@@ -135,5 +142,8 @@ public class WandItem extends Item {
         return false;
     }
     */
-    
+
+    public void setGroupIndex(int groupIndex) {
+        this.groupIndex = groupIndex;
+    }
 }

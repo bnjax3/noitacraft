@@ -106,8 +106,12 @@ public class MagicProjectile extends ThrowableEntity {
 
 
     private void doTickFunctionalities() {
-        for (Spell spell : spellGroup.Spells){
-            spell.ExecuteOnProjectileTick(this);
+        if (spellGroup != null) {
+            for (Spell spell : spellGroup.Spells) {
+                if (spell != null) {
+                    spell.ExecuteOnProjectileTick(this);
+                }
+            }
         }
     }
 

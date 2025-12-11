@@ -94,7 +94,9 @@ minecraft {
             }
         }
 
-        client {}
+        client {
+            environment "assetDirectory", "/home/benja/.local/share/PrismLauncher/assets"
+        }
 
         server {
             args '--nogui'
