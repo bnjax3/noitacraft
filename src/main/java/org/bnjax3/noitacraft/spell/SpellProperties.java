@@ -6,7 +6,7 @@ import org.bnjax3.noitacraft.spell.main_classes.Spell;
 import org.bnjax3.noitacraft.wand.Wand;
 
 public class SpellProperties {
-    public int CastDelay;
+    public float CastDelay;
     public float Spread;
     public float Recoil = 0;
     public float speedMult = 1;

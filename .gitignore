@@ -75,3 +75,10 @@ run/config/forge-client.toml
 /build
 /run
 *.bin
+/.gradle
+/run
+/run/logs
+*.probe
+/.gradle/8.8
+/build
+*.bin

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class SpellGroup {
     public ArrayList<Spell> Spells;
     public final Wand wand;
-    public SpellProperties spellProperties;
+    private SpellProperties spellProperties;
     public SpellGroup(ArrayList<Spell> spells, Wand wand) {
         Spells = spells;
         this.wand = wand;
@@ -52,21 +52,6 @@ public class SpellGroup {
             return count;
         }
 
-
-    public int GetRechargeTimeModifier(){
-        int toReturn = 0;
-        for (Spell spell : Spells){
-            if (spell != null) {
-                toReturn += spell.RechargeTime;
-                if (spell.hasPayload()) {
-                    toReturn += ((PayloadSpell) spell).payload.GetRechargeTimeModifier();
-                }
-            }
-        }
-        return toReturn;
-    }
-
-
     @Override
     public String toString() {
         return "SpellGroup{ " +
@@ -84,5 +69,13 @@ public class SpellGroup {
             }
         }
         return true;
+    }
+
+    public SpellProperties getSpellProperties() {
+        return spellProperties;
+    }
+
+    public void setSpellProperties(SpellProperties spellProperties) {
+        this.spellProperties = spellProperties;
     }
 }

@@ -12,12 +12,12 @@ import java.util.Map;
 public class SpellsRegistry {
 
 
-    public static final ProjectileSpell SPARK_BOLT = new ProjectileSpell(-1,5,1,0,-1,0.1f,0.5f,1,5,3,60,false,0,0.01f, ModEntities.SPARK_BOLT_PROJECTILE);
+    public static final ProjectileSpell SPARK_BOLT = new ProjectileSpell(-1,5,0.05f,0,-1,0.1f,0.5f,1,5,3,60,false,0,0.01f, ModEntities.SPARK_BOLT_PROJECTILE);
 
     // porque sino /summon a cualquier proyectil crashea a la re bosta
-    public static final ProjectileSpell DEFAULT_SPELL = new ProjectileSpell(-1,5,1,0,0,0,0.5f,1,0,3,60,false,0,0.1f, ModEntities.SPARK_BOLT_PROJECTILE);
+    public static final ProjectileSpell DEFAULT_SPELL = new ProjectileSpell(-1,5,0.05f,0,0,0,0.5f,1,0,3,60,false,0,0.1f, ModEntities.SPARK_BOLT_PROJECTILE);
 
-    public static final ProjectileSpell BOUNCING_BURST = new ProjectileSpell(-1,5,-1,0,-1,0.1f,0.5f,0.8f,0,3,100,false,10,0.25f, ModEntities.BOUNCING_BURST_PROJECTILE);
+    public static final ProjectileSpell BOUNCING_BURST = new ProjectileSpell(-1,5,-0.03f,0,-1,0.1f,0.5f,0.8f,0,3,100,false,10,0.25f, ModEntities.BOUNCING_BURST_PROJECTILE);
 
     public static final MulticastSpell DOUBLE_CAST = new MulticastSpell(-1,0,0,0,0,2);
     public static final MulticastSpell TRIPLE_CAST = new MulticastSpell(-1,2,0,0,0,3);

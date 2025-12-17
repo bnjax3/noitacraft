@@ -19,9 +19,11 @@ import java.util.List;
 public class SpellItem extends Item {
     public Spell spell;
     public int usesLeft;
-    public SpellItem(Properties p_i48487_1_, Spell spell) {
+    public String spellName;
+    public SpellItem(Properties p_i48487_1_, Spell spell, String spellName) {
         super(p_i48487_1_);
         this.spell = spell;
+        this.spellName = spellName;
     }
 
     @Override

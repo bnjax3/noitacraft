@@ -11,10 +11,19 @@ public class PayloadSpell extends ProjectileSpell{
     public @Nullable SpellGroup payload;
     public final int count;
 
-    public PayloadSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<EntityType<MagicProjectile>> projectileTemplate, int count) {
+    public PayloadSpell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage,
+                        int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<EntityType<MagicProjectile>> projectileTemplate, int count) {
         super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, radius, speed, critChanceBonus, damage, lifetime, friendlyFire, bounces, gravity, projectileTemplate);
         this.count = count;
     }
+    public PayloadSpell(PayloadSpell spell, @Nullable SpellGroup payload){
+        super(spell.Uses, spell.ManaDrain, spell.CastDelay, spell.RechargeTime, spell.Spread, spell.Recoil, spell.radius, spell.speed, spell.critChanceBonus, spell.damage,
+                spell.lifetime, spell.friendlyFire, spell.bounces, spell.gravity, spell.projectileRegistryObject);
+        this.count = spell.count;
+        this.payload = payload;
+    }
+
+
 
     public void CastPayload(MagicProjectile projectile){
         if (payload != null) {
@@ -24,17 +33,11 @@ public class PayloadSpell extends ProjectileSpell{
 
     @Override
     public String toString() {
-        if (payload != null){
-            return "PayloadSpell{" +
-                    "payload=" + "not null" +
+            return "PayloadSpell "  + super.toString() + " {" +
+                    "payload=" + payload +
                     ", count=" + count +
                     '}';
-        } else {
-            return "PayloadSpell{" +
-                    "payload=" + " null" +
-                    ", count=" + count +
-                    '}';
-        }
+
     }
 
     @Override

@@ -59,7 +59,7 @@ public class ModItems {
 
     @SuppressWarnings("unchecked")
     private static <T extends SpellItem>RegistryObject<T> registerSpellItem(String spellName, Spell spell){
-        return (RegistryObject<T>) ITEMS.register(spellName, () -> new SpellItem(new Item.Properties().stacksTo(1).tab(ModItemGroup.SPELLS_GROUP), spell));
+        return (RegistryObject<T>) ITEMS.register(spellName, () -> new SpellItem(new Item.Properties().stacksTo(1).tab(ModItemGroup.SPELLS_GROUP), spell, spellName));
     }
 
     public static void register(IEventBus eventBus){

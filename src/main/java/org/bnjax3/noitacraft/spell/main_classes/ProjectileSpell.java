@@ -35,7 +35,7 @@ public class ProjectileSpell extends Spell {
     public final float gravity; // block/tick
     public final RegistryObject<EntityType<MagicProjectile>> projectileRegistryObject;
 
-    public ProjectileSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<EntityType<MagicProjectile>> projectileRegistryObject) {
+    public ProjectileSpell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<EntityType<MagicProjectile>> projectileRegistryObject) {
         super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, true);
         this.radius = radius;
         this.speed = speed;
@@ -57,7 +57,7 @@ public class ProjectileSpell extends Spell {
     public void Shoot(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation){
         MagicProjectile projectile = new MagicProjectile(projectileRegistryObject.get(), position, world, this);
         projectile.setSpellGroup(spellGroup);
-        projectile.setSpellProperties(spellGroup.spellProperties);
+        projectile.setSpellProperties(spellGroup.getSpellProperties());
         projectile.setOwner(entity);
         projectile.shoot(rotation.x, rotation.y, rotation.z, this.speed, this.Spread);
         world.addFreshEntity(projectile);
@@ -81,7 +81,7 @@ public class ProjectileSpell extends Spell {
                 }
             }
 
-            if (entity.hurt(damageSource, magicProjectile.spellGroup.spellProperties.damageBonus + this.damage)) {
+            if (entity.hurt(damageSource, magicProjectile.spellGroup.getSpellProperties().damageBonus + this.damage)) {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingentity = (LivingEntity)entity;
 

@@ -87,7 +87,7 @@ public class WandAltarTile extends TileEntity {
                     return stack;
                 }
                 if (slot == 0){
-                    fillSpellSlots(((WandItem) stack.getItem()).spellItems);
+                    fillSpellSlots(((WandItem) stack.getItem()).getSpellItems(stack));
                 }
                 return super.insertItem(slot, stack, simulate);
             }
@@ -96,19 +96,27 @@ public class WandAltarTile extends TileEntity {
             @Override
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
                 if (slot == 0){
-                    Item wandItem = getWandWithSpells().getItem();
-                    ((WandItem)wandItem).setGroupIndex(0);
-                    clearSpellSlots(((WandItem) wandItem).spellItems);
+                    ItemStack wandItem = getWandWithSpells();
+                    ((WandItem)wandItem.getItem()).setGroupIndex(0);
+                    clearSpellSlots(((WandItem) wandItem.getItem()).getSpellItems(wandItem).length);
+                    System.out.println("extract item called on slot 0");
+                    return wandItem;
                 }
                 return super.extractItem(slot, amount, simulate);
             }
         };
     }
-
+    /*
     private void clearSpellSlots(SpellItem[] spellItems){
         for (int i = 1; i <= spellItems.length; i++)
         {
             itemStackHandler.setStackInSlot(i, ItemStack.EMPTY);
+        }
+    }
+     */
+    private void clearSpellSlots(int x){
+        for (int i = 1; i <= x; i++){
+            itemStackHandler.setStackInSlot(i,ItemStack.EMPTY);
         }
     }
     private void fillSpellSlots(SpellItem[] spellItems){
@@ -139,16 +147,21 @@ public class WandAltarTile extends TileEntity {
         if (itemStackHandler.getStackInSlot(0).getCount() == 0){
             return ItemStack.EMPTY;
         }
-        WandItem wandItem = (WandItem) itemStackHandler.getStackInSlot(0).getItem();
-        for (int i = 1;i <= wandItem.spellItems.length;i++){
+
+        ItemStack wandStack = itemStackHandler.getStackInSlot(0);
+        SpellItem[] oldSpellItems = ((WandItem)wandStack.getItem()).getSpellItems(wandStack);
+        SpellItem[] newSpellItems = new SpellItem[oldSpellItems.length];
+
+        for (int i = 1; i <= oldSpellItems.length; i++){
             Item item = itemStackHandler.getStackInSlot(i).getItem();
             if (item instanceof SpellItem){
-                wandItem.spellItems[i - 1] = (SpellItem) item;
+                newSpellItems[i - 1] = (SpellItem) item;
             } else {
-                wandItem.spellItems[i - 1] = null;
+                newSpellItems[i - 1] = null;
             }
         }
-        return new ItemStack(wandItem);
+        ((WandItem) wandStack.getItem()).setSpellItems(wandStack, newSpellItems);
+        return wandStack;
     }
 
     @Nonnull

@@ -3,6 +3,7 @@ package org.bnjax3.noitacraft.wand;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import org.bnjax3.noitacraft.item.ModItems;
+import org.bnjax3.noitacraft.spell.SpellItem;
 import org.bnjax3.noitacraft.spell.main_classes.*;
 
 import java.util.*;
@@ -84,8 +85,12 @@ public class Wand {
 
                         } else if (spell instanceof PayloadSpell) {
                             SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, index);
-                            System.out.println("---------- We're outside the trigger --------------");
-                            ((PayloadSpell) spell).payload = payload;
+                            System.out.println("---------- We're outside the trigger of index " + index + " --------------");
+                            if (spell instanceof TriggerSpell){
+                                spell = new TriggerSpell((TriggerSpell) spell, payload);
+                            } else if (spell instanceof TimerSpell){
+                                spell = new PayloadSpell((TimerSpell) spell, payload);
+                            }
                             if (payload != null) {
                                 System.out.println(payload.Spells);
                                 // esto se saltearia los hechizos que hayan sido anadidos a la payload del trigger o timer
@@ -97,24 +102,15 @@ public class Wand {
                         }
                     }
                     spellGroupHash.put(index,spell);
-                    System.out.println(" ---* index :" + index);
-                    System.out.println(" ---* spells to grab :" + spellsToDraw);
-                    System.out.println(" ---* reached end of wand: " + reachedEndOfWand);
-                    index++;
                 }
-                if (spellGroupHash.size() > 100){
-                    System.out.println("1st emercency stop");
-                    return null;
-
-                }
+                System.out.println(" ---* index :" + index);
+                System.out.println(" ---* spells to grab :" + spellsToDraw);
+                System.out.println(" ---* reached end of wand: " + reachedEndOfWand);
+                index++;
             }
             if (!spellGroupHash.isEmpty()) {
                 // dudo mucho de esta funcion per oespero que ande
                 spellGroups.add(new SpellGroup(new ArrayList<>(spellGroupHash.values()), this));
-            }
-            if (spellGroups.size() > 100){
-                System.out.println("2nd emercency stop");
-                return null;
             }
         }
 
@@ -142,15 +138,10 @@ public class Wand {
             System.out.println(" ---* We're inside a trigger, og index " + parentTriggerIndex);
             if (index >= spells.length){
                 // try wrap
-                int oldIndex = index;
                 index = 0;
                 System.out.println("trying to wrap inside trigger");
-                // if trying to wrap to the parent trigger, return no payload
-                if (index == parentTriggerIndex) {
-                    System.out.println("cant wrap inside trigger, payload is null for spell index " + oldIndex);
-                    return null;
-                }
             }
+            // if trying to wrap to the parent trigger, return no payload
             if (index == parentTriggerIndex){
                 System.out.println("attempted to draw parent trigger, payload is null for spell " + index);
                 return null;
@@ -163,21 +154,25 @@ public class Wand {
                     System.out.println("spells to draw : " + spellsToDraw);
                     spellsToDraw--;
 
-
                     if (spell instanceof MulticastSpell) {
                         spellsToDraw += ((MulticastSpell) spell).Draws;
 
                     } else if (spell instanceof PayloadSpell) {
                         SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, parentTriggerIndex);
-                        ((PayloadSpell) spell).payload = payload;
-                        if (payload != null) {
-                            //index += payload.AmountOfSpells();
+                        if (spell instanceof TriggerSpell){
+                            spell = new TriggerSpell((TriggerSpell) spell, payload);
+                        } else if (spell instanceof TimerSpell){
+                            spell = new TimerSpell((TimerSpell) spell, payload);
+                        }
+                        System.out.println("Spell " + spell);
+                        if (payload == null) {
+                            System.out.println("Payload is checked as null for spell index " + index);
                         }
                     }
                 }
                 payloadGroupHash.put(index, spell);
-                index++;
             }
+            index++;
         }
         return new SpellGroup(new ArrayList<>(payloadGroupHash.values()), this);
     }
@@ -193,11 +188,12 @@ public class Wand {
         return false;
     }
 
-    public int getFinalRechargeTime(SpellGroup[] spellGroups){
-        int toReturn = RechargeTime;
-        for(SpellGroup spellGroup : spellGroups)
-        {
-            toReturn += spellGroup.GetRechargeTimeModifier();
+    public double getFinalRechargeTime(SpellItem[] spellItems){
+        double toReturn = RechargeTime;
+        for (SpellItem spellItem : spellItems){
+            if (spellItem != null){
+                toReturn += spellItem.spell.RechargeTime;
+            }
         }
         return toReturn;
     }

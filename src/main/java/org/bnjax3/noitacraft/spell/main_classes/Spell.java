@@ -10,12 +10,12 @@ import org.bnjax3.noitacraft.wand.SpellGroup;
 public class Spell {
     public final int Uses;
     public final int ManaDrain;
-    public final int CastDelay;
-    public final int RechargeTime;
+    public final float CastDelay;
+    public final float RechargeTime;
     public final float Spread;
     public final float Recoil;
     public final boolean countsTowardCast;
-    public Spell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, float recoil, boolean countsTowardCast){
+    public Spell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, boolean countsTowardCast){
         Uses = uses;
         ManaDrain = manaDrain;
         CastDelay = castDelay;
@@ -31,7 +31,7 @@ public class Spell {
     }
     public void Modify(SpellGroup spellGroup){
         // applies the properties of this spell to the spell group
-        spellGroup.spellProperties.Change(this);
+        spellGroup.getSpellProperties().Change(this);
     }
 
     public void ExecuteOnCast(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation){
@@ -54,7 +54,7 @@ public class Spell {
     @Override
     public String toString() {
         return "Spell: {" +
-                ", ManaDrain=" + ManaDrain +
+                "ManaDrain=" + ManaDrain +
                 ", RechargeTime=" + RechargeTime +
                 ", Spread=" + Spread +
                 ", countsTowardCast=" + countsTowardCast +
