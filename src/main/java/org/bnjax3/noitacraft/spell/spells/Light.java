@@ -1,13 +1,9 @@
 package org.bnjax3.noitacraft.spell.spells;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import org.bnjax3.noitacraft.block.ModBlocks;
 import org.bnjax3.noitacraft.spell.main_classes.ModifierSpell;
-import org.bnjax3.noitacraft.spell.projectiles.MagicProjectile;
+import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 
 public class Light extends ModifierSpell {
     public final int intensity;

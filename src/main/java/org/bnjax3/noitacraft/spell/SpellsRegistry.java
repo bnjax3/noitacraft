@@ -3,6 +3,7 @@ package org.bnjax3.noitacraft.spell;
 
 import org.bnjax3.noitacraft.entity.ModEntities;
 import org.bnjax3.noitacraft.spell.main_classes.*;
+import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.spell.spells.Light;
 
 import java.util.HashMap;

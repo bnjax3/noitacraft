@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell.projectiles;
+package org.bnjax3.noitacraft.spell.projectile;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -79,7 +79,6 @@ public class MagicProjectile extends ThrowableEntity {
             Spell.ExecuteOnDeath((PlayerEntity) getOwner(),this.level,this);
             this.remove();
         }
-        super.tick();
         Vector3d deltaMovement = this.getDeltaMovement();
         Spell.ExecuteOnProjectileTickUnshared(this);
         doTickFunctionalities();
@@ -94,8 +93,8 @@ public class MagicProjectile extends ThrowableEntity {
 
         // do gravity
         this.setDeltaMovement( deltaMovement.x, deltaMovement.y - (double)this.getGravity(), deltaMovement.z);
-
         lifetime--;
+        super.tick();
     }
 
     @Override

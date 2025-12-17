@@ -16,13 +16,13 @@ public class Wand {
     public final int Capacity;
     public final int ManaChargeSpeed;
     // spells can change in  block:
-    public final int CastDelay; // in ticks
+    public final float CastDelay; // in seconds
     public final float Spread; // degrees
     public final float SpeedMult;
     // global through wand :
-    public final int RechargeTime; // in ticks
+    public final float RechargeTime; // in seconds
 
-    public Wand(boolean shuffle, int spellsCast, int castDelay, int rechargeTime, int manaMax, int manaChargeSpeed, int capacity, float spread, float speedMult) {
+    public Wand(boolean shuffle, int spellsCast, float castDelay, float rechargeTime, int manaMax, int manaChargeSpeed, int capacity, float spread, float speedMult) {
         Shuffle = shuffle;
         SpellsCast = spellsCast;
         CastDelay = castDelay;

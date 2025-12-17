@@ -1,28 +1,17 @@
 package org.bnjax3.noitacraft.spell.main_classes;
 
-import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.network.play.server.SChangeGameStatePacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
-import org.bnjax3.noitacraft.spell.projectiles.MagicProjectile;
+import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
-
-import java.util.Arrays;
 
 public class ProjectileSpell extends Spell {
     public final float radius;
@@ -33,9 +22,9 @@ public class ProjectileSpell extends Spell {
     public final boolean friendlyFire;
     public final int bounces;
     public final float gravity; // block/tick
-    public final RegistryObject<EntityType<MagicProjectile>> projectileRegistryObject;
+    public final RegistryObject<? extends EntityType<? extends MagicProjectile>> projectileRegistryObject;
 
-    public ProjectileSpell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<EntityType<MagicProjectile>> projectileRegistryObject) {
+    public ProjectileSpell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileRegistryObject) {
         super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, true);
         this.radius = radius;
         this.speed = speed;

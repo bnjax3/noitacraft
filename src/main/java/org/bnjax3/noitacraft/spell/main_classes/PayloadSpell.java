@@ -2,7 +2,7 @@ package org.bnjax3.noitacraft.spell.main_classes;
 
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.fml.RegistryObject;
-import org.bnjax3.noitacraft.spell.projectiles.MagicProjectile;
+import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
 import javax.annotation.Nullable;
@@ -12,7 +12,7 @@ public class PayloadSpell extends ProjectileSpell{
     public final int count;
 
     public PayloadSpell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage,
-                        int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<EntityType<MagicProjectile>> projectileTemplate, int count) {
+                        int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileTemplate, int count) {
         super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, radius, speed, critChanceBonus, damage, lifetime, friendlyFire, bounces, gravity, projectileTemplate);
         this.count = count;
     }

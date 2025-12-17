@@ -32,14 +32,14 @@ public class Noitacraft {
     public static final String MOD_ID = "noitacraft";
     public Noitacraft() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         /*
-        TODO: as of 14/11/25
+        TODO: as of 17/12/25
         --- Short term ---
-        - Register wand item info on nbts (or make it be saved somehow)
+        - triggers stopped working again¿¿¿
+        - Add textures and rendering to the projectiles
+        - The WandAltarTile extract function always returns null for no reason
         - Make Utils.formattooltipdata better
-        - add mana functionality (as a kind of durability) (hellish)
-        - add the projectile entities for the cast function to actually spawn something
+        - add mana functionality (as a kind of durability) (hellish probably)
         - add uses to spells (have to change like 90% of the casting code probably AAARRGHGHH)
         - hacer que la tooltip de la varita muestre los spells que contiene
 
@@ -54,11 +54,12 @@ public class Noitacraft {
         - add loot tables and recipes (long term)
         - add sound effects?? (also long term)
 
-
         DONE:
         - nothing (lazy dumbass)
         - Make more sprites and models
         - Remake the get payload function in wand
+        - Register wand item info on nbts (or make it be saved somehow)
+        - add the projectile entities for the cast function to actually spawn something
          */
 
         ModBlocks.register(eventBus);
