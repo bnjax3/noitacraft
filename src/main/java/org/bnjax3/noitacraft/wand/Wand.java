@@ -75,13 +75,13 @@ public class Wand {
                         reachedEndOfWand = true;
                         break;
                     }
-                    if (spell.countsTowardCast) {
+                    if (spell.CountsToCast()) {
                         System.out.println("spells to draw : " + spellsToDraw);
                         spellsToDraw--;
 
 
                         if (spell instanceof MulticastSpell) {
-                            spellsToDraw += ((MulticastSpell) spell).Draws;
+                            spellsToDraw += ((MulticastSpell) spell).getDraws();
 
                         } else if (spell instanceof PayloadSpell) {
                             SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, index);
@@ -89,7 +89,7 @@ public class Wand {
                             if (spell instanceof TriggerSpell){
                                 spell = new TriggerSpell((TriggerSpell) spell, payload);
                             } else if (spell instanceof TimerSpell){
-                                spell = new PayloadSpell((TimerSpell) spell, payload);
+                                spell = new TimerSpell((TimerSpell) spell, payload);
                             }
                             if (payload != null) {
                                 System.out.println(payload.Spells);
@@ -150,12 +150,12 @@ public class Wand {
             if (spell != null) {
                 // its probably this thats breaking everything
                 // fixed
-                if (spell.countsTowardCast) {
+                if (spell.CountsToCast()) {
                     System.out.println("spells to draw : " + spellsToDraw);
                     spellsToDraw--;
 
                     if (spell instanceof MulticastSpell) {
-                        spellsToDraw += ((MulticastSpell) spell).Draws;
+                        spellsToDraw += ((MulticastSpell) spell).getDraws();
 
                     } else if (spell instanceof PayloadSpell) {
                         SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, parentTriggerIndex);
@@ -192,7 +192,7 @@ public class Wand {
         double toReturn = RechargeTime;
         for (SpellItem spellItem : spellItems){
             if (spellItem != null){
-                toReturn += spellItem.spell.RechargeTime;
+                toReturn += spellItem.spell.getRechargeTime();
             }
         }
         return toReturn;

@@ -1,9 +1,18 @@
 package org.bnjax3.noitacraft.spell.main_classes;
 
-public class MulticastSpell extends Spell{
-    public final int Draws;
-    public MulticastSpell(int uses, int manaDrain, int castDelay, int rechargeTime, float spread, int draws) {
-        super(uses, manaDrain, castDelay, rechargeTime, spread, 0,  true);
-        Draws = draws;
+public class MulticastSpell extends ModifierSpell{
+    private final int draws;
+    public MulticastSpell(int manaDrain, int draws) {
+        super(manaDrain);
+        this.draws = draws;
+    }
+
+    @Override
+    public boolean CountsToCast() {
+        return true;
+    }
+
+    public int getDraws() {
+        return draws;
     }
 }

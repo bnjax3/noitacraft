@@ -11,18 +11,23 @@ import org.bnjax3.noitacraft.wand.SpellGroup;
 
 public class TriggerSpell extends PayloadSpell {
 
-    public TriggerSpell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileTemplate, int count) {
-        super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, radius, speed, critChanceBonus, damage, lifetime, friendlyFire, bounces, gravity, projectileTemplate, count);
+    public TriggerSpell(RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileRegistryObject, ProjectileProperties projectileProperties, int count){
+        super(projectileRegistryObject, projectileProperties, count);
     }
-    public TriggerSpell(ProjectileSpell spell, int count)
-    {
-        super(spell.Uses, spell.ManaDrain, spell.CastDelay, spell.RechargeTime, spell.Spread, spell.Recoil, spell.radius, spell.speed, spell.critChanceBonus, spell.damage, spell.lifetime, spell.friendlyFire, spell.bounces, spell.gravity, spell.projectileRegistryObject, count);
+    public TriggerSpell(RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileRegistryObject, ProjectileProperties projectileProperties) {
+        this(projectileRegistryObject, projectileProperties, 1);
+    }
+    public TriggerSpell(ProjectileSpell spell, int count){
+        this(spell.projectileRegistryObject, spell.projectileProperties, count);
+    }
+    public TriggerSpell(ProjectileSpell spell){
+        this(spell.projectileRegistryObject, spell.projectileProperties, 1);
     }
     public TriggerSpell(TriggerSpell spell, SpellGroup payload){
-        super(spell.Uses, spell.ManaDrain, spell.CastDelay, spell.RechargeTime, spell.Spread, spell.Recoil, spell.radius, spell.speed, spell.critChanceBonus, spell.damage,
-                spell.lifetime, spell.friendlyFire, spell.bounces, spell.gravity, spell.projectileRegistryObject, spell.count);
-        this.payload = spell.payload;
+        this(spell.projectileRegistryObject, spell.projectileProperties, spell.count);
+        this.payload = payload;
     }
+
     @Override
     public void ExecuteOnHit(MagicProjectile magicProjectile, RayTraceResult rayTraceResult) {
         if (rayTraceResult instanceof BlockRayTraceResult){
@@ -31,7 +36,6 @@ public class TriggerSpell extends PayloadSpell {
             magicProjectile.remove();
         }
         if (rayTraceResult instanceof EntityRayTraceResult){
-            ((EntityRayTraceResult) rayTraceResult).getEntity().hurt(DamageSource.GENERIC, damage);
             CastPayload(magicProjectile);
             magicProjectile.remove();
         }

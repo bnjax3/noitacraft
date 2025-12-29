@@ -50,6 +50,8 @@ public class ModItems {
     public static final RegistryObject<SpellItem> SPARK_BOLT_TRIGGER_ITEM = registerSpellItem("spark_bolt_trigger", SpellsRegistry.SPARK_BOLT_TRIGGER);
     public static final RegistryObject<SpellItem> SPARK_BOLT_TIMER_ITEM = registerSpellItem("spark_bolt_timer", SpellsRegistry.SPARK_BOLT_TIMER);
 
+    public static final RegistryObject<SpellItem> BOUNCES_PLUS_ITEM = registerSpellItem("bounces_plus", SpellsRegistry.BOUNCES_PLUS);
+
     // ----------------------------------------- FUNCTIONS -----------------------------------------------------------
 
     @SuppressWarnings("unchecked")

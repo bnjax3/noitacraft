@@ -7,6 +7,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -19,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import org.bnjax3.noitacraft.block.ModBlocks;
 import org.bnjax3.noitacraft.container.ModContainers;
 import org.bnjax3.noitacraft.entity.ModEntities;
+import org.bnjax3.noitacraft.entity.render.SparkBoltRenderer;
 import org.bnjax3.noitacraft.gui.screen.screens.WandAltarScreen;
 import org.bnjax3.noitacraft.item.ModItems;
 import org.bnjax3.noitacraft.tileentity.ModTileEntities;
@@ -86,10 +88,11 @@ public class Noitacraft {
         // some preinit code
 
     }
-
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
         ScreenManager.register(ModContainers.WAND_ALTAR_CONTAINER.get(), WandAltarScreen::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPARK_BOLT_PROJECTILE.get(), SparkBoltRenderer::new);
+
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

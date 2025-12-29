@@ -10,11 +10,19 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import org.bnjax3.noitacraft.entity.projectiles.SparkBoltProjectile;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 public class SparkBoltModel extends EntityModel<SparkBoltProjectile> {
 	private final ModelRenderer bb_main;
 	private final ModelRenderer head1_r1;
 
-	public SparkBoltModel() {
+    @ParametersAreNonnullByDefault
+    @Override
+    public void renderToBuffer(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+        this.renderToBuffer(p_225598_1_,p_225598_2_,p_225598_3_,p_225598_4_);
+    }
+
+    public SparkBoltModel() {
 		texWidth = 32;
 		texHeight = 32;
 
@@ -46,9 +54,8 @@ public class SparkBoltModel extends EntityModel<SparkBoltProjectile> {
     public void setupAnim(SparkBoltProjectile p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
 
     }
-	@Override
-	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		bb_main.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay){
+		bb_main.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

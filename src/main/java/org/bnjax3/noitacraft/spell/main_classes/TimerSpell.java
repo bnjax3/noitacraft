@@ -5,26 +5,34 @@ import net.minecraftforge.fml.RegistryObject;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
+import java.sql.Time;
+
 public class TimerSpell extends PayloadSpell {
-    public final int timerLifetime; // ticks
-    public int timer;
-    public TimerSpell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, float radius, float speed, float critChanceBonus, float damage, int lifetime, boolean friendlyFire, int bounces, float gravity, RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectile, int count, int timerLifetime) {
+    private int timerLifetime = 100; // ticks
+    private int timer;
 
-        super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, radius, speed, critChanceBonus, damage, lifetime, friendlyFire, bounces, gravity, projectile, count);
+    public TimerSpell(RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileRegistryObject, ProjectileProperties projectileProperties, int count, int timerLifetime){
+        super(projectileRegistryObject, projectileProperties, count);
         this.timerLifetime = timerLifetime;
-        timer = timerLifetime;
     }
-
-    public TimerSpell(ProjectileSpell spell, int count, int timerLifetime) {
-        this(spell.Uses, spell.ManaDrain, spell.CastDelay, spell.RechargeTime, spell.Spread, spell.Recoil, spell.radius, spell.speed, spell.critChanceBonus, spell.damage, spell.lifetime, spell.friendlyFire, spell.bounces, spell.gravity, spell.projectileRegistryObject, count, timerLifetime);
+    public TimerSpell(RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileRegistryObject, ProjectileProperties projectileProperties, int timerLifetime) {
+        this(projectileRegistryObject, projectileProperties, 1, timerLifetime);
     }
-
+    public TimerSpell(RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileRegistryObject, ProjectileProperties projectileProperties) {
+        this(projectileRegistryObject, projectileProperties, 1, projectileProperties.getLifetime());
+    }
+    public TimerSpell(ProjectileSpell spell){
+        this(spell.projectileRegistryObject, spell.projectileProperties);
+    }
+    public TimerSpell(ProjectileSpell spell, int timerLifetime){
+        this(spell.projectileRegistryObject, spell.projectileProperties, timerLifetime);
+    }
     public TimerSpell(TimerSpell spell, SpellGroup payload){
-        super(spell.Uses, spell.ManaDrain, spell.CastDelay, spell.RechargeTime, spell.Spread, spell.Recoil, spell.radius, spell.speed, spell.critChanceBonus, spell.damage,
-                spell.lifetime, spell.friendlyFire, spell.bounces, spell.gravity, spell.projectileRegistryObject, spell.count);
-        this.timerLifetime = spell.timerLifetime;
+        this(spell.projectileRegistryObject, spell.projectileProperties, spell.count, spell.timerLifetime);
         this.payload = payload;
     }
+
+
 
     @Override
     public void ExecuteOnProjectileTickUnshared(MagicProjectile projectile) {
@@ -33,5 +41,18 @@ public class TimerSpell extends PayloadSpell {
         } else {
             CastPayload(projectile);
         }
+    }
+
+    public int getTimerLifetime() {
+        return timerLifetime;
+    }
+
+    public TimerSpell setTimerLifetime(int timerLifetime) {
+        this.timerLifetime = timerLifetime;
+        return this;
+    }
+
+    public int getTimer() {
+        return timer;
     }
 }

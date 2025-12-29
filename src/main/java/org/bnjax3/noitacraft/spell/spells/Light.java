@@ -3,6 +3,7 @@ package org.bnjax3.noitacraft.spell.spells;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import org.bnjax3.noitacraft.spell.main_classes.ModifierSpell;
+import org.bnjax3.noitacraft.spell.main_classes.SpellProperties;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 
 public class Light extends ModifierSpell {
@@ -11,7 +12,7 @@ public class Light extends ModifierSpell {
     BlockState blockStateOfLastTick;
     BlockState currentBlockState;
     public Light(int intensity, int manaDrain) {
-        super(-1,manaDrain,0,0,0,0,0,0,0,0,false,0);
+        super(new SpellProperties().setManaDrain(manaDrain));
         this.intensity = intensity;
     }
 

@@ -108,7 +108,7 @@ public class WandItem extends Item {
             System.out.println("About to cast");
             Wand1.Cast(world, player, spellGroups, groupIndex);
             System.out.println("Done Casting");
-            player.getCooldowns().addCooldown(this, Utils.secsToTicks(spellGroups[groupIndex].getSpellProperties().CastDelay));
+            player.getCooldowns().addCooldown(this, Utils.secsToTicks(spellGroups[groupIndex].getSpellProperties().getCastDelay()));
             groupIndex++;
 
         }

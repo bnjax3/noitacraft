@@ -6,8 +6,8 @@ public class MaterialSpell extends Spell{
     public final Block material;
     public final boolean replace;
     public final int radius;
-    public MaterialSpell(int uses, int manaDrain, float castDelay, float rechargeTime, float spread, float recoil, Block material, boolean replace, int radius) {
-        super(uses, manaDrain, castDelay, rechargeTime, spread, recoil, true);
+    public MaterialSpell(SpellProperties spellProperties, Block material, boolean replace, int radius) {
+        super(spellProperties);
         this.material = material;
         this.replace = replace;
         this.radius = radius;
