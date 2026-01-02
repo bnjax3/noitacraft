@@ -28,7 +28,7 @@ public class SparkBoltRenderer<T extends SparkBoltProjectile> extends EntityRend
     @Override
     public void render(T projectile, float yaw, float pTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight) {
         System.out.println("Rendering Spark Bolt");
-        this.model.renderToBuffer(matrixStack, buffer.getBuffer(RenderType.entityCutout(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY,1,1,1,1);
+        this.model.renderToBuffer(matrixStack, buffer.getBuffer(RenderType.entityCutout(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY);
         super.render(projectile, yaw, pTicks, matrixStack, buffer, packedLight);
     }
 

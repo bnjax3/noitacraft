@@ -37,7 +37,9 @@ public class SparkBoltModel<T extends SparkBoltProjectile> extends EntityModel<T
     public void setupAnim(T sparkBolt, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
 
     }
-
+    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay){
+        model.render(matrixStack, buffer, packedLight, packedOverlay);
+    }
 
     @Override
 	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
