@@ -1,6 +1,5 @@
 package org.bnjax3.noitacraft.block.blocks;
 
-import com.google.common.graph.Network;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -23,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.bnjax3.noitacraft.container.containers.WandAltarContainer;
 import org.bnjax3.noitacraft.tileentity.tileentities.WandAltarTile;
-import org.bnjax3.noitacraft.tileentity.ModTileEntities;
+import org.bnjax3.noitacraft.registry.ModTileEntities;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;

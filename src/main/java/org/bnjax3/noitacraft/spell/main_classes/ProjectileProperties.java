@@ -1,7 +1,7 @@
 package org.bnjax3.noitacraft.spell.main_classes;
 
 public class ProjectileProperties {
-    private float speed = 60;
+    private float speed = 2;
     private float critChance = 0;
     private float damage = 1;
     private int lifetime = 100; // ticks

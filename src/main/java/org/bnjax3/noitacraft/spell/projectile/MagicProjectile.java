@@ -1,6 +1,8 @@
 package org.bnjax3.noitacraft.spell.projectile;
 
+
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,6 +14,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.play.server.SChangeGameStatePacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -20,7 +23,7 @@ import org.bnjax3.noitacraft.other.Simplifier;
 import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
 import org.bnjax3.noitacraft.spell.main_classes.SpellProperties;
-import org.bnjax3.noitacraft.spell.SpellsRegistry;
+import org.bnjax3.noitacraft.registry.SpellsRegistry;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
 public class MagicProjectile extends AbstractArrowEntity {
@@ -28,11 +31,11 @@ public class MagicProjectile extends AbstractArrowEntity {
     public int bouncesLeft;
     public int lifetimeLeft;
     public SpellGroup spellGroup;
-    private SpellProperties spellProperties;
 
     public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, World world){
         super(entityType, world);
         Spell = SpellsRegistry.DEFAULT_SPELL;
+
     }
     public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, World world, ProjectileSpell spell) {
         this(entityType, world);
@@ -62,7 +65,9 @@ public class MagicProjectile extends AbstractArrowEntity {
 
     @Override
     protected void onHitBlock(BlockRayTraceResult hitBlock) {
-        super.onHitBlock(hitBlock);
+        BlockState blockstate = this.level.getBlockState(hitBlock.getBlockPos());
+        blockstate.onProjectileHit(this.level, blockstate, hitBlock, this);
+        this.setSoundEvent(SoundEvents.ARROW_HIT); // despues se reemplaza
         if (bouncesLeft > 0){
             bounce(hitBlock.getDirection());
             bouncesLeft--;
@@ -83,7 +88,12 @@ public class MagicProjectile extends AbstractArrowEntity {
         Entity entity = hitEntity.getEntity();
         Entity owner = this.getOwner();
         DamageSource damagesource;
-        float damage = this.Spell.getDamage() + this.spellGroup.getSpellProperties().getDamageBonus();
+        float damage;
+        if (spellGroup != null) {
+            damage = this.Spell.getDamage() + this.spellGroup.getSpellProperties().getDamageBonus();
+        } else {
+            damage = this.Spell.getDamage();
+        }
         if (owner == null) {
             damagesource = DamageSource.arrow(this, this);
         } else {
@@ -138,7 +148,7 @@ public class MagicProjectile extends AbstractArrowEntity {
             }
 
             this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
-            if (this.getPierceLevel() <= 0) {
+            if (this.spellGroup.getSpellProperties().getPierces() <= 0) {
                 this.remove();
             }
         } else {
@@ -164,12 +174,11 @@ public class MagicProjectile extends AbstractArrowEntity {
     }
     @Override
     public void tick() {
-        /*
-        if (lifetime <= 0){
+        if (lifetimeLeft <= 0){
             Spell.ExecuteOnDeath((PlayerEntity) getOwner(),this.level,this);
             this.remove();
         }
-         */
+
         Vector3d deltaMovement = this.getDeltaMovement();
         Spell.ExecuteOnProjectileTickUnshared(this);
         doTickFunctionalities();
@@ -201,6 +210,7 @@ public class MagicProjectile extends AbstractArrowEntity {
 
     public void bounce(Direction direction){
         // si no anda probablemente sea un problema de hitBlock.getDirection()
+        System.out.println("bounce");
         Vector3d deltaMovement = getDeltaMovement();
         if (direction == Direction.UP || direction == Direction.DOWN){
             setDeltaMovement(deltaMovement.x, deltaMovement.y * -1, deltaMovement.z);
@@ -216,20 +226,12 @@ public class MagicProjectile extends AbstractArrowEntity {
         this.xRotO = this.xRot;
     }
 
-
     public void setSpellGroup(SpellGroup spellGroup) {
         this.spellGroup = spellGroup;
+        this.lifetimeLeft = Spell.getProjectileLifetime() + spellGroup.getSpellProperties().getLifetime();
+        this.bouncesLeft = Spell.getProjectileBounces() + spellGroup.getSpellProperties().getBounces();
     }
 
-    public void setSpellProperties(SpellProperties spellProperties){
-        this.spellProperties = spellProperties;
-        applyProperties();
-    }
-    private void applyProperties(){
-        spellProperties.Change(Spell);
-        this.bouncesLeft = spellProperties.getBounces();
-        this.lifetimeLeft = spellProperties.getLifetime();
-    }
 
 
 }

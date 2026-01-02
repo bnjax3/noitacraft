@@ -2,15 +2,13 @@ package org.bnjax3.noitacraft.other;
 
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.bnjax3.noitacraft.Noitacraft;
-import org.bnjax3.noitacraft.spell.SpellItem;
-import org.bnjax3.noitacraft.spell.main_classes.Spell;
+import org.bnjax3.noitacraft.item.SpellItem;
 
 public abstract class Utils {
     // shit name i know

@@ -2,32 +2,24 @@ package org.bnjax3.noitacraft.wand;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import org.bnjax3.noitacraft.item.ModItemGroup;
-import org.bnjax3.noitacraft.item.ModItems;
+import org.bnjax3.noitacraft.registry.ModItemGroup;
 import org.bnjax3.noitacraft.other.Utils;
-import org.bnjax3.noitacraft.spell.SpellItem;
-import org.bnjax3.noitacraft.spell.SpellsRegistry;
-import org.bnjax3.noitacraft.spell.main_classes.PayloadSpell;
+import org.bnjax3.noitacraft.item.SpellItem;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
-import org.bnjax3.noitacraft.spell.main_classes.TimerSpell;
-import org.lwjgl.system.CallbackI;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class WandItem extends Item {

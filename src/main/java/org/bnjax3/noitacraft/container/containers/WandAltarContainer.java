@@ -13,7 +13,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import org.bnjax3.noitacraft.container.ModContainers;
+import org.bnjax3.noitacraft.registry.ModContainers;
 import org.bnjax3.noitacraft.other.Utils;
 
 @SuppressWarnings("all")

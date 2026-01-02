@@ -22,6 +22,8 @@ public class SpellGroup {
     public void Cast(Entity entity, World world, Vector3d position, Vector3d viewVector){
         for (Spell spell : Spells){
             spell.Modify(this);
+        }
+        for (Spell spell : Spells){
             spell.Cast(this, entity, world, position, viewVector);
         }
     }

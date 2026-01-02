@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.tileentity;
+package org.bnjax3.noitacraft.registry;
 
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -6,7 +6,6 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.bnjax3.noitacraft.Noitacraft;
-import org.bnjax3.noitacraft.block.ModBlocks;
 import org.bnjax3.noitacraft.tileentity.tileentities.WandAltarTile;
 
 public class ModTileEntities {

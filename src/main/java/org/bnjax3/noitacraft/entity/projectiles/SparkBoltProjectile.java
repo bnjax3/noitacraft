@@ -1,13 +1,10 @@
 package org.bnjax3.noitacraft.entity.projectiles;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
 
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import org.bnjax3.noitacraft.entity.ModEntities;
 import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 

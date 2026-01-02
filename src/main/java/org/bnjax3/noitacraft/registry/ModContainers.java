@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.container;
+package org.bnjax3.noitacraft.registry;
 
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;

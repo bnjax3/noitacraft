@@ -1,22 +1,24 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.registry;
 
 
-import org.bnjax3.noitacraft.entity.ModEntities;
 import org.bnjax3.noitacraft.spell.main_classes.*;
-import org.bnjax3.noitacraft.spell.spells.Light;
-import org.bnjax3.noitacraft.spell.spells.SparkBolt;
+import org.bnjax3.noitacraft.spell.spells.modifiers.HeavyShot;
+import org.bnjax3.noitacraft.spell.spells.modifiers.Light;
+import org.bnjax3.noitacraft.spell.spells.projectiles.SparkBolt;
 
 
 public class SpellsRegistry {
 
 
-    public static final ProjectileSpell SPARK_BOLT = new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(3).setCritChance(15));
+    public static final ProjectileSpell SPARK_BOLT = (ProjectileSpell) new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(3)
+            .setCritChance(5)
+            .setSpeed(2)
+            .setGravity(0.04f)
+    ).setCastDelay(0.05f).setSpread(-1);
 
     // porque sino /summon a cualquier proyectil crashea a la re bosta
     public static final ProjectileSpell DEFAULT_SPELL = new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(3)
-            .setCritChance(15)
-            .setSpeed(80)
-
+            .setSpeed(2)
     );
 
     public static final ProjectileSpell BOUNCING_BURST = new ProjectileSpell(5, ModEntities.BOUNCING_BURST_PROJECTILE, new ProjectileProperties());
@@ -33,6 +35,7 @@ public class SpellsRegistry {
 
     public static final ModifierSpell BOUNCES_PLUS = new ModifierSpell(new SpellProperties().setBounces(5));
 
+    public static final ModifierSpell HEAVY_SHOT = new HeavyShot();
     /*
     if i ever need to register spells here
 

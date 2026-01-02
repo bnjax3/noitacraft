@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell;
+package org.bnjax3.noitacraft.item;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;

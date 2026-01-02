@@ -1,33 +1,24 @@
 package org.bnjax3.noitacraft.tileentity.tileentities;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.ToolItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import org.bnjax3.noitacraft.item.ModItems;
-import org.bnjax3.noitacraft.spell.SpellItem;
-import org.bnjax3.noitacraft.spell.main_classes.Spell;
-import org.bnjax3.noitacraft.tileentity.ModTileEntities;
+import org.bnjax3.noitacraft.item.SpellItem;
+import org.bnjax3.noitacraft.registry.ModTileEntities;
 import org.bnjax3.noitacraft.wand.WandItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Arrays;
 
 public class WandAltarTile extends TileEntity {
 

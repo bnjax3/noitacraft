@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell.spells;
+package org.bnjax3.noitacraft.spell.spells.modifiers;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;

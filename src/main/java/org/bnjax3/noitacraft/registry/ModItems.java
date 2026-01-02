@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.item;
+package org.bnjax3.noitacraft.registry;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -6,9 +6,8 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.bnjax3.noitacraft.Noitacraft;
+import org.bnjax3.noitacraft.item.SpellItem;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
-import org.bnjax3.noitacraft.spell.SpellItem;
-import org.bnjax3.noitacraft.spell.SpellsRegistry;
 import org.bnjax3.noitacraft.wand.Wand;
 import org.bnjax3.noitacraft.wand.WandItem;
 
@@ -24,12 +23,43 @@ public class ModItems {
 
     // -----------------------------------------  WANDITEMS  ----------------------------------------------------------
 
-    public static final RegistryObject<WandItem> STARTER_WAND = registerWand("starter_wand", new Wand(false, 1,4, 9, 100, 30, 3, 0, 1 ));
+    public static final RegistryObject<WandItem> STARTER_WAND = registerWand("starter_wand", new Wand(false, 1,0.2f, 0.45f, 100, 30, 3, 0, 1 ));
 
-    public static final RegistryObject<WandItem> BOMB_WAND = registerWand("bomb_wand", new Wand(true, 1,2, 2, 100, 10, 1, 0, 1 ));
+    public static final RegistryObject<WandItem> BOMB_WAND = registerWand("bomb_wand", new Wand(true, 1,0.1f, 0.1f, 100, 10, 1, 0, 1 ));
 
+    public static final RegistryObject<WandItem> WAND_01 = registerWand("wand_01", new Wand(true, 1, 0.03f, 0.45f, 220, 45, 7, 8, 1.03f));
 
+    public static final RegistryObject<WandItem> WAND_02 = registerWand("wand_02", new Wand(true, 1, 0.03f, 0.42f, 250, 53, 5, 2, 0.98f));
 
+    public static final RegistryObject<WandItem> WAND_03 = registerWand("wand_03", new Wand(true, 1, 0.03f, 1.5f, 180, 54, 6, -3, 0.99f));
+
+    public static final RegistryObject<WandItem> WAND_04 = registerWand("wand_04", new Wand(false, 1, 0.38f, 0.27f, 190, 51, 3, -1, 0.93f));
+
+    public static final RegistryObject<WandItem> WAND_05 = registerWand("wand_05", new Wand(true, 1, 0.10f, 0.7f, 210, 52, 5, 6, 0.82f));
+
+    public static final RegistryObject<WandItem> WAND_06 = registerWand("wand_06", new Wand(false, 1, 0.22f, 0.38f, 250, 49, 6, 3, 0.99f));
+
+    public static final RegistryObject<WandItem> WAND_07 = registerWand("wand_07", new Wand(false, 1, 0.43f, 0.67f, 170, 55, 3, 1, 0.96f));
+
+    public static final RegistryObject<WandItem> WAND_08 = registerWand("wand_08", new Wand(true, 1, 0.17f, 0.43f, 160, 52, 7, 2, 0.99f));
+
+    public static final RegistryObject<WandItem> WAND_09 = registerWand("wand_09", new Wand(true, 1, 0.05f, 0.82f, 160, 46, 6, 3, 0.85f));
+
+    public static final RegistryObject<WandItem> WAND_10 = registerWand("wand_10", new Wand(false, 1, 0.05f, 0.43f, 210, 46, 3, -1, 1.06f));
+
+    public static final RegistryObject<WandItem> WAND_11 = registerWand("wand_11", new Wand(false, 1, 0.33f, 0.43f, 250, 50, 2, -2, 1.02f));
+
+    public static final RegistryObject<WandItem> WAND_12 = registerWand("wand_12", new Wand(false, 1, 0.23f, 0.83f, 250, 49, 6, -2, 1.00f));
+
+    public static final RegistryObject<WandItem> WAND_13 = registerWand("wand_13", new Wand(false, 1, 0.07f, 0.75f, 220, 51, 5, 1, 0.97f));
+
+    public static final RegistryObject<WandItem> WAND_14 = registerWand("wand_14", new Wand(false, 1, 0.10f, 0.20f, 210, 50, 2, 1, 0.99f));
+
+    public static final RegistryObject<WandItem> WAND_15 = registerWand("wand_15", new Wand(true, 1, 0.40f, 0.88f, 170, 49, 11, 1, 0.90f));
+
+    public static final RegistryObject<WandItem> WAND_16 = registerWand("wand_16", new Wand(true, 1, 0.43f, 0.30f, 750, 10, 9, -3, 1.08f));
+
+    public static final RegistryObject<WandItem> WAND_17 = registerWand("wand_17", new Wand(true, 1, 0.03f, 0.23f, 190, 52, 6, 5, 0.99f));
 
 
 
@@ -51,6 +81,7 @@ public class ModItems {
     public static final RegistryObject<SpellItem> SPARK_BOLT_TIMER_ITEM = registerSpellItem("spark_bolt_timer", SpellsRegistry.SPARK_BOLT_TIMER);
 
     public static final RegistryObject<SpellItem> BOUNCES_PLUS_ITEM = registerSpellItem("bounces_plus", SpellsRegistry.BOUNCES_PLUS);
+    public static final RegistryObject<SpellItem> HEAVY_SHOT_ITEM = registerSpellItem("heavy_shot", SpellsRegistry.HEAVY_SHOT);
 
     // ----------------------------------------- FUNCTIONS -----------------------------------------------------------
 

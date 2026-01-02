@@ -17,13 +17,13 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bnjax3.noitacraft.block.ModBlocks;
-import org.bnjax3.noitacraft.container.ModContainers;
-import org.bnjax3.noitacraft.entity.ModEntities;
+import org.bnjax3.noitacraft.registry.ModBlocks;
+import org.bnjax3.noitacraft.registry.ModContainers;
+import org.bnjax3.noitacraft.registry.ModEntities;
 import org.bnjax3.noitacraft.entity.render.SparkBoltRenderer;
 import org.bnjax3.noitacraft.gui.screen.screens.WandAltarScreen;
-import org.bnjax3.noitacraft.item.ModItems;
-import org.bnjax3.noitacraft.tileentity.ModTileEntities;
+import org.bnjax3.noitacraft.registry.ModItems;
+import org.bnjax3.noitacraft.registry.ModTileEntities;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("noitacraft")
@@ -35,21 +35,22 @@ public class Noitacraft {
     public Noitacraft() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         /*
-        TODO: as of 17/12/25
+        TODO: as of 29/12/25
         --- Short term ---
         - triggers stopped working again¿¿¿
-        - Add textures and rendering to the projectiles
-        - The WandAltarTile extract function always returns null for no reason
+        - Make projectile rendering obey directions
+        - Make more spells
+        - Make more projectiles
+        - Make more wands
+        - The WandAltarTile extract function always returns null for no reason -> broke even worse now wtf
         - Make Utils.formattooltipdata better
         - add mana functionality (as a kind of durability) (hellish probably)
         - add uses to spells (have to change like 90% of the casting code probably AAARRGHGHH)
         - hacer que la tooltip de la varita muestre los spells que contiene
+        - Register MagicProjectile data on entity nbts  NOOOOOOOOOOOOOOOOOOOOOO
 
         --- Medium-Long term ---
         - fix the light spells (currently commented out)
-        - maybe fix the burning pile of shit that are like half of all the functions on SpellGroup
-           (and fix the spell propeties thingy because im not sure if it works with other
-            special properties like those in the OnCast method)
         - different held models for wands (currently look like ass)
         - also fix the textures because theyre ugly as hell when in hand
         - traducciones a español (solo argentina)(vamos carajo)
@@ -61,7 +62,10 @@ public class Noitacraft {
         - Make more sprites and models
         - Remake the get payload function in wand
         - Register wand item info on nbts (or make it be saved somehow)
-        - add the projectile entities for the cast function to actually spawn something
+        - make the projectile entities in the cast function actually spawn something
+        - maybe fix the burning pile of shit that are like half of all the functions on SpellGroup
+           (and fix the spell propeties thingy because im not sure if it works with other
+            special properties like those in the OnCast method)
          */
 
         ModBlocks.register(eventBus);

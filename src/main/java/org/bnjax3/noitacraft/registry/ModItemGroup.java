@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.item;
+package org.bnjax3.noitacraft.registry;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

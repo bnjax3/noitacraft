@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell.spells;
+package org.bnjax3.noitacraft.spell.spells.projectiles;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -24,7 +24,6 @@ public class SparkBolt extends ProjectileSpell {
     public void Shoot(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation) {
         SparkBoltProjectile projectile = new SparkBoltProjectile((EntityType<SparkBoltProjectile>) projectileRegistryObject.get(), position, world, this);
         projectile.setSpellGroup(spellGroup);
-        projectile.setSpellProperties(spellGroup.getSpellProperties());
         projectile.setOwner(entity);
         projectile.shoot(rotation.x, rotation.y, rotation.z, this.getSpeed(), this.getSpread());
         world.addFreshEntity(projectile);

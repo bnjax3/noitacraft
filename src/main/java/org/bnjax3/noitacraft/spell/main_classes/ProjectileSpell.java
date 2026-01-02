@@ -40,7 +40,6 @@ public class ProjectileSpell extends Spell {
         if (!world.isClientSide) {
             MagicProjectile projectile = new MagicProjectile(projectileRegistryObject.get(), position, world, this);
             projectile.setSpellGroup(spellGroup);
-            projectile.setSpellProperties(spellGroup.getSpellProperties());
             projectile.setOwner(entity);
             projectile.shoot(rotation.x, rotation.y, rotation.z, this.getSpeed(), this.getSpread());
             world.addFreshEntity(projectile);

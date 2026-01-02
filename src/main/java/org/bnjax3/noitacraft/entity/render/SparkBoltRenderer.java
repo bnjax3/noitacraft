@@ -22,14 +22,13 @@ public class SparkBoltRenderer<T extends SparkBoltProjectile> extends EntityRend
     public SparkBoltRenderer(EntityRendererManager entityRendererManager) {
         super(entityRendererManager);
         model = new SparkBoltModel();
-        System.out.println("Babe wake up new renderer just dropped");
     }
 
     @ParametersAreNonnullByDefault
     @Override
     public void render(T projectile, float yaw, float pTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight) {
-        System.out.println("Rendering SparkBolt");
-        this.model.renderToBuffer(matrixStack, buffer.getBuffer(RenderType.entityCutout(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY);
+        System.out.println("Rendering Spark Bolt");
+        this.model.renderToBuffer(matrixStack, buffer.getBuffer(RenderType.entityCutout(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY,1,1,1,1);
         super.render(projectile, yaw, pTicks, matrixStack, buffer, packedLight);
     }
 

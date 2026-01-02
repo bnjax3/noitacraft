@@ -2,8 +2,7 @@ package org.bnjax3.noitacraft.wand;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
-import org.bnjax3.noitacraft.item.ModItems;
-import org.bnjax3.noitacraft.spell.SpellItem;
+import org.bnjax3.noitacraft.item.SpellItem;
 import org.bnjax3.noitacraft.spell.main_classes.*;
 
 import java.util.*;
