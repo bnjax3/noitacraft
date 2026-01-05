@@ -2,7 +2,6 @@ package org.bnjax3.noitacraft.spell.projectile;
 
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -18,42 +17,43 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.bnjax3.noitacraft.other.Simplifier;
 import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
-import org.bnjax3.noitacraft.spell.main_classes.SpellProperties;
 import org.bnjax3.noitacraft.registry.SpellsRegistry;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
-public class MagicProjectile extends AbstractArrowEntity {
+public class MagicProjectile extends ProjectileBase {
     public ProjectileSpell Spell;
     public int bouncesLeft;
     public int lifetimeLeft;
     public SpellGroup spellGroup;
 
-    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, World world){
+    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, World world){
         super(entityType, world);
         Spell = SpellsRegistry.DEFAULT_SPELL;
 
     }
-    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, World world, ProjectileSpell spell) {
+    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, World world, ProjectileSpell spell) {
         this(entityType, world);
         Spell = spell;
         // para que no se use el metodo de la super que es una cagada
         this.setNoGravity(true);
     }
 
-    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, double x, double y, double z, World world, ProjectileSpell spell) {
+    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, double x, double y, double z, World world, ProjectileSpell spell) {
         this(entityType, world, spell);
         this.setPos(x,y,z);
     }
-    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, Vector3d vector3d, World world, ProjectileSpell spell) {
+    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, Vector3d vector3d, World world, ProjectileSpell spell) {
         this(entityType, world, spell);
         this.setPos(vector3d.x, vector3d.y, vector3d.z);
     }
 
-    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, LivingEntity shooter, World world, ProjectileSpell spell) {
+    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, LivingEntity shooter, World world, ProjectileSpell spell) {
         this(entityType,shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), world, spell);
         this.setOwner(shooter);
     }
@@ -63,10 +63,11 @@ public class MagicProjectile extends AbstractArrowEntity {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
+    @OnlyIn(Dist.DEDICATED_SERVER)
     @Override
     protected void onHitBlock(BlockRayTraceResult hitBlock) {
-        BlockState blockstate = this.level.getBlockState(hitBlock.getBlockPos());
-        blockstate.onProjectileHit(this.level, blockstate, hitBlock, this);
+        //BlockState blockstate = this.level.getBlockState(hitBlock.getBlockPos());
+        //blockstate.onProjectileHit(this.level, blockstate, hitBlock, this);
         this.setSoundEvent(SoundEvents.ARROW_HIT); // despues se reemplaza
         if (bouncesLeft > 0){
             bounce(hitBlock.getDirection());
@@ -83,6 +84,7 @@ public class MagicProjectile extends AbstractArrowEntity {
         return ItemStack.EMPTY;
     }
 
+    @OnlyIn(Dist.DEDICATED_SERVER)
     @Override
     protected void onHitEntity(EntityRayTraceResult hitEntity) {
         Entity entity = hitEntity.getEntity();
@@ -174,6 +176,9 @@ public class MagicProjectile extends AbstractArrowEntity {
     }
     @Override
     public void tick() {
+        if (this.level.isClientSide){
+            return;
+        }
         if (lifetimeLeft <= 0){
             Spell.ExecuteOnDeath((PlayerEntity) getOwner(),this.level,this);
             this.remove();
