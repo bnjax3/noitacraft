@@ -34,16 +34,16 @@ public class Wand {
     }
 
     public void Cast(World world, PlayerEntity player, SpellGroup[] spellGroups, int groupIndex){
-        System.out.println("--- made it to the cast function!!");
-        System.out.println(Arrays.toString(spellGroups));
+        // System.out.println("--- made it to the cast function!!");
+        // System.out.println(Arrays.toString(spellGroups));
         spellGroups[groupIndex].Cast(player, world, player.getEyePosition(1), player.getViewVector(1));
 
     }
 
 
     public SpellGroup[] GroupSpellsInWand(Spell[] spells){
-        System.out.println("function called");
-        System.out.println("Spells in wand : \n"+Arrays.toString(spells));
+        // System.out.println("function called");
+        // System.out.println("Spells in wand : \n"+Arrays.toString(spells));
         ArrayList<SpellGroup> spellGroups = new ArrayList<>();
         boolean reachedEndOfWand = false;
         int index = 0; // index of the current spell
@@ -57,11 +57,11 @@ public class Wand {
                     // try wrap
                     index = 0;
                     reachedEndOfWand = true;
-                    System.out.println("trying to wrap");
+                    // System.out.println("trying to wrap");
                     // if trying to wrap with a spell group that hasnt been added a spell
                     // in the last iteration, cancel the wrap
                     if (spellGroupHash.isEmpty()){
-                        System.out.println("cant wrap");
+                        // System.out.println("cant wrap");
                         break;
                     }
                 }
@@ -70,12 +70,12 @@ public class Wand {
                     // its probably this thats breaking everything
                     // fixed
                     if (groupAlreadyContains(spellGroupHash, index)) {
-                        System.out.println("reached end of wand");
+                        // System.out.println("reached end of wand");
                         reachedEndOfWand = true;
                         break;
                     }
                     if (spell.CountsToCast()) {
-                        System.out.println("spells to draw : " + spellsToDraw);
+                        // System.out.println("spells to draw : " + spellsToDraw);
                         spellsToDraw--;
 
 
@@ -84,27 +84,27 @@ public class Wand {
 
                         } else if (spell instanceof PayloadSpell) {
                             SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, index);
-                            System.out.println("---------- We're outside the trigger of index " + index + " --------------");
+                            // System.out.println("---------- We're outside the trigger of index " + index + " --------------");
                             if (spell instanceof TriggerSpell){
                                 spell = new TriggerSpell((TriggerSpell) spell, payload);
                             } else if (spell instanceof TimerSpell){
                                 spell = new TimerSpell((TimerSpell) spell, payload);
                             }
                             if (payload != null) {
-                                System.out.println(payload.Spells);
+                                // System.out.println(payload.Spells);
                                 // esto se saltearia los hechizos que hayan sido anadidos a la payload del trigger o timer
                                 // (pero crashea a la re bosta)
                                 index += payload.AmountOfSpells(0);
                             } else {
-                                System.out.println("the payload is null");
+                                // System.out.println("the payload is null");
                             }
                         }
                     }
                     spellGroupHash.put(index,spell);
                 }
-                System.out.println(" ---* index :" + index);
-                System.out.println(" ---* spells to grab :" + spellsToDraw);
-                System.out.println(" ---* reached end of wand: " + reachedEndOfWand);
+                // System.out.println(" ---* index :" + index);
+                // System.out.println(" ---* spells to grab :" + spellsToDraw);
+                // System.out.println(" ---* reached end of wand: " + reachedEndOfWand);
                 index++;
             }
             if (!spellGroupHash.isEmpty()) {
@@ -126,23 +126,23 @@ public class Wand {
     // reciem e doy cuenta que esta desactualizado respecto a la otra funcion AAAAAAAAAAAAAAAAA
     // o no, puede ser que no, no entiendo mi codigo
     public SpellGroup getTriggerPayload(Spell[] spells, int indexToStart, int count, int parentTriggerIndex){
-        System.out.println("------ trying to get trigger " + indexToStart + " payload ------");
+        // System.out.println("------ trying to get trigger " + indexToStart + " payload ------");
         int index = indexToStart;
         // this is the index of the first payload spell in the recusion chain
         // so that if this index is found again it stops the function
         int spellsToDraw = count;
         HashMap<Integer, Spell> payloadGroupHash = new HashMap<>(spells.length);
         while (spellsToDraw > 0){
-            System.out.println(" ---* We're inside a trigger, index " + index);
-            System.out.println(" ---* We're inside a trigger, og index " + parentTriggerIndex);
+            // System.out.println(" ---* We're inside a trigger, index " + index);
+            // System.out.println(" ---* We're inside a trigger, og index " + parentTriggerIndex);
             if (index >= spells.length){
                 // try wrap
                 index = 0;
-                System.out.println("trying to wrap inside trigger");
+                // System.out.println("trying to wrap inside trigger");
             }
             // if trying to wrap to the parent trigger, return no payload
             if (index == parentTriggerIndex){
-                System.out.println("attempted to draw parent trigger, payload is null for spell " + index);
+                // System.out.println("attempted to draw parent trigger, payload is null for spell " + index);
                 return null;
             }
             Spell spell = spells[index];
@@ -150,7 +150,7 @@ public class Wand {
                 // its probably this thats breaking everything
                 // fixed
                 if (spell.CountsToCast()) {
-                    System.out.println("spells to draw : " + spellsToDraw);
+                    // System.out.println("spells to draw : " + spellsToDraw);
                     spellsToDraw--;
 
                     if (spell instanceof MulticastSpell) {
@@ -163,7 +163,7 @@ public class Wand {
                         } else if (spell instanceof TimerSpell){
                             spell = new TimerSpell((TimerSpell) spell, payload);
                         }
-                        System.out.println("Spell " + spell);
+                        // System.out.println("Spell " + spell);
                         if (payload == null) {
                             System.out.println("Payload is checked as null for spell index " + index);
                         }

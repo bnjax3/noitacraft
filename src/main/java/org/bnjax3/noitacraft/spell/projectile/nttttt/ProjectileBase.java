@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.spell.projectile;
+package org.bnjax3.noitacraft.spell.projectile.nttttt;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -18,6 +18,7 @@ import java.util.UUID;
 
 public abstract class ProjectileBase extends Entity {
 
+    // just a copy of EntityProjectile but that one isnt public damn you mojang
     private UUID ownerUUID;
     private int ownerNetworkId;
     private boolean leftOwner;

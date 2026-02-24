@@ -1,17 +1,11 @@
-package org.bnjax3.noitacraft.spell.projectile;
+package org.bnjax3.noitacraft.spell.projectile.nttttt;
 
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -31,9 +25,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
-public abstract class AbstractFunctionalProjectile extends ProjectileBase{
+public abstract class AbstractFunctionalProjectile extends ProjectileBase {
     private float gravity = 0.05f;
     private SoundEvent soundEvent = this.getDefaultHitGroundSoundEvent();
     private static final DataParameter<Byte> ID_FLAGS = EntityDataManager.defineId(AbstractFunctionalProjectile.class, DataSerializers.BYTE);
@@ -106,9 +99,6 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
         if (this.isInWaterOrRain()) {
             this.clearFire();
         }
-
-
-
             Vector3d vector3d2 = this.position();
             Vector3d vector3d3 = vector3d2.add(vector3d);
             RayTraceResult raytraceresult = this.level.clip(new RayTraceContext(vector3d2, vector3d3, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
@@ -136,7 +126,7 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
                     this.hasImpulse = true;
                 }
 
-                if (entityraytraceresult == null || this.getPierceLevel() <= 0) {
+                if (entityraytraceresult == null) {
                     break;
                 }
 
@@ -233,9 +223,8 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
             }
 
             this.playSound(this.soundEvent, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
-            if (this.getPierceLevel() <= 0) {
-                this.remove();
-            }
+            this.remove();
+
 
 
         } else {
@@ -254,8 +243,9 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
 
     private boolean canHurt(Entity entity, DamageSource damagesource, double baseDamage) {
         if (isInvulnerableTo(damagesource)){
-
+            // despues mepa
         }
+        return true;
     }
 
     protected void onHitBlock(BlockRayTraceResult p_230299_1_) {
@@ -281,93 +271,39 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
     }
 
     protected boolean canHitEntity(Entity p_230298_1_) {
-        return super.canHitEntity(p_230298_1_) && (this.piercingIgnoreEntityIds == null || !this.piercingIgnoreEntityIds.contains(p_230298_1_.getId()));
+        return super.canHitEntity(p_230298_1_);
     }
 
     public void addAdditionalSaveData(CompoundNBT p_213281_1_) {
         super.addAdditionalSaveData(p_213281_1_);
-        p_213281_1_.putShort("life", (short)this.life);
-        if (this.lastState != null) {
-            p_213281_1_.put("inBlockState", NBTUtil.writeBlockState(this.lastState));
-        }
-
-        p_213281_1_.putByte("shake", (byte)this.shakeTime);
-        p_213281_1_.putBoolean("inGround", this.inGround);
-        p_213281_1_.putByte("pickup", (byte)this.pickup.ordinal());
         p_213281_1_.putDouble("damage", this.baseDamage);
-        p_213281_1_.putBoolean("crit", this.isCritArrow());
-        p_213281_1_.putByte("PierceLevel", this.getPierceLevel());
         p_213281_1_.putString("SoundEvent", Registry.SOUND_EVENT.getKey(this.soundEvent).toString());
-        p_213281_1_.putBoolean("ShotFromCrossbow", this.shotFromCrossbow());
     }
 
     public void readAdditionalSaveData(CompoundNBT p_70037_1_) {
         super.readAdditionalSaveData(p_70037_1_);
-        this.life = p_70037_1_.getShort("life");
-        if (p_70037_1_.contains("inBlockState", 10)) {
-            this.lastState = NBTUtil.readBlockState(p_70037_1_.getCompound("inBlockState"));
-        }
-
-        this.shakeTime = p_70037_1_.getByte("shake") & 255;
-        this.inGround = p_70037_1_.getBoolean("inGround");
         if (p_70037_1_.contains("damage", 99)) {
             this.baseDamage = p_70037_1_.getDouble("damage");
         }
-
-        if (p_70037_1_.contains("pickup", 99)) {
-            this.pickup = AbstractArrowEntity.PickupStatus.byOrdinal(p_70037_1_.getByte("pickup"));
-        } else if (p_70037_1_.contains("player", 99)) {
-            this.pickup = p_70037_1_.getBoolean("player") ? AbstractArrowEntity.PickupStatus.ALLOWED : AbstractArrowEntity.PickupStatus.DISALLOWED;
-        }
-
-        this.setCritArrow(p_70037_1_.getBoolean("crit"));
-        this.setPierceLevel(p_70037_1_.getByte("PierceLevel"));
         if (p_70037_1_.contains("SoundEvent", 8)) {
             this.soundEvent = Registry.SOUND_EVENT.getOptional(new ResourceLocation(p_70037_1_.getString("SoundEvent"))).orElse(this.getDefaultHitGroundSoundEvent());
         }
-
-        this.setShotFromCrossbow(p_70037_1_.getBoolean("ShotFromCrossbow"));
     }
-
-    public void setOwner(@Nullable Entity p_212361_1_) {
-        super.setOwner(p_212361_1_);
-        if (p_212361_1_ instanceof PlayerEntity) {
-            this.pickup = ((PlayerEntity)p_212361_1_).abilities.instabuild ? AbstractArrowEntity.PickupStatus.CREATIVE_ONLY : AbstractArrowEntity.PickupStatus.ALLOWED;
-        }
-
-    }
-
-    public void playerTouch(PlayerEntity p_70100_1_) {
-        if (!this.level.isClientSide && (this.inGround || this.isNoPhysics()) && this.shakeTime <= 0) {
-            boolean flag = this.pickup == AbstractArrowEntity.PickupStatus.ALLOWED || this.pickup == AbstractArrowEntity.PickupStatus.CREATIVE_ONLY && p_70100_1_.abilities.instabuild || this.isNoPhysics() && this.getOwner().getUUID() == p_70100_1_.getUUID();
-            if (this.pickup == AbstractArrowEntity.PickupStatus.ALLOWED && !p_70100_1_.inventory.add(this.getPickupItem())) {
-                flag = false;
-            }
-
-            if (flag) {
-                p_70100_1_.take(this, 1);
-                this.remove();
-            }
-
-        }
-    }
-
-    protected abstract ItemStack getPickupItem();
 
     protected boolean isMovementNoisy() {
         return false;
     }
 
-    public void setBaseDamage(double p_70239_1_) {
-        this.baseDamage = p_70239_1_;
+    public void setBaseDamage(double baseDamage) {
+        this.baseDamage = baseDamage;
     }
 
     public double getBaseDamage() {
         return this.baseDamage;
     }
 
-    public void setKnockback(int p_70240_1_) {
-        this.knockback = p_70240_1_;
+    public void setKnockback(int knockback) {
+        this.knockback = knockback;
     }
 
     public boolean isAttackable() {
@@ -378,13 +314,6 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
         return 0.13F;
     }
 
-    public void setCritArrow(boolean p_70243_1_) {
-        this.setFlag(1, p_70243_1_);
-    }
-
-    public void setPierceLevel(byte p_213872_1_) {
-        this.entityData.set(PIERCE_LEVEL, p_213872_1_);
-    }
 
     private void setFlag(int p_203049_1_, boolean p_203049_2_) {
         byte b0 = this.entityData.get(ID_FLAGS);
@@ -396,45 +325,13 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
 
     }
 
-    public boolean isCritArrow() {
-        byte b0 = this.entityData.get(ID_FLAGS);
-        return (b0 & 1) != 0;
-    }
-
-    public boolean shotFromCrossbow() {
-        byte b0 = this.entityData.get(ID_FLAGS);
-        return (b0 & 4) != 0;
-    }
-
-    public byte getPierceLevel() {
-        return this.entityData.get(PIERCE_LEVEL);
-    }
-
-    public void setEnchantmentEffectsFromEntity(LivingEntity p_190547_1_, float p_190547_2_) {
-        int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER_ARROWS, p_190547_1_);
-        int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH_ARROWS, p_190547_1_);
-        this.setBaseDamage((double)(p_190547_2_ * 2.0F) + this.random.nextGaussian() * 0.25D + (double)((float)this.level.getDifficulty().getId() * 0.11F));
-        if (i > 0) {
-            this.setBaseDamage(this.getBaseDamage() + (double)i * 0.5D + 0.5D);
-        }
-
-        if (j > 0) {
-            this.setKnockback(j);
-        }
-
-        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAMING_ARROWS, p_190547_1_) > 0) {
-            this.setSecondsOnFire(100);
-        }
-
-    }
-
     protected float getWaterInertia() {
         return 0.6F;
     }
 
-    public void setNoPhysics(boolean p_203045_1_) {
-        this.noPhysics = p_203045_1_;
-        this.setFlag(2, p_203045_1_);
+    public void setNoPhysics(boolean noPhysics) {
+        this.noPhysics = noPhysics;
+        this.setFlag(2, noPhysics);
     }
 
     public boolean isNoPhysics() {
@@ -443,10 +340,6 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
         } else {
             return (this.entityData.get(ID_FLAGS) & 2) != 0;
         }
-    }
-
-    public void setShotFromCrossbow(boolean p_213865_1_) {
-        this.setFlag(4, p_213865_1_);
     }
 
     public IPacket<?> getAddEntityPacket() {
@@ -463,17 +356,4 @@ public abstract class AbstractFunctionalProjectile extends ProjectileBase{
         return this;
     }
 
-    public static enum PickupStatus {
-        DISALLOWED,
-        ALLOWED,
-        CREATIVE_ONLY;
-
-        public static AbstractArrowEntity.PickupStatus byOrdinal(int p_188795_0_) {
-            if (p_188795_0_ < 0 || p_188795_0_ > values().length) {
-                p_188795_0_ = 0;
-            }
-
-            return values()[p_188795_0_];
-        }
-    }
 }

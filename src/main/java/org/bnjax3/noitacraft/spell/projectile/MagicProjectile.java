@@ -2,6 +2,7 @@ package org.bnjax3.noitacraft.spell.projectile;
 
 
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -20,40 +21,41 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
+import org.bnjax3.noitacraft.damageSources.DamageSources;
+import org.bnjax3.noitacraft.damageSources.GenericSpell;
 import org.bnjax3.noitacraft.other.Simplifier;
 import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
 import org.bnjax3.noitacraft.registry.SpellsRegistry;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
-public class MagicProjectile extends ProjectileBase {
+public class MagicProjectile extends AbstractArrowEntity {
     public ProjectileSpell Spell;
-    public int bouncesLeft;
-    public int lifetimeLeft;
+    private int bouncesLeft;
+    private int lifetimeLeft;
     public SpellGroup spellGroup;
 
-    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, World world){
+    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, World world){
         super(entityType, world);
         Spell = SpellsRegistry.DEFAULT_SPELL;
-
-    }
-    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, World world, ProjectileSpell spell) {
-        this(entityType, world);
-        Spell = spell;
         // para que no se use el metodo de la super que es una cagada
         this.setNoGravity(true);
     }
+    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, World world, ProjectileSpell spell) {
+        this(entityType, world);
+        Spell = spell;
+    }
 
-    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, double x, double y, double z, World world, ProjectileSpell spell) {
+    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, double x, double y, double z, World world, ProjectileSpell spell) {
         this(entityType, world, spell);
         this.setPos(x,y,z);
     }
-    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, Vector3d vector3d, World world, ProjectileSpell spell) {
+    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, Vector3d vector3d, World world, ProjectileSpell spell) {
         this(entityType, world, spell);
         this.setPos(vector3d.x, vector3d.y, vector3d.z);
     }
 
-    public MagicProjectile(EntityType<? extends ProjectileBase> entityType, LivingEntity shooter, World world, ProjectileSpell spell) {
+    public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, LivingEntity shooter, World world, ProjectileSpell spell) {
         this(entityType,shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), world, spell);
         this.setOwner(shooter);
     }
@@ -63,63 +65,72 @@ public class MagicProjectile extends ProjectileBase {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    @OnlyIn(Dist.DEDICATED_SERVER)
     @Override
-    protected void onHitBlock(BlockRayTraceResult hitBlock) {
-        //BlockState blockstate = this.level.getBlockState(hitBlock.getBlockPos());
-        //blockstate.onProjectileHit(this.level, blockstate, hitBlock, this);
-        this.setSoundEvent(SoundEvents.ARROW_HIT); // despues se reemplaza
-        if (bouncesLeft > 0){
-            bounce(hitBlock.getDirection());
-            bouncesLeft--;
-        } else {
-            Spell.ExecuteOnHit( this, hitBlock);
+    public void tick() {
+        super.tick();
+        if (this.level.isClientSide){
+            return;
         }
 
+        if (lifetimeLeft <= 0){
+            Spell.ExecuteOnDeath((PlayerEntity) getOwner(),this.level,this);
+            this.remove();
+        }
+        Vector3d deltaMovement = this.getDeltaMovement();
+        Spell.ExecuteOnProjectileTickUnshared(this);
+        doTickFunctionalities();
+        // do gravity
+        this.setDeltaMovement( deltaMovement.x, deltaMovement.y - (double)this.Spell.getGravity(), deltaMovement.z);
+        lifetimeLeft--;
     }
 
-    @MethodsReturnNonnullByDefault
-    @Override
-    protected ItemStack getPickupItem() {
-        return ItemStack.EMPTY;
+    private void doTickFunctionalities() {
+        if (spellGroup != null) {
+            for (Spell spell : spellGroup.Spells) {
+                if (spell != null) {
+                    spell.ExecuteOnProjectileTick(this);
+                }
+            }
+        }
     }
 
-    @OnlyIn(Dist.DEDICATED_SERVER)
     @Override
-    protected void onHitEntity(EntityRayTraceResult hitEntity) {
+    public void onHitEntity(EntityRayTraceResult hitEntity) {
         Entity entity = hitEntity.getEntity();
         Entity owner = this.getOwner();
         DamageSource damagesource;
         float damage;
+        if (entity.level.isClientSide){ return;}
+        // i should do crit processing later
         if (spellGroup != null) {
             damage = this.Spell.getDamage() + this.spellGroup.getSpellProperties().getDamageBonus();
         } else {
             damage = this.Spell.getDamage();
         }
         if (owner == null) {
-            damagesource = DamageSource.arrow(this, this);
+            damagesource = DamageSources.genericSpell(this, null);
         } else {
-            damagesource = DamageSource.arrow(this, owner);
+            damagesource = DamageSources.genericSpell(this, owner);
             if (owner instanceof LivingEntity) {
                 ((LivingEntity)owner).setLastHurtMob(entity);
             }
         }
+        System.out.println("Projectile DamageSource : " + damagesource);
+        System.out.println("Projectile BypassInvul : " + damagesource.isBypassInvul());
         boolean enderman = entity.getType() == EntityType.ENDERMAN;
         int remainingFireTicks = entity.getRemainingFireTicks();
         if (this.isOnFire() && !enderman) {
             entity.setSecondsOnFire(5);
         }
-        entity.invulnerableTime = 0;
         if (entity.hurt(damagesource, damage)) {
+            entity.invulnerableTime = 0;
             if (enderman) {
                 return;
             }
 
             if (entity instanceof LivingEntity) {
                 LivingEntity livingentity = (LivingEntity)entity;
-                if (!this.level.isClientSide && this.getPierceLevel() <= 0) {
-                    livingentity.setArrowCount(livingentity.getArrowCount() + 1);
-                }
+
                 /*
                 if (this.knockback > 0) {
                     Vector3d vector3d = this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D).normalize().scale((double)this.knockback * 0.6D);
@@ -132,21 +143,7 @@ public class MagicProjectile extends ProjectileBase {
                 if (livingentity != owner && livingentity instanceof PlayerEntity && owner instanceof ServerPlayerEntity && !this.isSilent()) {
                     ((ServerPlayerEntity)owner).connection.send(new SChangeGameStatePacket(SChangeGameStatePacket.ARROW_HIT_PLAYER, 0.0F));
                 }
-                /*
-                if (!entity.isAlive() && this.piercedAndKilledEntities != null) {
-                    this.piercedAndKilledEntities.add(livingentity);
-                }
 
-                if (!this.level.isClientSide && owner instanceof ServerPlayerEntity) {
-                    ServerPlayerEntity serverplayerentity = (ServerPlayerEntity)owner;
-
-                    if (this.piercedAndKilledEntities != null && this.shotFromCrossbow()) {
-                        CriteriaTriggers.KILLED_BY_CROSSBOW.trigger(serverplayerentity, this.piercedAndKilledEntities);
-                    } else if (!entity.isAlive() && this.shotFromCrossbow()) {
-                        CriteriaTriggers.KILLED_BY_CROSSBOW.trigger(serverplayerentity, Arrays.asList(entity));
-                    }
-                }
-                 */
             }
 
             this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
@@ -158,59 +155,24 @@ public class MagicProjectile extends ProjectileBase {
             this.setDeltaMovement(this.getDeltaMovement().scale(-0.1D));
             this.yRot += 180.0F;
             this.yRotO += 180.0F;
-            if (!this.level.isClientSide && this.getDeltaMovement().lengthSqr() < 1.0E-7D) {
-                if (this.pickup == AbstractArrowEntity.PickupStatus.ALLOWED) {
-                    this.spawnAtLocation(this.getPickupItem(), 0.1F);
-                }
-
-                this.remove();
-            }
         }
         Spell.ExecuteOnHit( this, hitEntity);
     }
 
-
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-    }
-    @Override
-    public void tick() {
-        if (this.level.isClientSide){
-            return;
-        }
-        if (lifetimeLeft <= 0){
-            Spell.ExecuteOnDeath((PlayerEntity) getOwner(),this.level,this);
+    protected void onHitBlock(BlockRayTraceResult hitBlock) {
+        if (this.level.isClientSide){ return;}
+        BlockState blockstate = this.level.getBlockState(hitBlock.getBlockPos());
+        blockstate.onProjectileHit(this.level, blockstate, hitBlock, this);
+        this.setSoundEvent(SoundEvents.ARROW_HIT); // despues se reemplaza
+        if (bouncesLeft > 0){
+            bounce(hitBlock.getDirection());
+            bouncesLeft--;
+        } else {
+            Spell.ExecuteOnHit( this, hitBlock);
             this.remove();
         }
 
-        Vector3d deltaMovement = this.getDeltaMovement();
-        Spell.ExecuteOnProjectileTickUnshared(this);
-        doTickFunctionalities();
-        // rotate towards deltaMovement
-        if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
-            float f = MathHelper.sqrt(getHorizontalDistanceSqr(deltaMovement));
-            this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * Simplifier.RadToDeg);
-            this.xRot = (float)(MathHelper.atan2(deltaMovement.y, f) * Simplifier.RadToDeg);
-            this.yRotO = this.yRot;
-            this.xRotO = this.xRot;
-        }
-
-        // do gravity
-        this.setDeltaMovement( deltaMovement.x, deltaMovement.y - (double)this.Spell.getGravity(), deltaMovement.z);
-        lifetimeLeft--;
-        super.tick();
-    }
-
-
-    private void doTickFunctionalities() {
-        if (spellGroup != null) {
-            for (Spell spell : spellGroup.Spells) {
-                if (spell != null) {
-                    spell.ExecuteOnProjectileTick(this);
-                }
-            }
-        }
     }
 
     public void bounce(Direction direction){
@@ -224,6 +186,7 @@ public class MagicProjectile extends ProjectileBase {
         } else if (direction == Direction.NORTH || direction == Direction.SOUTH){
             setDeltaMovement(deltaMovement.x, deltaMovement.y, deltaMovement.z * -1);
         }
+        // point towards delta movement
         float f = MathHelper.sqrt(getHorizontalDistanceSqr(deltaMovement));
         this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * Simplifier.RadToDeg);
         this.xRot = (float)(MathHelper.atan2(deltaMovement.y, f) * Simplifier.RadToDeg);
@@ -237,6 +200,14 @@ public class MagicProjectile extends ProjectileBase {
         this.bouncesLeft = Spell.getProjectileBounces() + spellGroup.getSpellProperties().getBounces();
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+    }
 
+    @Override
+    protected ItemStack getPickupItem() {
+        return ItemStack.EMPTY;
+    }
 
 }

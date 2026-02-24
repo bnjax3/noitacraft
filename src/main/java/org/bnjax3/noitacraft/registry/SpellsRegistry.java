@@ -1,14 +1,20 @@
 package org.bnjax3.noitacraft.registry;
 
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.IndirectEntityDamageSource;
 import org.bnjax3.noitacraft.spell.main_classes.*;
+import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.spell.spells.modifiers.HeavyShot;
 import org.bnjax3.noitacraft.spell.spells.modifiers.Light;
 import org.bnjax3.noitacraft.spell.spells.projectiles.SparkBolt;
 
+import javax.annotation.Nullable;
+
 
 public class SpellsRegistry {
-
 
     public static final ProjectileSpell SPARK_BOLT = (ProjectileSpell) new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(3)
             .setCritChance(5)

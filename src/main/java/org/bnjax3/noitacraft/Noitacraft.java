@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
@@ -20,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.bnjax3.noitacraft.registry.ModBlocks;
 import org.bnjax3.noitacraft.registry.ModContainers;
 import org.bnjax3.noitacraft.registry.ModEntities;
-import org.bnjax3.noitacraft.entity.render.SparkBoltRenderer;
+import org.bnjax3.noitacraft.client.render.SparkBoltRenderer;
 import org.bnjax3.noitacraft.gui.screen.screens.WandAltarScreen;
 import org.bnjax3.noitacraft.registry.ModItems;
 import org.bnjax3.noitacraft.registry.ModTileEntities;
@@ -35,9 +36,9 @@ public class Noitacraft {
     public Noitacraft() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         /*
-        TODO: as of 29/12/25
+        TODO: as of 07/02/25
         --- Short term ---
-        - triggers stopped working again¿¿¿
+        - triggers stopped working again¿¿¿ ..... damn...
         - Make projectile rendering obey directions
         - Make more spells
         - Make more projectiles
@@ -46,8 +47,8 @@ public class Noitacraft {
         - Make Utils.formattooltipdata better
         - add mana functionality (as a kind of durability) (hellish probably)
         - add uses to spells (have to change like 90% of the casting code probably AAARRGHGHH)
-        - hacer que la tooltip de la varita muestre los spells que contiene
-        - Register MagicProjectile data on entity nbts  NOOOOOOOOOOOOOOOOOOOOOO
+        - hacer que la tooltip de la varita muestre los spells que contiene    DOLOR DE CULOOOOOO
+        - Register MagicProjectile data on entity nbts  NOOOOOOOOOOOOOOOOOOOOOO GOOOOD PLEASE NOOOOOOOOOO
 
         --- Medium-Long term ---
         - fix the light spells (currently commented out)
@@ -56,6 +57,7 @@ public class Noitacraft {
         - traducciones a español (solo argentina)(vamos carajo)
         - add loot tables and recipes (long term)
         - add sound effects?? (also long term)
+        - GREG
 
         DONE:
         - nothing (lazy dumbass)

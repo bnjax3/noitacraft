@@ -1,4 +1,4 @@
-package org.bnjax3.noitacraft.entity.model;// Made with Blockbench 5.0.7
+package org.bnjax3.noitacraft.client.model;// Made with Blockbench 5.0.7
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -46,8 +46,8 @@ public class SparkBoltModel<T extends SparkBoltProjectile> extends EntityModel<T
 	}
 
 	public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.xRot = x;
-		modelRenderer.yRot = y;
-		modelRenderer.zRot = z;
+		model.xRot = x;
+		model.yRot = y;
+		model.zRot = z;
 	}
 }

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "noitacraft:block/wand_altar_front",
+    "north": "noitacraft:block/wand_altar_front",
+    "south": "noitacraft:block/wand_altar_side",
+    "east": "noitacraft:block/wand_altar_side",
+    "west": "noitacraft:block/wand_altar_front",
+    "up": "noitacraft:block/wand_altar_top",
+    "down": "noitacraft:block/wand_altar_bottom"
+  }
+}

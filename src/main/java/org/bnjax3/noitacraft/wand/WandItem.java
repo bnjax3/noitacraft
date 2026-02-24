@@ -77,7 +77,7 @@ public class WandItem extends Item {
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClientSide){
             SpellItem[] spellItems = getSpellItems(player.getItemInHand(hand));
-            System.out.println(Arrays.toString(spellItems));
+            // System.out.println(Arrays.toString(spellItems));
             ArrayList<Spell> spells = new ArrayList<>();
             // initializes spells with the spellItem array
             for (SpellItem spellItem : spellItems) {
@@ -89,17 +89,17 @@ public class WandItem extends Item {
             }
             SpellGroup[] spellGroups = Wand1.GroupSpellsInWand(spells.toArray(new Spell[0]));
             if (spellGroups.length == 0){
-                System.out.println("no spellgroups, skipping");
+                // System.out.println("no spellgroups, skipping");
                 return super.use(world, player, hand);
             }
-            System.out.println("Outside the groupSpells function");
+            // System.out.println("Outside the groupSpells function");
             if (groupIndex >= spellGroups.length) {
                 player.getCooldowns().addCooldown(this, Utils.secsToTicks(Wand1.getFinalRechargeTime(spellItems)));
                 groupIndex = 0;
             }
-            System.out.println("About to cast");
+            // System.out.println("About to cast");
             Wand1.Cast(world, player, spellGroups, groupIndex);
-            System.out.println("Done Casting");
+            // System.out.println("Done Casting");
             player.getCooldowns().addCooldown(this, Utils.secsToTicks(spellGroups[groupIndex].getSpellProperties().getCastDelay()));
             groupIndex++;
 

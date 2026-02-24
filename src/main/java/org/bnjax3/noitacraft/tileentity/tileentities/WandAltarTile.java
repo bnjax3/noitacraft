@@ -19,6 +19,7 @@ import org.bnjax3.noitacraft.wand.WandItem;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
 
 public class WandAltarTile extends TileEntity {
 
@@ -91,7 +92,6 @@ public class WandAltarTile extends TileEntity {
                     ((WandItem)wandItem.getItem()).setGroupIndex(0);
                     clearSpellSlots(((WandItem) wandItem.getItem()).getSpellItems(wandItem).length);
                     System.out.println("extract item called on slot 0");
-                    return wandItem;
                 }
                 return super.extractItem(slot, amount, simulate);
             }
@@ -148,9 +148,11 @@ public class WandAltarTile extends TileEntity {
             if (item instanceof SpellItem){
                 newSpellItems[i - 1] = (SpellItem) item;
             } else {
+                System.out.println("Not an instance of spell item... should never happen though");
                 newSpellItems[i - 1] = null;
             }
         }
+        System.out.println(Arrays.toString(newSpellItems));
         ((WandItem) wandStack.getItem()).setSpellItems(wandStack, newSpellItems);
         return wandStack;
     }
