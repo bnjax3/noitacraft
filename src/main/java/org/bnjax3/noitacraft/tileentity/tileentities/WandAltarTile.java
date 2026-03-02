@@ -135,6 +135,7 @@ public class WandAltarTile extends TileEntity {
     }
 
     public ItemStack getWandWithSpells(){
+        System.out.println("getwandwithspells called");
         if (itemStackHandler.getStackInSlot(0).getCount() == 0){
             return ItemStack.EMPTY;
         }
@@ -144,6 +145,7 @@ public class WandAltarTile extends TileEntity {
         SpellItem[] newSpellItems = new SpellItem[oldSpellItems.length];
 
         for (int i = 1; i <= oldSpellItems.length; i++){
+            System.out.println("inside for");
             Item item = itemStackHandler.getStackInSlot(i).getItem();
             if (item instanceof SpellItem){
                 newSpellItems[i - 1] = (SpellItem) item;
@@ -154,6 +156,7 @@ public class WandAltarTile extends TileEntity {
         }
         System.out.println(Arrays.toString(newSpellItems));
         ((WandItem) wandStack.getItem()).setSpellItems(wandStack, newSpellItems);
+        System.out.println(wandStack);
         return wandStack;
     }
 
