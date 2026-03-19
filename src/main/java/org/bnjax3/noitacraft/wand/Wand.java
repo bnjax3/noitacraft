@@ -86,9 +86,9 @@ public class Wand {
                             SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, index);
                             // System.out.println("---------- We're outside the trigger of index " + index + " --------------");
                             if (spell instanceof TriggerSpell){
-                                spell = new TriggerSpell((TriggerSpell) spell, payload);
+                                ((TriggerSpell) spell).payload = payload;
                             } else if (spell instanceof TimerSpell){
-                                spell = new TimerSpell((TimerSpell) spell, payload);
+                                ((TimerSpell) spell).payload = payload;
                             }
                             if (payload != null) {
                                 // System.out.println(payload.Spells);
@@ -159,9 +159,9 @@ public class Wand {
                     } else if (spell instanceof PayloadSpell) {
                         SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, parentTriggerIndex);
                         if (spell instanceof TriggerSpell){
-                            spell = new TriggerSpell((TriggerSpell) spell, payload);
+                            ((TriggerSpell) spell).payload = payload;
                         } else if (spell instanceof TimerSpell){
-                            spell = new TimerSpell((TimerSpell) spell, payload);
+                            ((TimerSpell) spell).payload = payload;
                         }
                         // System.out.println("Spell " + spell);
                         if (payload == null) {

@@ -4,7 +4,7 @@ public class ProjectileProperties {
     private float speed = 2;
     private float critChance = 0;
     private float damage = 1;
-    private int lifetime = 100; // ticks
+    private int lifetime = 40; // ticks
     private boolean friendlyFire = false;
     private int bounces = 0;
     private float gravity = 0; // block/tick^2??

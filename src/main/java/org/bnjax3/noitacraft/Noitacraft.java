@@ -36,17 +36,20 @@ public class Noitacraft {
     public Noitacraft() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         /*
-        TODO: as of 07/02/25
+        TODO: as of 15/03/26  damn its hard not to get distracted with other projects
         --- Short term ---
-        - triggers stopped working again¿¿¿ ..... damn...
-        - Make projectile rendering obey directions
+        + make at least 1 projectile work correctly then add more shit
+            - timers release the payload every tick without dissapearing and stick into the ground for some reason
+            - Make projectile rendering obey directions
+            - deoffset the projectile texture from the hitbox
+        THEN:
         - Make more spells
         - Make more projectiles
         - Make more wands
-        - The WandAltarTile extract function always returns null for no reason -> broke even worse now wtf
-        - Make Utils.formattooltipdata better
+        THEN:
         - add mana functionality (as a kind of durability) (hellish probably)
         - add uses to spells (have to change like 90% of the casting code probably AAARRGHGHH)
+        - Make Utils.formattooltipdata better
         - hacer que la tooltip de la varita muestre los spells que contiene    DOLOR DE CULOOOOOO
         - Register MagicProjectile data on entity nbts  NOOOOOOOOOOOOOOOOOOOOOO GOOOOD PLEASE NOOOOOOOOOO
 
@@ -57,10 +60,11 @@ public class Noitacraft {
         - traducciones a español (solo argentina)(vamos carajo)
         - add loot tables and recipes (long term)
         - add sound effects?? (also long term)
-        - GREG
+        - GREG? (Ultra long term)
 
         DONE:
-        - nothing (lazy dumbass)
+        - something ig
+        - The WandAltarTile extract function always returns null for no reason -> broke even worse now wtf      FIXED LETS FUCKING GOOOOOO
         - Make more sprites and models
         - Remake the get payload function in wand
         - Register wand item info on nbts (or make it be saved somehow)

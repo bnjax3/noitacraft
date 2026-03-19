@@ -87,11 +87,13 @@ public class WandAltarTile extends TileEntity {
             @Nonnull
             @Override
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                if (slot == 0){
+                if (slot == 0 && this.getStackInSlot(0).getItem() instanceof WandItem){
                     ItemStack wandItem = getWandWithSpells();
                     ((WandItem)wandItem.getItem()).setGroupIndex(0);
-                    clearSpellSlots(((WandItem) wandItem.getItem()).getSpellItems(wandItem).length);
-                    System.out.println("extract item called on slot 0");
+                    if (!simulate) {
+                        clearSpellSlots(((WandItem) wandItem.getItem()).getSpellItems(wandItem).length);
+
+                    }
                 }
                 return super.extractItem(slot, amount, simulate);
             }
@@ -106,6 +108,7 @@ public class WandAltarTile extends TileEntity {
     }
      */
     private void clearSpellSlots(int x){
+        assert this.level != null;
         for (int i = 1; i <= x; i++){
             itemStackHandler.setStackInSlot(i,ItemStack.EMPTY);
         }
@@ -135,7 +138,6 @@ public class WandAltarTile extends TileEntity {
     }
 
     public ItemStack getWandWithSpells(){
-        System.out.println("getwandwithspells called");
         if (itemStackHandler.getStackInSlot(0).getCount() == 0){
             return ItemStack.EMPTY;
         }
@@ -145,12 +147,10 @@ public class WandAltarTile extends TileEntity {
         SpellItem[] newSpellItems = new SpellItem[oldSpellItems.length];
 
         for (int i = 1; i <= oldSpellItems.length; i++){
-            System.out.println("inside for");
             Item item = itemStackHandler.getStackInSlot(i).getItem();
             if (item instanceof SpellItem){
                 newSpellItems[i - 1] = (SpellItem) item;
             } else {
-                System.out.println("Not an instance of spell item... should never happen though");
                 newSpellItems[i - 1] = null;
             }
         }

@@ -31,6 +31,7 @@ public class TriggerSpell extends PayloadSpell {
     @Override
     public void ExecuteOnHit(MagicProjectile magicProjectile, RayTraceResult rayTraceResult) {
         if (rayTraceResult instanceof BlockRayTraceResult){
+            // fixed
             magicProjectile.bounce(((BlockRayTraceResult) rayTraceResult).getDirection());
             CastPayload(magicProjectile);
             magicProjectile.remove();

@@ -27,13 +27,17 @@ import org.bnjax3.noitacraft.other.Simplifier;
 import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
 import org.bnjax3.noitacraft.registry.SpellsRegistry;
+import org.bnjax3.noitacraft.spell.main_classes.TimerSpell;
 import org.bnjax3.noitacraft.wand.SpellGroup;
+
+import java.sql.Time;
 
 public class MagicProjectile extends AbstractArrowEntity {
     public ProjectileSpell Spell;
     private int bouncesLeft;
     private int lifetimeLeft;
     public SpellGroup spellGroup;
+
 
     public MagicProjectile(EntityType<? extends AbstractArrowEntity> entityType, World world){
         super(entityType, world);
@@ -71,9 +75,15 @@ public class MagicProjectile extends AbstractArrowEntity {
         if (this.level.isClientSide){
             return;
         }
+        if (this.inGround){
+            Spell.ExecuteOnDeath((PlayerEntity) getOwner(), this.level,this);
+            this.remove();
+        }
 
         if (lifetimeLeft <= 0){
-            Spell.ExecuteOnDeath((PlayerEntity) getOwner(),this.level,this);
+            PlayerEntity playerEntity = (PlayerEntity) getOwner();
+            // Spell.ExecuteOnDeath(playerEntity, this.level,this);
+            Spell.ExecuteOnDespawn(playerEntity, this.level, this);
             this.remove();
         }
         Vector3d deltaMovement = this.getDeltaMovement();
@@ -124,7 +134,8 @@ public class MagicProjectile extends AbstractArrowEntity {
         }
         if (entity.hurt(damagesource, damage)) {
             entity.invulnerableTime = 0;
-            if (enderman) {
+            // eviscerate the enderman
+            if (enderman && getDeltaMovement().length() < 5) {
                 return;
             }
 

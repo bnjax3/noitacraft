@@ -14,14 +14,13 @@ public class HeavyShot extends ModifierSpell {
         super(new SpellProperties()
                 .setManaDrain(7)
                 .setSpeedMult(0.3f)
-                .setDamageBonus(30)
+                .setDamageBonus(6)
                 .setRecoil(50)
                 .setCastDelay(0.17f));
     }
 
     @Override
     public void ExecuteOnProjectileTick(MagicProjectile projectile) {
-        System.out.println("Execute on projectile tick called from " + this);
         Vector3d vector3d = projectile.getDeltaMovement();
         double d3 = vector3d.x;
         double d4 = vector3d.y;

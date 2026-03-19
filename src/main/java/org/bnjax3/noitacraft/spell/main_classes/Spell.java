@@ -51,6 +51,12 @@ public class Spell {
     public void ExecuteOnDeath(PlayerEntity owner, World level, MagicProjectile magicProjectile) {
 
     }
+
+    public void ExecuteOnDespawn(PlayerEntity owner, World level, MagicProjectile magicProjectile){
+
+    }
+
+
     public boolean hasPayload() {
         return false;
     }

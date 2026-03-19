@@ -25,7 +25,10 @@ public class SparkBolt extends ProjectileSpell {
         SparkBoltProjectile projectile = new SparkBoltProjectile((EntityType<SparkBoltProjectile>) projectileRegistryObject.get(), position, world, this);
         projectile.setSpellGroup(spellGroup);
         projectile.setOwner(entity);
-        projectile.shoot(rotation.x, rotation.y, rotation.z, this.getSpeed(), this.getSpread());
+        projectile.shoot(rotation.x, rotation.y, rotation.z,
+                this.getSpeed() //* spellGroup.getSpellProperties().getSpeedMult()
+                ,
+                this.getSpread() + spellGroup.getSpellProperties().getSpread());
         world.addFreshEntity(projectile);
     }
 }
