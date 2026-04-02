@@ -18,9 +18,9 @@ public class SpellsRegistry {
 
     public static final ProjectileSpell SPARK_BOLT = (ProjectileSpell) new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(0.6f)
             .setCritChance(5)
-            .setSpeed(2)
+            .setSpeed(1.5f)
             .setGravity(0.04f)
-            .setLifetime(40)
+            .setLifetime(20)
     ).setCastDelay(0.05f).setSpread(-1);
 
     // porque sino /summon a cualquier proyectil crashea a la re bosta
@@ -38,7 +38,7 @@ public class SpellsRegistry {
     public static final Light MORE_LIGHT = new Light(15,2);
 
     public static final Spell SPARK_BOLT_TRIGGER = new TriggerSpell(SPARK_BOLT).setManaDrain(10);
-    public static final Spell SPARK_BOLT_TIMER = new TimerSpell(SPARK_BOLT, 4).setManaDrain(10);
+    public static final Spell SPARK_BOLT_TIMER = new TimerSpell(SPARK_BOLT, 10).setManaDrain(10);  // el timerLifetime no se usa (por ahora? capaz que lo deje asi ya fue)
 
     public static final ModifierSpell BOUNCES_PLUS = new ModifierSpell(new SpellProperties().setBounces(5));
 

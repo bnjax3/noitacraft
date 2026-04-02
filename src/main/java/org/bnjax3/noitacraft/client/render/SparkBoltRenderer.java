@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import org.bnjax3.noitacraft.Noitacraft;
@@ -26,8 +27,8 @@ public class SparkBoltRenderer<T extends SparkBoltProjectile> extends EntityRend
     @ParametersAreNonnullByDefault
     @Override
     public void render(T projectile, float yaw, float pTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight) {
-        this.model.setRotationAngle(null, projectile.xRot, projectile.yRot, 0);
-        this.model.renderToBuffer(matrixStack, buffer.getBuffer(RenderType.entityCutout(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY);
+        this.model.setRotationAngle(new ModelRenderer(model), projectile.xRot, projectile.yRot, 0);
+        this.model.renderToBuffer(matrixStack, buffer.getBuffer(RenderType.entityCutout(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY,255,255,255,0);
         super.render(projectile, yaw, pTicks, matrixStack, buffer, packedLight);
     }
 

@@ -16,7 +16,6 @@ public class SparkBoltProjectile extends MagicProjectile {
         this(entityType, world);
         Spell = spell;
         // para que no se use el metodo de la super que es una cagada
-        this.setNoGravity(true);
     }
 
     public SparkBoltProjectile(EntityType<SparkBoltProjectile> entityType, double x, double y, double z, World world, ProjectileSpell spell) {

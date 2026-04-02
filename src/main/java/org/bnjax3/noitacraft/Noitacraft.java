@@ -39,7 +39,6 @@ public class Noitacraft {
         TODO: as of 15/03/26  damn its hard not to get distracted with other projects
         --- Short term ---
         + make at least 1 projectile work correctly then add more shit
-            - timers release the payload every tick without dissapearing and stick into the ground for some reason
             - Make projectile rendering obey directions
             - deoffset the projectile texture from the hitbox
         THEN:

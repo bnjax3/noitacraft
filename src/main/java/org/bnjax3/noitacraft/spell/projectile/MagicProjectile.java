@@ -170,6 +170,7 @@ public class MagicProjectile extends AbstractArrowEntity {
         Spell.ExecuteOnHit( this, hitEntity);
     }
 
+
     @Override
     protected void onHitBlock(BlockRayTraceResult hitBlock) {
         if (this.level.isClientSide){ return;}
@@ -185,6 +186,7 @@ public class MagicProjectile extends AbstractArrowEntity {
         }
 
     }
+
 
     public void bounce(Direction direction){
         // si no anda probablemente sea un problema de hitBlock.getDirection()
