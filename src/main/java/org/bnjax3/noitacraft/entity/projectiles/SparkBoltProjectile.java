@@ -33,7 +33,6 @@ public class SparkBoltProjectile extends MagicProjectile {
     }
 
 
-
     @Override
     public void tick() {
         // add some particles later

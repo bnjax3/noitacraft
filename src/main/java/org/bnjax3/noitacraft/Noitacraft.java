@@ -38,9 +38,8 @@ public class Noitacraft {
         /*
         TODO: as of 15/03/26  damn its hard not to get distracted with other projects
         --- Short term ---
-        + make at least 1 projectile work correctly then add more shit
-            - Make projectile rendering obey directions
-            - deoffset the projectile texture from the hitbox
+
+
         THEN:
         - Make more spells
         - Make more projectiles
@@ -62,6 +61,7 @@ public class Noitacraft {
         - GREG? (Ultra long term)
 
         DONE:
+        - make at least 1 projectile work correctly then add more shit
         - something ig
         - The WandAltarTile extract function always returns null for no reason -> broke even worse now wtf      FIXED LETS FUCKING GOOOOOO
         - Make more sprites and models

@@ -20,9 +20,11 @@ public class PayloadSpell extends ProjectileSpell{
     }
 
     public void CastPayload(MagicProjectile projectile){
-        if (payload != null) {
-            payload.Cast(projectile.getOwner(), projectile.getCommandSenderWorld(), projectile.position(), projectile.getDeltaMovement());
+        if (payload == null) {
+            System.out.println("Payload is null");
+            return;
         }
+        payload.Cast(projectile.getOwner(), projectile.getCommandSenderWorld(), projectile.position(), projectile.getDeltaMovement());
     }
 
     @Override

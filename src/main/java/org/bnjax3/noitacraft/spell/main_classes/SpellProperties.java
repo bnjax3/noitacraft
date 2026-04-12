@@ -173,8 +173,9 @@ public class SpellProperties {
         return rechargeTime;
     }
 
-    public void setRechargeTime(float rechargeTime) {
+    public SpellProperties setRechargeTime(float rechargeTime) {
         this.rechargeTime = rechargeTime;
+        return this;
     }
 
     public int getManaDrain() {

@@ -31,6 +31,7 @@ import org.bnjax3.noitacraft.spell.main_classes.TimerSpell;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
 import java.sql.Time;
+import java.util.Random;
 
 public class MagicProjectile extends AbstractArrowEntity {
     public ProjectileSpell Spell;
@@ -110,13 +111,25 @@ public class MagicProjectile extends AbstractArrowEntity {
         Entity owner = this.getOwner();
         DamageSource damagesource;
         float damage;
+        float critChance;
+        Random random1 = new Random();
+        float crit = random1.nextFloat();
+
         if (entity.level.isClientSide){ return;}
-        // i should do crit processing later
+
         if (spellGroup != null) {
             damage = this.Spell.getDamage() + this.spellGroup.getSpellProperties().getDamageBonus();
+            critChance = (this.Spell.getCritChance() + this.spellGroup.getSpellProperties().getCritChanceBonus()) / 100;
+
         } else {
             damage = this.Spell.getDamage();
+            critChance = this.Spell.getCritChance() / 100;
         }
+        if (crit <= critChance){
+            damage *= 5 * Math.max(1,critChance);
+
+        }
+
         if (owner == null) {
             damagesource = DamageSources.genericSpell(this, null);
         } else {
@@ -125,16 +138,18 @@ public class MagicProjectile extends AbstractArrowEntity {
                 ((LivingEntity)owner).setLastHurtMob(entity);
             }
         }
-        System.out.println("Projectile DamageSource : " + damagesource);
-        System.out.println("Projectile BypassInvul : " + damagesource.isBypassInvul());
+        boolean isOwner = entity == owner && !this.spellGroup.getSpellProperties().isFriendlyFire();
         boolean enderman = entity.getType() == EntityType.ENDERMAN;
         int remainingFireTicks = entity.getRemainingFireTicks();
         if (this.isOnFire() && !enderman) {
             entity.setSecondsOnFire(5);
         }
-        if (entity.hurt(damagesource, damage)) {
+
+        if (!isOwner && entity.hurt(damagesource, damage)) {
+
             entity.invulnerableTime = 0;
             // eviscerate the enderman
+            // not just the endermen, but the enderwomen and the enderchildren too
             if (enderman && getDeltaMovement().length() < 5) {
                 return;
             }
@@ -190,7 +205,6 @@ public class MagicProjectile extends AbstractArrowEntity {
 
     public void bounce(Direction direction){
         // si no anda probablemente sea un problema de hitBlock.getDirection()
-        System.out.println("bounce");
         Vector3d deltaMovement = getDeltaMovement();
         if (direction == Direction.UP || direction == Direction.DOWN){
             setDeltaMovement(deltaMovement.x, deltaMovement.y * -1, deltaMovement.z);

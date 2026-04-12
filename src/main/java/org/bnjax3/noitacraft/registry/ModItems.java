@@ -74,6 +74,10 @@ public class ModItems {
     public static final RegistryObject<SpellItem> TRIPLE_CAST_ITEM = registerSpellItem("triple_cast", SpellsRegistry.TRIPLE_CAST);
     public static final RegistryObject<SpellItem> QUAD_CAST_ITEM = registerSpellItem("quad_cast", SpellsRegistry.QUAD_CAST);
 
+    public static final RegistryObject<SpellItem> DOUBLE_SCATTER_ITEM = registerSpellItem("double_scatter", SpellsRegistry.DOUBLE_SCATTER);
+    public static final RegistryObject<SpellItem> TRIPLE_SCATTER_ITEM = registerSpellItem("triple_scatter", SpellsRegistry.TRIPLE_SCATTER);
+    public static final RegistryObject<SpellItem> QUAD_SCATTER_ITEM = registerSpellItem("quad_scatter", SpellsRegistry.QUAD_SCATTER);
+
     public static final RegistryObject<SpellItem> LIGHT_ITEM = registerSpellItem("light", SpellsRegistry.LIGHT);
     public static final RegistryObject<SpellItem> MORE_LIGHT_ITEM = registerSpellItem("more_light", SpellsRegistry.MORE_LIGHT);
 
@@ -81,7 +85,13 @@ public class ModItems {
     public static final RegistryObject<SpellItem> SPARK_BOLT_TIMER_ITEM = registerSpellItem("spark_bolt_timer", SpellsRegistry.SPARK_BOLT_TIMER);
 
     public static final RegistryObject<SpellItem> BOUNCES_PLUS_ITEM = registerSpellItem("bounces_plus", SpellsRegistry.BOUNCES_PLUS);
+    public static final RegistryObject<SpellItem> RECHARGE_MINUS_ITEM = registerSpellItem("recharge_minus", SpellsRegistry.RECHARGE_MINUS);
+    public static final RegistryObject<SpellItem> SPEED_PLUS_ITEM = registerSpellItem("speed_plus", SpellsRegistry.SPEED_PLUS);
+    public static final RegistryObject<SpellItem> HEAVY_SPREAD_ITEM = registerSpellItem("heavy_spread", SpellsRegistry.HEAVY_SPREAD);
+
     public static final RegistryObject<SpellItem> HEAVY_SHOT_ITEM = registerSpellItem("heavy_shot", SpellsRegistry.HEAVY_SHOT);
+    public static final RegistryObject<SpellItem> BLOODLUST_ITEM = registerSpellItem("bloodlust", SpellsRegistry.BLOODLUST);
+
 
     // ----------------------------------------- FUNCTIONS -----------------------------------------------------------
 

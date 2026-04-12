@@ -10,6 +10,8 @@ import net.minecraftforge.fml.RegistryObject;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
+import java.util.Random;
+
 public class ProjectileSpell extends Spell {
 
     public final RegistryObject<? extends EntityType<? extends MagicProjectile>> projectileRegistryObject;
@@ -41,10 +43,30 @@ public class ProjectileSpell extends Spell {
             MagicProjectile projectile = new MagicProjectile(projectileRegistryObject.get(), position, world, this);
             projectile.setSpellGroup(spellGroup);
             projectile.setOwner(entity);
-            projectile.shoot(rotation.x, rotation.y, rotation.z, this.getSpeed(), this.getSpread());
+
+            Vector3d spreadedRot = applySpread(rotation);
+            projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed(), 0);
             world.addFreshEntity(projectile);
         }
     }
+
+    public Vector3d applySpread(Vector3d rotation){
+        float positiveSpread = Math.max(this.getSpread(), 0);
+        Random random = new Random();
+        // no se si deberia usar nextDouble o nextGaussian pero creo q queda mejor este
+        double rdx = random.nextGaussian() * 2 - 1;
+        double rdy = random.nextGaussian() * 2 - 1;
+        double rdz = random.nextGaussian() * 2 - 1;
+        Vector3d rotation2 =  new Vector3d(
+                rotation.x  + rdx * positiveSpread,
+                rotation.y  + rdy * positiveSpread,
+                rotation.z  + rdz * positiveSpread
+        );
+        rotation2.normalize();
+        return rotation2;
+    }
+
+
 
     public void ExecuteOnHit(MagicProjectile magicProjectile, RayTraceResult rayTraceResult){
         if (rayTraceResult instanceof BlockRayTraceResult){

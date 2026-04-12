@@ -19,8 +19,8 @@ public class SparkBoltModel<T extends SparkBoltProjectile> extends EntityModel<T
         texHeight = 32;
 
         model = new ModelRenderer(this);
-        model.setPos(0.0833F, 20.0833F, 1.75F);
-        setRotationAngle(model, 0.0F, -1.5708F, 0.0F);
+        model.setPos(0, 0, 0);
+        setRotationAngle(0, 0, 0.0F);
         model.texOffs(8, 4).addBox(-4.75F, 0.9167F, -0.9167F, 1.0F, 2.0F, 2.0F, 0.0F, false);
         model.texOffs(0, 2).addBox(-3.75F, -0.0833F, -0.9167F, 2.0F, 4.0F, 2.0F, 0.0F, false);
         model.texOffs(8, 8).addBox(-3.75F, 0.9167F, 1.0833F, 2.0F, 2.0F, 1.0F, 0.0F, false);
@@ -35,6 +35,10 @@ public class SparkBoltModel<T extends SparkBoltProjectile> extends EntityModel<T
         model.texOffs(0, 12).addBox(0.25F, 1.9167F, -0.9167F, 2.0F, 1.0F, 1.0F, 0.0F, false);
     }
 
+    public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay) {
+        model.render(matrixStack, buffer, packedLight, packedOverlay);
+    }
+
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
         //previously the render function, render code was moved to a method below
@@ -45,10 +49,10 @@ public class SparkBoltModel<T extends SparkBoltProjectile> extends EntityModel<T
         model.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
-    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
+    public void setRotationAngle(float x, float y, float z) {
+        model.xRot = x;
+        model.yRot = y;
+        model.zRot = z;
     }
 }
 

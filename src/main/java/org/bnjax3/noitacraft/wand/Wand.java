@@ -5,6 +5,7 @@ import net.minecraft.world.World;
 import org.bnjax3.noitacraft.item.SpellItem;
 import org.bnjax3.noitacraft.spell.main_classes.*;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class Wand {
@@ -187,13 +188,15 @@ public class Wand {
         return false;
     }
 
-    public double getFinalRechargeTime(SpellItem[] spellItems){
+    public double getFinalRechargeTime(@Nonnull SpellItem[] spellItems){
         double toReturn = RechargeTime;
+        System.out.println(Arrays.toString(spellItems));
         for (SpellItem spellItem : spellItems){
             if (spellItem != null){
                 toReturn += spellItem.spell.getRechargeTime();
             }
         }
+        System.out.println(toReturn);
         return toReturn;
     }
 

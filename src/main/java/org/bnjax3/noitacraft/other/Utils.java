@@ -84,12 +84,12 @@ public abstract class Utils {
     public static int secsToTicks(double secs){
         // if the decimal part of the seconds is less or equal to 0.01 seconds, ignore it
         // if the decimal part is higher, round up
-        double dec = secs - (int)secs;
-        if (dec <= 0.01f){
-            return ((int) secs) * 20;
+        // 1 tick --- 1/20 sec or 0.05f sec
+        int whole = (int) Math.floor(secs * 20);
+        if ((secs * 20) - whole <= 0.01f) {
+            return whole;
         } else {
-            return (((int) secs) * 20) + 1;
+            return whole + 1;
         }
-
     }
 }

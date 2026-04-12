@@ -156,9 +156,7 @@ public class WandAltarTile extends TileEntity {
                 newSpellItems[i - 1] = null;
             }
         }
-        System.out.println(Arrays.toString(newSpellItems));
         ((WandItem) wandStack.getItem()).setSpellItems(wandStack, newSpellItems);
-        System.out.println(wandStack);
         return wandStack;
     }
 

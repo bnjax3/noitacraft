@@ -30,7 +30,6 @@ public class SpellGroup {
 
     public int AmountOfSpells(int recursionStep){
             recursionStep++;
-            System.out.println("Recursion Step : " + recursionStep);
             int count = 0;
             if (recursionStep > 10){
                 return 0;
@@ -38,12 +37,9 @@ public class SpellGroup {
             for (Spell spell : this.Spells){
                 if (spell != null){
                     count++;
-                    System.out.println(spell);
-                    System.out.println(spell.hasPayload());
                     if (spell.hasPayload()){
                         count += ((PayloadSpell) spell).payload.AmountOfSpells(recursionStep);
                     }
-                    System.out.println("Counted : " + count);
                 }
             }
             return count;

@@ -2,6 +2,8 @@ package org.bnjax3.noitacraft.spell.spells.projectiles;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
@@ -20,15 +22,30 @@ public class SparkBolt extends ProjectileSpell {
         super(manaDrain, projectileRegistryObject, projectileProperties);
     }
 
+    public SparkBolt setDeathParticle(){
+
+        return this;
+    }
+
     @Override
     public void Shoot(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation) {
         SparkBoltProjectile projectile = new SparkBoltProjectile((EntityType<SparkBoltProjectile>) projectileRegistryObject.get(), position, world, this);
         projectile.setSpellGroup(spellGroup);
         projectile.setOwner(entity);
         projectile.shoot(rotation.x, rotation.y, rotation.z,
-                this.getSpeed() //* spellGroup.getSpellProperties().getSpeedMult()
-                ,
+                this.getSpeed(), //* spellGroup.getSpellProperties().getSpeedMult(),
                 this.getSpread() + spellGroup.getSpellProperties().getSpread());
         world.addFreshEntity(projectile);
+    }
+
+    @Override
+    public void ExecuteOnDeath(PlayerEntity owner, World level, MagicProjectile magicProjectile) {
+        double x = magicProjectile.getX();
+        double y = magicProjectile.getY();
+        double z = magicProjectile.getZ();
+        for(int i = 0; i < 4; ++i) {
+            level.addParticle(ParticleTypes.CRIT, x, y, z, -x, -y + 0.2D, -z);
+        }
+        super.ExecuteOnDeath(owner, level, magicProjectile);
     }
 }

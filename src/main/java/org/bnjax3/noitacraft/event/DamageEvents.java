@@ -18,27 +18,11 @@ public class DamageEvents {
         LivingEntity entity = event.getEntityLiving();
         DamageSource damageSource = event.getSource();
         if (entity.level.isClientSide){return;}
-        System.out.println("function called");
-        System.out.println("Event DamageSource : " + damageSource);
-        System.out.println("Event BypassInvul : " + damageSource.isBypassInvul());
         if (entity.invulnerableTime > 10){ // parece que el rango va de 10 a 20???????
             if (damageSource instanceof GenericSpell){
                 entity.invulnerableTime = 10;
                 entity.hurtTime = 0;
                 entity.hurtDuration = 0;
-                System.out.println("\nIframes Bypassed\n");
-            } else {
-                System.out.println("tried to hit during iframes with a damage type without bypass");
-            }
-        }
-        String instance = "CLIENT";
-        if (!entity.level.isClientSide){ instance = "SERVER";}
-        System.out.println("DETAILS: { \n" +
-                instance + "\n" +
-                "entity: " + entity + "\n" +
-                "IframesLeft: " + entity.invulnerableTime + "\n" +
-                "DamageSource: " + damageSource + "\n" +
-                "Instance of GenericSpell: " + (damageSource instanceof GenericSpell) + "\n" +
-                "}");
+        }   }
     }
 }
