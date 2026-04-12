@@ -46,6 +46,7 @@ public class ProjectileSpell extends Spell {
 
             Vector3d spreadedRot = applySpread(rotation);
             projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed(), 0);
+            projectile.setDeltaMovement( projectile.getDeltaMovement().scale(spellGroup.getSpellProperties().getSpeedMult()));
             world.addFreshEntity(projectile);
         }
     }

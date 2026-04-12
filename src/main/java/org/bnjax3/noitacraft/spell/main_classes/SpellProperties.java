@@ -16,6 +16,7 @@ public class SpellProperties {
     private int bounces = 0;
     private int pierces = 0;
     private boolean fullPiercing = false;
+    private int knockbackBonus;
 
 
     // public float gravity = 0; // block/tick
@@ -36,6 +37,7 @@ public class SpellProperties {
         spread += spell.properties.getSpread();
         recoil += spell.properties.getRecoil();
     }
+
     public void Change(SpellProperties properties){
         manaDrain += properties.getManaDrain();
         castDelay += properties.getCastDelay();
@@ -184,6 +186,15 @@ public class SpellProperties {
 
     public SpellProperties setManaDrain(int manaDrain) {
         this.manaDrain = manaDrain;
+        return this;
+    }
+
+    public int getKnockbackBonus() {
+        return this.knockbackBonus;
+    }
+
+    public SpellProperties setKnockbackBonus(int x) {
+        this.knockbackBonus = x;
         return this;
     }
 }

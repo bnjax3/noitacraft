@@ -87,17 +87,15 @@ public class Wand {
                             SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, index);
                             // System.out.println("---------- We're outside the trigger of index " + index + " --------------");
                             if (spell instanceof TriggerSpell){
-                                ((TriggerSpell) spell).payload = payload;
+                                spell = new LoadedTriggerSpell((TriggerSpell) spell, payload);
                             } else if (spell instanceof TimerSpell){
-                                ((TimerSpell) spell).payload = payload;
+                                spell = new LoadedTimerSpell((TimerSpell) spell, payload);
                             }
                             if (payload != null) {
                                 // System.out.println(payload.Spells);
                                 // esto se saltearia los hechizos que hayan sido anadidos a la payload del trigger o timer
                                 // (pero crashea a la re bosta)
                                 index += payload.AmountOfSpells(0);
-                            } else {
-                                // System.out.println("the payload is null");
                             }
                         }
                     }
@@ -143,7 +141,7 @@ public class Wand {
             }
             // if trying to wrap to the parent trigger, return no payload
             if (index == parentTriggerIndex){
-                // System.out.println("attempted to draw parent trigger, payload is null for spell " + index);
+                System.out.println("attempted to draw parent trigger, payload is null for spell " + index);
                 return null;
             }
             Spell spell = spells[index];
@@ -160,11 +158,11 @@ public class Wand {
                     } else if (spell instanceof PayloadSpell) {
                         SpellGroup payload = getTriggerPayload(spells, index + 1, ((PayloadSpell) spell).count, parentTriggerIndex);
                         if (spell instanceof TriggerSpell){
-                            ((TriggerSpell) spell).payload = payload;
+                            spell = new LoadedTriggerSpell((TriggerSpell) spell, payload);
                         } else if (spell instanceof TimerSpell){
-                            ((TimerSpell) spell).payload = payload;
+                            spell = new LoadedTimerSpell((TimerSpell) spell, payload);
                         }
-                        // System.out.println("Spell " + spell);
+
                         if (payload == null) {
                             System.out.println("Payload is checked as null for spell index " + index);
                         }

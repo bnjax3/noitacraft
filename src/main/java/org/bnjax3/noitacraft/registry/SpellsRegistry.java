@@ -25,9 +25,9 @@ public class SpellsRegistry {
      */
     public static final ProjectileSpell SPARK_BOLT = (ProjectileSpell) new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(0.6f)
             .setCritChance(5)
-            .setSpeed(1.25f)
-            .setGravity(0.04f)
-            .setLifetime(20)
+            .setSpeed(1)
+            .setGravity(0.025f)
+            .setLifetime(20).setKnockback(1)
     ).setCastDelay(0.05f).setSpread(-1);
 
     // porque sino /summon a cualquier proyectil crashea a la re bosta
@@ -55,10 +55,15 @@ public class SpellsRegistry {
     public static final ModifierSpell RECHARGE_MINUS = new ModifierSpell(new SpellProperties().setRechargeTime(-0.33f).setCastDelay(-0.17f).setManaDrain(12));
     public static final ModifierSpell SPEED_PLUS = new ModifierSpell(new SpellProperties().setSpeedMult(2.5f).setManaDrain(3));
     public static final ModifierSpell HEAVY_SPREAD = new ModifierSpell(new SpellProperties().setManaDrain(2).setCastDelay(-0.12f).setRechargeTime(-0.25f).setSpread(360));
+    public static final ModifierSpell LIFETIME_PLUS = new ModifierSpell(new SpellProperties().setManaDrain(40).setLifetime(40).setCastDelay(0.22f));
 
 
 
-    public static final ModifierSpell HEAVY_SHOT = new HeavyShot();
+    public static final ModifierSpell HEAVY_SHOT = new HeavyShot(new SpellProperties()
+            .setManaDrain(7).setSpeedMult(0.3f)
+            .setDamageBonus(6).setRecoil(50)
+            .setCastDelay(0.17f).setKnockbackBonus(2));
+
     public static final ModifierSpell BLOODLUST = new HeavyShot(new SpellProperties()
             .setRecoil(30).setDamageBonus(32.5f / 5)
             .setSpread(6).setCastDelay(0.13f)

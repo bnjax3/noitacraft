@@ -3,9 +3,7 @@ package org.bnjax3.noitacraft.wand;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import org.bnjax3.noitacraft.spell.main_classes.PayloadSpell;
-import org.bnjax3.noitacraft.spell.main_classes.Spell;
-import org.bnjax3.noitacraft.spell.main_classes.SpellProperties;
+import org.bnjax3.noitacraft.spell.main_classes.*;
 
 import java.util.ArrayList;
 
@@ -38,7 +36,11 @@ public class SpellGroup {
                 if (spell != null){
                     count++;
                     if (spell.hasPayload()){
-                        count += ((PayloadSpell) spell).payload.AmountOfSpells(recursionStep);
+                        if (spell instanceof LoadedTimerSpell){
+                            count += ((LoadedTimerSpell) spell).payload.AmountOfSpells(recursionStep);
+                        } else if (spell instanceof LoadedTriggerSpell) {
+                            count += ((LoadedTriggerSpell) spell).payload.AmountOfSpells(recursionStep);
+                        }
                     }
                 }
             }

@@ -14,13 +14,7 @@ public abstract class Utils {
     // shit name i know
     public static final int UNIVERSAL_SLOT_PIXEL_SEPARATION = 18; // USPS for shrot
     private static final char charForFillingThatIMayChange = ' '; // CFFTIMC for short
-    public static String addCharUntilLenghtX(String string, int lenght, char filler){
-        String toReturn = string;
-        for (int i = 0;  i < lenght - string.length(); i++){
-            toReturn += filler;
-        }
-        return toReturn;
-    }
+
     public static TranslationTextComponent addCharUntilLenghtX(TranslationTextComponent textComponent, int lenght, char filler){
         for (int i = 0;  i < lenght - textComponent.getString().length(); i++){
             textComponent.append(String.valueOf(filler));

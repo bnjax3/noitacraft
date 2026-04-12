@@ -79,6 +79,7 @@ public class MagicProjectile extends AbstractArrowEntity {
         if (this.inGround){
             Spell.ExecuteOnDeath((PlayerEntity) getOwner(), this.level,this);
             this.remove();
+            return;
         }
 
         if (lifetimeLeft <= 0){
@@ -86,12 +87,13 @@ public class MagicProjectile extends AbstractArrowEntity {
             // Spell.ExecuteOnDeath(playerEntity, this.level,this);
             Spell.ExecuteOnDespawn(playerEntity, this.level, this);
             this.remove();
+            return;
         }
         Vector3d deltaMovement = this.getDeltaMovement();
         Spell.ExecuteOnProjectileTickUnshared(this);
         doTickFunctionalities();
         // do gravity
-        this.setDeltaMovement( deltaMovement.x, deltaMovement.y - (double)this.Spell.getGravity(), deltaMovement.z);
+        this.setDeltaMovement(deltaMovement.x, deltaMovement.y - (double)this.Spell.getGravity(), deltaMovement.z);
         lifetimeLeft--;
     }
 
@@ -225,6 +227,7 @@ public class MagicProjectile extends AbstractArrowEntity {
         this.spellGroup = spellGroup;
         this.lifetimeLeft = Spell.getProjectileLifetime() + spellGroup.getSpellProperties().getLifetime();
         this.bouncesLeft = Spell.getProjectileBounces() + spellGroup.getSpellProperties().getBounces();
+        this.setKnockback(Spell.projectileProperties.getKnockback() + spellGroup.getSpellProperties().getKnockbackBonus());
     }
 
     @Override

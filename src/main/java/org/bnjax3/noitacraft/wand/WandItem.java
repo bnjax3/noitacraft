@@ -27,7 +27,7 @@ public class WandItem extends Item {
     public final Wand Wand1;
     // public SpellItem[] spellItems;
     private int groupIndex = 0;
-    
+
     public WandItem(Wand wand) {
         super(new Item.Properties().stacksTo(1).tab(ModItemGroup.WANDS_GROUP));
         Wand1 = wand;

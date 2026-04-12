@@ -87,6 +87,7 @@ public class ModItems {
     public static final RegistryObject<SpellItem> BOUNCES_PLUS_ITEM = registerSpellItem("bounces_plus", SpellsRegistry.BOUNCES_PLUS);
     public static final RegistryObject<SpellItem> RECHARGE_MINUS_ITEM = registerSpellItem("recharge_minus", SpellsRegistry.RECHARGE_MINUS);
     public static final RegistryObject<SpellItem> SPEED_PLUS_ITEM = registerSpellItem("speed_plus", SpellsRegistry.SPEED_PLUS);
+    public static final RegistryObject<SpellItem> LIFETIME_PLUS = registerSpellItem("lifetime_plus", SpellsRegistry.LIFETIME_PLUS);
     public static final RegistryObject<SpellItem> HEAVY_SPREAD_ITEM = registerSpellItem("heavy_spread", SpellsRegistry.HEAVY_SPREAD);
 
     public static final RegistryObject<SpellItem> HEAVY_SHOT_ITEM = registerSpellItem("heavy_shot", SpellsRegistry.HEAVY_SHOT);

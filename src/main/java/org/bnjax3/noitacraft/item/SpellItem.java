@@ -80,6 +80,12 @@ public class SpellItem extends Item {
                 if (spell.getBounces() != 0){
                     textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.bounces", spell.getBounces()));
                 }
+                if (spell.getSpeedMult() != 1){
+                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.speedMult", spell.getSpeedMult()));
+                }
+                if (spell.getLifetime() != 0){
+                    textComponents.add(Utils.FormatTooltipData("tooltip.noitacraft.lifetimeAdd", spell.getLifetime()));
+                }
             }
         } else {
             textComponents.add(new TranslationTextComponent("tooltip.noitacraft.shiftForDetail"));

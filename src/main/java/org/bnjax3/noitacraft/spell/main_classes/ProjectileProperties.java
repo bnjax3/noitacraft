@@ -8,11 +8,21 @@ public class ProjectileProperties {
     private boolean friendlyFire = false;
     private int bounces = 0;
     private float gravity = 0; // block/tick^2??
+    private int knockback = 1;
     public ProjectileProperties(){
 
     }
     public ProjectileProperties(float damage){
         this.damage = damage;
+    }
+    public ProjectileProperties(ProjectileProperties properties){
+        this.speed = properties.speed;
+        this.critChance = properties.critChance;
+        this.damage = properties.damage;
+        this.lifetime = properties.lifetime;
+        this.friendlyFire = properties.friendlyFire;
+        this.bounces = properties.bounces;
+        this.gravity = properties.gravity;
     }
     public float getSpeed() {
         return speed;
@@ -77,4 +87,12 @@ public class ProjectileProperties {
         return this;
     }
 
+    public int getKnockback() {
+        return this.knockback;
+    }
+
+    public ProjectileProperties setKnockback(int x) {
+        this.knockback = x;
+        return this;
+    }
 }

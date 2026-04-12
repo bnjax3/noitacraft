@@ -23,22 +23,6 @@ public class TriggerSpell extends PayloadSpell {
     public TriggerSpell(ProjectileSpell spell){
         this(spell.projectileRegistryObject, spell.projectileProperties, 1);
     }
-    public TriggerSpell(TriggerSpell spell, SpellGroup payload){
-        this(spell.projectileRegistryObject, spell.projectileProperties, spell.count);
-        this.payload = payload;
-    }
 
-    @Override
-    public void ExecuteOnHit(MagicProjectile magicProjectile, RayTraceResult rayTraceResult) {
-        if (rayTraceResult instanceof BlockRayTraceResult){
-            // fixed
-            magicProjectile.bounce(((BlockRayTraceResult) rayTraceResult).getDirection());
-            CastPayload(magicProjectile);
-            magicProjectile.remove();
-        }
-        if (rayTraceResult instanceof EntityRayTraceResult){
-            CastPayload(magicProjectile);
-            magicProjectile.remove();
-        }
-    }
+
 }
