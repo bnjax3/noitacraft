@@ -9,7 +9,9 @@ import org.bnjax3.noitacraft.spell.main_classes.*;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.spell.spells.modifiers.HeavyShot;
 import org.bnjax3.noitacraft.spell.spells.modifiers.Light;
+import org.bnjax3.noitacraft.spell.spells.paths.SpiralArc;
 import org.bnjax3.noitacraft.spell.spells.projectiles.SparkBolt;
+import sun.security.provider.ConfigFile;
 
 import javax.annotation.Nullable;
 
@@ -57,6 +59,7 @@ public class SpellsRegistry {
     public static final ModifierSpell HEAVY_SPREAD = new ModifierSpell(new SpellProperties().setManaDrain(2).setCastDelay(-0.12f).setRechargeTime(-0.25f).setSpread(360));
     public static final ModifierSpell LIFETIME_PLUS = new ModifierSpell(new SpellProperties().setManaDrain(40).setLifetime(40).setCastDelay(0.22f));
 
+    public static final SpiralArc SPIRAL = new SpiralArc(new SpellProperties().setCastDelay(-0.10f).setLifetime(16).setDamageBonus(2.5f));
 
 
     public static final ModifierSpell HEAVY_SHOT = new HeavyShot(new SpellProperties()

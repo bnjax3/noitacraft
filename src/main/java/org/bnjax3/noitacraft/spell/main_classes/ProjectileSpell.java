@@ -38,15 +38,14 @@ public class ProjectileSpell extends Spell {
 
     }
 
-    public void Shoot(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation){
+    public void Shoot(SpellGroup spellGroup, Entity owner, World world, Vector3d position, Vector3d rotation){
         if (!world.isClientSide) {
             MagicProjectile projectile = new MagicProjectile(projectileRegistryObject.get(), position, world, this);
             projectile.setSpellGroup(spellGroup);
-            projectile.setOwner(entity);
+            projectile.setOwner(owner);
 
             Vector3d spreadedRot = applySpread(rotation);
-            projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed(), 0);
-            projectile.setDeltaMovement( projectile.getDeltaMovement().scale(spellGroup.getSpellProperties().getSpeedMult()));
+            projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed() * spellGroup.getSpellProperties().getSpeedMult(), 0);
             world.addFreshEntity(projectile);
         }
     }

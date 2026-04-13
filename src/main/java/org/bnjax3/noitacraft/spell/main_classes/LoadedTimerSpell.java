@@ -38,8 +38,11 @@ public class LoadedTimerSpell extends TimerSpell {
 
     @Override
     public void ExecuteOnProjectileTickUnshared(MagicProjectile projectile) {
-        timer--;
-        CastPayload(projectile);
+        if (timer == 0){
+            CastPayload(projectile);
+        } else {
+            timer--;
+        }
         super.ExecuteOnProjectileTickUnshared(projectile);
     }
 

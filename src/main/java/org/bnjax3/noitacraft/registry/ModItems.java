@@ -93,6 +93,7 @@ public class ModItems {
     public static final RegistryObject<SpellItem> HEAVY_SHOT_ITEM = registerSpellItem("heavy_shot", SpellsRegistry.HEAVY_SHOT);
     public static final RegistryObject<SpellItem> BLOODLUST_ITEM = registerSpellItem("bloodlust", SpellsRegistry.BLOODLUST);
 
+    public static final RegistryObject<SpellItem> SPIRAL_ITEM = registerSpellItem("spiral_arc", SpellsRegistry.SPIRAL);
 
     // ----------------------------------------- FUNCTIONS -----------------------------------------------------------
 

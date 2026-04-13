@@ -100,6 +100,7 @@ public class MagicProjectile extends AbstractArrowEntity {
     private void doTickFunctionalities() {
         if (spellGroup != null) {
             for (Spell spell : spellGroup.Spells) {
+                System.out.println(spell);
                 if (spell != null) {
                     spell.ExecuteOnProjectileTick(this);
                 }

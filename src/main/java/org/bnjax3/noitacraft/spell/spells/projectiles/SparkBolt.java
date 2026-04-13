@@ -23,20 +23,21 @@ public class SparkBolt extends ProjectileSpell {
     }
 
     public SparkBolt setDeathParticle(){
-
         return this;
     }
 
     @Override
-    public void Shoot(SpellGroup spellGroup, Entity entity, World world, Vector3d position, Vector3d rotation) {
+    public void Shoot(SpellGroup spellGroup, Entity owner, World world, Vector3d position, Vector3d rotation){
         SparkBoltProjectile projectile = new SparkBoltProjectile((EntityType<SparkBoltProjectile>) projectileRegistryObject.get(), position, world, this);
         projectile.setSpellGroup(spellGroup);
-        projectile.setOwner(entity);
-        projectile.shoot(rotation.x, rotation.y, rotation.z,
-                this.getSpeed(), //* spellGroup.getSpellProperties().getSpeedMult(),
-                this.getSpread() + spellGroup.getSpellProperties().getSpread());
+        projectile.setOwner(owner);
+
+        Vector3d spreadedRot = applySpread(rotation);
+        projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed() * spellGroup.getSpellProperties().getSpeedMult(), 0);
         world.addFreshEntity(projectile);
     }
+
+
 
     @Override
     public void ExecuteOnDeath(PlayerEntity owner, World level, MagicProjectile magicProjectile) {
