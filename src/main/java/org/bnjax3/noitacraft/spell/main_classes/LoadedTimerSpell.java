@@ -52,7 +52,7 @@ public class LoadedTimerSpell extends TimerSpell {
         return (payload != null  && !payload.isEmpty());
     }
 
-    public void CastPayload(MagicProjectile projectile){
+    public void CastPayload(MagicProjectile projectile) {
         if (payload == null) {
             return;
         }
@@ -63,6 +63,10 @@ public class LoadedTimerSpell extends TimerSpell {
         shot = true;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "LoadedTimerSpell: { " +
+                "PAYLOAD: "+ this.payload +
+                "}";
+    }
 }

@@ -44,26 +44,22 @@ public class ProjectileSpell extends Spell {
             projectile.setSpellGroup(spellGroup);
             projectile.setOwner(owner);
 
-            Vector3d spreadedRot = applySpread(rotation);
+            Vector3d spreadedRot = applySpread(rotation, spellGroup.getSpellProperties().getSpread() + this.getSpread());
             projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed() * spellGroup.getSpellProperties().getSpeedMult(), 0);
             world.addFreshEntity(projectile);
         }
     }
 
-    public Vector3d applySpread(Vector3d rotation){
-        float positiveSpread = Math.max(this.getSpread(), 0);
+    public Vector3d applySpread(Vector3d rotation, float spread){
+        System.out.println(rotation);
+        float positiveSpread = Math.max(spread, 0);
         Random random = new Random();
+        System.out.println(positiveSpread);
         // no se si deberia usar nextDouble o nextGaussian pero creo q queda mejor este
         double rdx = random.nextGaussian() * 2 - 1;
         double rdy = random.nextGaussian() * 2 - 1;
         double rdz = random.nextGaussian() * 2 - 1;
-        Vector3d rotation2 =  new Vector3d(
-                rotation.x  + rdx * positiveSpread,
-                rotation.y  + rdy * positiveSpread,
-                rotation.z  + rdz * positiveSpread
-        );
-        rotation2.normalize();
-        return rotation2;
+        return rotation.add(rdx * positiveSpread, rdy * positiveSpread, rdz * positiveSpread);
     }
 
 

@@ -32,7 +32,9 @@ public class SparkBolt extends ProjectileSpell {
         projectile.setSpellGroup(spellGroup);
         projectile.setOwner(owner);
 
-        Vector3d spreadedRot = applySpread(rotation);
+        Vector3d spreadedRot = applySpread(rotation, spellGroup.getSpellProperties().getSpread() + this.getSpread());
+        System.out.println(this.getSpread() + spellGroup.getSpellProperties().getSpread());
+        System.out.println(spreadedRot);
         projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed() * spellGroup.getSpellProperties().getSpeedMult(), 0);
         world.addFreshEntity(projectile);
     }

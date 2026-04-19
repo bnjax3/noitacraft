@@ -37,6 +37,7 @@ public class MagicProjectile extends AbstractArrowEntity {
     public ProjectileSpell Spell;
     private int bouncesLeft;
     private int lifetimeLeft;
+    private float gravity;
     public SpellGroup spellGroup;
 
 
@@ -93,14 +94,14 @@ public class MagicProjectile extends AbstractArrowEntity {
         Spell.ExecuteOnProjectileTickUnshared(this);
         doTickFunctionalities();
         // do gravity
-        this.setDeltaMovement(deltaMovement.x, deltaMovement.y - (double)this.Spell.getGravity(), deltaMovement.z);
+        this.setDeltaMovement(deltaMovement.x, deltaMovement.y - (double)this.gravity, deltaMovement.z);
         lifetimeLeft--;
     }
 
     private void doTickFunctionalities() {
         if (spellGroup != null) {
             for (Spell spell : spellGroup.Spells) {
-                System.out.println(spell);
+                // System.out.println(spell);
                 if (spell != null) {
                     spell.ExecuteOnProjectileTick(this);
                 }
@@ -228,8 +229,21 @@ public class MagicProjectile extends AbstractArrowEntity {
         this.spellGroup = spellGroup;
         this.lifetimeLeft = Spell.getProjectileLifetime() + spellGroup.getSpellProperties().getLifetime();
         this.bouncesLeft = Spell.getProjectileBounces() + spellGroup.getSpellProperties().getBounces();
+        this.gravity = Spell.getGravity();
         this.setKnockback(Spell.projectileProperties.getKnockback() + spellGroup.getSpellProperties().getKnockbackBonus());
+
+        for (int i = 0; i < spellGroup.Spells.size(); i++){
+            Spell spell = spellGroup.Spells.get(i);
+            if (spell != null){
+                spell.ModifyProjectileOnCast(this);
+            }
+        }
     }
+
+    public int getTicksAlive(){
+        return Spell.getProjectileLifetime() + spellGroup.getSpellProperties().getLifetime() - lifetimeLeft;
+    }
+
 
     @Override
     protected void defineSynchedData() {
@@ -241,4 +255,11 @@ public class MagicProjectile extends AbstractArrowEntity {
         return ItemStack.EMPTY;
     }
 
+    public float getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(float gravity) {
+        this.gravity = gravity;
+    }
 }

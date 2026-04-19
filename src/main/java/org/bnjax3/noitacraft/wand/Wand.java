@@ -142,7 +142,11 @@ public class Wand {
             // if trying to wrap to the parent trigger, return no payload
             if (index == parentTriggerIndex){
                 System.out.println("attempted to draw parent trigger, payload is null for spell " + index);
-                return null;
+                if (!payloadGroupHash.isEmpty()){
+                    return new SpellGroup(new ArrayList<>(payloadGroupHash.values()), this);
+                } else {
+                    return null;
+                }
             }
             Spell spell = spells[index];
             if (spell != null) {

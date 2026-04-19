@@ -89,6 +89,7 @@ public class WandItem extends Item {
                 }
             }
             SpellGroup[] spellGroups = Wand1.GroupSpellsInWand(spells.toArray(new Spell[0]));
+            System.out.println(Arrays.toString(spellGroups));
             if (spellGroups.length == 0){
                 // System.out.println("no spellgroups, skipping");
                 return super.use(world, player, hand);

@@ -43,7 +43,7 @@ public class SpellProperties {
         castDelay += properties.getCastDelay();
         spread += properties.getSpread();
         recoil += properties.getRecoil();
-        speedMult += properties.getSpeedMult();
+        speedMult *= properties.getSpeedMult();
         critChanceBonus += properties.getCritChanceBonus();
         damageBonus += properties.getDamageBonus();
         lifetime += properties.getLifetime();
@@ -197,4 +197,6 @@ public class SpellProperties {
         this.knockbackBonus = x;
         return this;
     }
+
+
 }

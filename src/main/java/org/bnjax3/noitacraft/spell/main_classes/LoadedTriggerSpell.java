@@ -43,4 +43,11 @@ public class LoadedTriggerSpell extends TriggerSpell {
         }
         payload.Cast(projectile.getOwner(), projectile.getCommandSenderWorld(), projectile.position(), projectile.getDeltaMovement());
     }
+
+    @Override
+    public String toString() {
+        return "LoadedTimerSpell: { " +
+                "PAYLOAD: "+ this.payload +
+                "}";
+    }
 }

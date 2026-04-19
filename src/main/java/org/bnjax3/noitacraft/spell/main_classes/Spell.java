@@ -56,6 +56,9 @@ public class Spell {
 
     }
 
+    public void ModifyProjectileOnCast(MagicProjectile projectile){
+
+    }
 
     public boolean hasPayload() {
         return false;

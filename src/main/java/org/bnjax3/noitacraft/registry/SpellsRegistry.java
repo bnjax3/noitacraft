@@ -27,14 +27,13 @@ public class SpellsRegistry {
      */
     public static final ProjectileSpell SPARK_BOLT = (ProjectileSpell) new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(0.6f)
             .setCritChance(5)
-            .setSpeed(1)
+            .setSpeed(1.4f)
             .setGravity(0.025f)
             .setLifetime(20).setKnockback(1)
     ).setCastDelay(0.05f).setSpread(-1);
 
     // porque sino /summon a cualquier proyectil crashea a la re bosta
     public static final ProjectileSpell DEFAULT_SPELL = new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(3)
-            .setSpeed(2)
     );
 
     public static final ProjectileSpell BOUNCING_BURST = new ProjectileSpell(5, ModEntities.BOUNCING_BURST_PROJECTILE, new ProjectileProperties());
