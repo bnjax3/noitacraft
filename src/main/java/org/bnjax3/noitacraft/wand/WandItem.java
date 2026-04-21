@@ -89,14 +89,14 @@ public class WandItem extends Item {
                 }
             }
             SpellGroup[] spellGroups = Wand1.GroupSpellsInWand(spells.toArray(new Spell[0]));
-            System.out.println(Arrays.toString(spellGroups));
+            // System.out.println(Arrays.toString(spellGroups));
             if (spellGroups.length == 0){
                 // System.out.println("no spellgroups, skipping");
                 return super.use(world, player, hand);
             }
             // System.out.println("Outside the groupSpells function");
             if (groupIndex >= spellGroups.length) {
-                System.out.println("Recharging spells....");
+                // System.out.println("Recharging spells....");
                 double rechargeTime = Wand1.getFinalRechargeTime(spellItems);
                 if (rechargeTime > 0){
                     player.getCooldowns().addCooldown(this, Utils.secsToTicks(rechargeTime));

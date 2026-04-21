@@ -7,13 +7,15 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
+import org.bnjax3.noitacraft.other.Mather;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
 import java.util.Random;
 
-public class ProjectileSpell extends Spell {
+public abstract class ProjectileSpell extends Spell {
 
+    private float distPlayerFactor = 0.5f;
     public final RegistryObject<? extends EntityType<? extends MagicProjectile>> projectileRegistryObject;
     public final ProjectileProperties projectileProperties;
     public ProjectileSpell(RegistryObject<? extends EntityType<? extends MagicProjectile>>  projectileRegistryObject, ProjectileProperties projectileProperties) {
@@ -38,30 +40,42 @@ public class ProjectileSpell extends Spell {
 
     }
 
-    public void Shoot(SpellGroup spellGroup, Entity owner, World world, Vector3d position, Vector3d rotation){
+    public void Shoot(SpellGroup spellGroup, Entity owner, World world, Vector3d position, Vector3d DirVector){
         if (!world.isClientSide) {
+            position.add(DirVector.scale(0.3f));
             MagicProjectile projectile = new MagicProjectile(projectileRegistryObject.get(), position, world, this);
             projectile.setSpellGroup(spellGroup);
             projectile.setOwner(owner);
 
-            Vector3d spreadedRot = applySpread(rotation, spellGroup.getSpellProperties().getSpread() + this.getSpread());
+            Vector3d spreadedRot = applySpread(DirVector, spellGroup.getSpellProperties().getSpread() + this.getSpread());
             projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed() * spellGroup.getSpellProperties().getSpeedMult(), 0);
             world.addFreshEntity(projectile);
         }
     }
 
-    public Vector3d applySpread(Vector3d rotation, float spread){
-        System.out.println(rotation);
-        float positiveSpread = Math.max(spread, 0);
+    public Vector3d applySpread(Vector3d dirVector, float spread){
+        // dir vector is guaranteed to be unit i think
+        double radSpread = Math.max(spread, 0) * Mather.DegToRad;
         Random random = new Random();
-        System.out.println(positiveSpread);
-
-        double rdx = 2 * random.nextDouble() - 1;
-        double rdy = 2 * random.nextDouble() - 1;
-        double rdz = 2 * random.nextDouble() - 1;
-        System.out.println(new Vector3d(rdx,rdy,rdz));
-        return rotation.add(rdx * positiveSpread, rdy * positiveSpread, rdz * positiveSpread);
+        double theta = Mather.atan2(dirVector.y, dirVector.x) + (2 * random.nextDouble() - 1) * radSpread;
+        double phi = Math.acos(dirVector.z) + (2 * random.nextDouble() - 1) * radSpread;
+        phi = Math.min(Math.PI, phi);
+        return new Vector3d(Math.sin(phi) * Math.cos(theta), Math.sin(phi) * Math.sin(theta), Math.cos(phi));
     }
+
+    /*
+        me costo tanto pensar y escribir esto que no lo quiero borrar
+        // construct a vector of angles with a vector of dimensions
+        Vector3d rotVector = new Vector3d(Mather.atan2(dirVector.y, dirVector.z), Mather.atan2(dirVector.x, dirVector.z), Mather.atan2(dirVector.y, dirVector.x));
+        // apply the spread to the rotation vector  (so that it doesnt affect speed too)
+        double nrx = rotVector.x + (2 * random.nextDouble() - 1) * radSpread;
+        double nry = rotVector.y + (2 * random.nextDouble() - 1) * radSpread;
+        double nrz = rotVector.z + (2 * random.nextDouble() - 1) * radSpread;
+        // calculate new unit vector from the rotations
+        double vx = Math.sin(nry) * Math.cos(nrz);
+        double vy = Math.sin(nrx) * Math.sin(nrz);
+        double vz = Math.cos(nry) * Math.cos(nrx);
+        */
 
 
 
@@ -138,5 +152,13 @@ public class ProjectileSpell extends Spell {
         return this;
     }
 
+    public float getDistPlayerFactor() {
+        return distPlayerFactor;
+    }
+
+    public ProjectileSpell setDistPlayerFactor(float distPlayerFactor) {
+        this.distPlayerFactor = distPlayerFactor;
+        return this;
+    }
 }
 

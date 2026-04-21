@@ -59,7 +59,7 @@ public class LoadedTimerSpell extends TimerSpell {
         if (shot){
             return;
         }
-        payload.Cast(projectile.getOwner(), projectile.getCommandSenderWorld(), projectile.position(), projectile.getDeltaMovement());
+        payload.Cast(projectile.getOwner(), projectile.getCommandSenderWorld(), projectile.position(), projectile.getDeltaMovement().normalize());
         shot = true;
     }
 

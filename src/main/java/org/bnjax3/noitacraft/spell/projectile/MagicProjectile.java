@@ -18,19 +18,14 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.bnjax3.noitacraft.damageSources.DamageSources;
-import org.bnjax3.noitacraft.damageSources.GenericSpell;
-import org.bnjax3.noitacraft.other.Simplifier;
+import org.bnjax3.noitacraft.other.Mather;
 import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
 import org.bnjax3.noitacraft.spell.main_classes.Spell;
 import org.bnjax3.noitacraft.registry.SpellsRegistry;
-import org.bnjax3.noitacraft.spell.main_classes.TimerSpell;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
-import java.sql.Time;
 import java.util.Random;
 
 public class MagicProjectile extends AbstractArrowEntity {
@@ -219,8 +214,8 @@ public class MagicProjectile extends AbstractArrowEntity {
         }
         // point towards delta movement
         float f = MathHelper.sqrt(getHorizontalDistanceSqr(deltaMovement));
-        this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * Simplifier.RadToDeg);
-        this.xRot = (float)(MathHelper.atan2(deltaMovement.y, f) * Simplifier.RadToDeg);
+        this.yRot = (float)(MathHelper.atan2(deltaMovement.x, deltaMovement.z) * Mather.RadToDeg);
+        this.xRot = (float)(MathHelper.atan2(deltaMovement.y, f) * Mather.RadToDeg);
         this.yRotO = this.yRot;
         this.xRotO = this.xRot;
     }

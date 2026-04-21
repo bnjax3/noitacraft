@@ -15,18 +15,20 @@ import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
 import org.bnjax3.noitacraft.Noitacraft;
+import org.bnjax3.noitacraft.client.model.BouncyBallModel;
 import org.bnjax3.noitacraft.client.model.SparkBoltModel;
+import org.bnjax3.noitacraft.entity.projectiles.BouncyBallProjectile;
 import org.bnjax3.noitacraft.entity.projectiles.SparkBoltProjectile;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class SparkBoltRenderer<T extends SparkBoltProjectile> extends EntityRenderer<T>{
-    private final SparkBoltModel model;
-    private final ResourceLocation TEXTURE = new ResourceLocation(Noitacraft.MOD_ID, "textures/entity/spark_bolt.png");
+public class BouncyBallRenderer<T extends BouncyBallProjectile> extends EntityRenderer<T>{
+    private final BouncyBallModel model;
+    private final ResourceLocation TEXTURE = new ResourceLocation(Noitacraft.MOD_ID, "textures/entity/bouncy_ball.png");
 
-    public SparkBoltRenderer(EntityRendererManager entityRendererManager) {
+    public BouncyBallRenderer(EntityRendererManager entityRendererManager) {
         super(entityRendererManager);
-        model = new SparkBoltModel();
+        model = new BouncyBallModel();
     }
 
     @ParametersAreNonnullByDefault
@@ -45,7 +47,7 @@ public class SparkBoltRenderer<T extends SparkBoltProjectile> extends EntityRend
     @ParametersAreNonnullByDefault
     @MethodsReturnNonnullByDefault
     @Override
-    public ResourceLocation getTextureLocation(SparkBoltProjectile projectile) {
+    public ResourceLocation getTextureLocation(T projectile) {
         return TEXTURE;
     }
 }

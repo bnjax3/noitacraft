@@ -1,19 +1,11 @@
 package org.bnjax3.noitacraft.registry;
 
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IndirectEntityDamageSource;
 import org.bnjax3.noitacraft.spell.main_classes.*;
-import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.spell.spells.modifiers.HeavyShot;
 import org.bnjax3.noitacraft.spell.spells.modifiers.Light;
 import org.bnjax3.noitacraft.spell.spells.paths.SpiralArc;
-import org.bnjax3.noitacraft.spell.spells.projectiles.SparkBolt;
-import sun.security.provider.ConfigFile;
-
-import javax.annotation.Nullable;
+import org.bnjax3.noitacraft.spell.spells.projectiles.*;
 
 
 public class SpellsRegistry {
@@ -27,16 +19,27 @@ public class SpellsRegistry {
      */
     public static final ProjectileSpell SPARK_BOLT = (ProjectileSpell) new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(0.6f)
             .setCritChance(5)
-            .setSpeed(1.4f)
+            .setSpeed(1.25f)
             .setGravity(0.025f)
             .setLifetime(20).setKnockback(1)
-    ).setCastDelay(0.05f).setSpread(-1);
+    ).setDistPlayerFactor(0.15f).setCastDelay(0.05f).setSpread(-1);
 
     // porque sino /summon a cualquier proyectil crashea a la re bosta
-    public static final ProjectileSpell DEFAULT_SPELL = new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(3)
-    );
+    public static final ProjectileSpell DEFAULT_SPELL = new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(3));
 
-    public static final ProjectileSpell BOUNCING_BURST = new ProjectileSpell(5, ModEntities.BOUNCING_BURST_PROJECTILE, new ProjectileProperties());
+    public static final ProjectileSpell BOUNCING_BURST = new BouncyBall(5, ModEntities.BOUNCING_BURST_PROJECTILE, new ProjectileProperties());
+
+    public static final ProjectileSpell CHAINSAW = new Chainsaw(5, ModEntities.CHAINSAW_PROJECTILE, new ProjectileProperties());
+
+    public static final ProjectileSpell DISC = new Disc(20, ModEntities.DISC_PROJECTILE, new ProjectileProperties());
+
+    public static final ProjectileSpell SAWBLADE = new Sawblade(20, ModEntities.SAWBLADE_PROJECTILE, new ProjectileProperties());
+
+    public static final ProjectileSpell BUBBLE = new Bubble(20, ModEntities.BUBBLE_PROJECTILE, new ProjectileProperties());
+
+    public static final ProjectileSpell SPITTER_BOLT = new Spitter(20, ModEntities.SPITTER_PROJECTILE, new ProjectileProperties());
+
+    public static final TriggerSpell HOLLOW_EGG = new EggProjectile(ModEntities.EGG_PROJECTILE, new ProjectileProperties());
 
     public static final MulticastSpell DOUBLE_CAST = new MulticastSpell(0,2);
     public static final MulticastSpell TRIPLE_CAST = new MulticastSpell(2,3);

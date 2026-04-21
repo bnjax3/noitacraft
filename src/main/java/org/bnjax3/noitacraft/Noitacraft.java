@@ -18,6 +18,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bnjax3.noitacraft.client.render.BouncyBallRenderer;
 import org.bnjax3.noitacraft.registry.ModBlocks;
 import org.bnjax3.noitacraft.registry.ModContainers;
 import org.bnjax3.noitacraft.registry.ModEntities;
@@ -101,7 +102,7 @@ public class Noitacraft {
         // do something that can only be done on the client
         ScreenManager.register(ModContainers.WAND_ALTAR_CONTAINER.get(), WandAltarScreen::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPARK_BOLT_PROJECTILE.get(), SparkBoltRenderer::new);
-
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.BOUNCING_BURST_PROJECTILE.get(), BouncyBallRenderer::new);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {

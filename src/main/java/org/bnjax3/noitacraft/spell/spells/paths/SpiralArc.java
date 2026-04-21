@@ -1,12 +1,9 @@
 package org.bnjax3.noitacraft.spell.spells.paths;
 
-import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.math.vector.Vector3d;
-import org.bnjax3.noitacraft.other.Simplifier;
+import org.bnjax3.noitacraft.other.Mather;
 import org.bnjax3.noitacraft.spell.main_classes.ModifierSpell;
 import org.bnjax3.noitacraft.spell.main_classes.SpellProperties;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
-import org.bnjax3.noitacraft.wand.SpellGroup;
 
 public class SpiralArc extends ModifierSpell {
     public SpiralArc(SpellProperties properties) {
@@ -19,9 +16,9 @@ public class SpiralArc extends ModifierSpell {
         float yRot = projectile.yRot;
         double h = projectile.getDeltaMovement().length();
         System.out.println("spiral");
-        double x = h * Math.sin(yRot * Simplifier.DegToRad);
-        double y = h * Math.sin(xRot * Simplifier.DegToRad);
-        double z = h * Math.cos(xRot * Simplifier.DegToRad) * Math.cos(yRot * Simplifier.DegToRad);
+        double x = h * Math.sin(yRot * Mather.DegToRad);
+        double y = h * Math.sin(xRot * Mather.DegToRad);
+        double z = h * Math.cos(xRot * Mather.DegToRad) * Math.cos(yRot * Mather.DegToRad);
         projectile.setDeltaMovement(x, y, z);
     }
 

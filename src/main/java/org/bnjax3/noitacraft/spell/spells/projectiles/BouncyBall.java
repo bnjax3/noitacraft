@@ -13,16 +13,16 @@ import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
 import org.bnjax3.noitacraft.spell.projectile.MagicProjectile;
 import org.bnjax3.noitacraft.wand.SpellGroup;
 
-public class SparkBolt extends ProjectileSpell {
-    public SparkBolt(RegistryObject<? extends EntityType<? extends MagicProjectile>> projectileRegistryObject, ProjectileProperties projectileProperties) {
+public class BouncyBall extends ProjectileSpell {
+    public BouncyBall(RegistryObject<? extends EntityType<? extends MagicProjectile>> projectileRegistryObject, ProjectileProperties projectileProperties) {
         super(projectileRegistryObject, projectileProperties);
     }
 
-    public SparkBolt(int manaDrain, RegistryObject<? extends EntityType<? extends MagicProjectile>> projectileRegistryObject, ProjectileProperties projectileProperties) {
+    public BouncyBall(int manaDrain, RegistryObject<? extends EntityType<? extends MagicProjectile>> projectileRegistryObject, ProjectileProperties projectileProperties) {
         super(manaDrain, projectileRegistryObject, projectileProperties);
     }
 
-    public SparkBolt setDeathParticle(){
+    public BouncyBall setDeathParticle(){
         return this;
     }
 
@@ -34,6 +34,8 @@ public class SparkBolt extends ProjectileSpell {
 
         Vector3d spreadedRot = applySpread(DirVector, spellGroup.getSpellProperties().getSpread() + this.getSpread());
         projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed() * spellGroup.getSpellProperties().getSpeedMult(), 0);
+        System.out.println("Pre-Shoot Rotation");
+        System.out.println(spreadedRot);
         world.addFreshEntity(projectile);
     }
 

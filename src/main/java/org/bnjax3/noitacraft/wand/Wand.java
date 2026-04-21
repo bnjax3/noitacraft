@@ -35,8 +35,6 @@ public class Wand {
     }
 
     public void Cast(World world, PlayerEntity player, SpellGroup[] spellGroups, int groupIndex){
-        // System.out.println("--- made it to the cast function!!");
-        // System.out.println(Arrays.toString(spellGroups));
         spellGroups[groupIndex].Cast(player, world, player.getEyePosition(1), player.getViewVector(1));
 
     }
