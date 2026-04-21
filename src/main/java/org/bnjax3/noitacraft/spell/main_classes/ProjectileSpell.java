@@ -55,10 +55,11 @@ public class ProjectileSpell extends Spell {
         float positiveSpread = Math.max(spread, 0);
         Random random = new Random();
         System.out.println(positiveSpread);
-        // no se si deberia usar nextDouble o nextGaussian pero creo q queda mejor este
-        double rdx = random.nextGaussian() * 2 - 1;
-        double rdy = random.nextGaussian() * 2 - 1;
-        double rdz = random.nextGaussian() * 2 - 1;
+
+        double rdx = 2 * random.nextDouble() - 1;
+        double rdy = 2 * random.nextDouble() - 1;
+        double rdz = 2 * random.nextDouble() - 1;
+        System.out.println(new Vector3d(rdx,rdy,rdz));
         return rotation.add(rdx * positiveSpread, rdy * positiveSpread, rdz * positiveSpread);
     }
 

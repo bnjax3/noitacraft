@@ -101,17 +101,17 @@ public class WandItem extends Item {
                 if (rechargeTime > 0){
                     player.getCooldowns().addCooldown(this, Utils.secsToTicks(rechargeTime));
                 }
-                System.out.println(Utils.secsToTicks(Wand1.getFinalRechargeTime(spellItems)));
+                // System.out.println(Utils.secsToTicks(Wand1.getFinalRechargeTime(spellItems)));
                 groupIndex = 0;
             }
 
             Wand1.Cast(world, player, spellGroups, groupIndex);
-            System.out.println("Applying Cast Delay...");
+            // System.out.println("Applying Cast Delay...");
             double CD = spellGroups[groupIndex].getSpellProperties().getCastDelay();
             if (CD > 0) {
                 player.getCooldowns().addCooldown(this, Utils.secsToTicks(CD));
             }
-            System.out.println(Utils.secsToTicks(spellGroups[groupIndex].getSpellProperties().getCastDelay()));
+            // System.out.println(Utils.secsToTicks(spellGroups[groupIndex].getSpellProperties().getCastDelay()));
             groupIndex++;
 
         }

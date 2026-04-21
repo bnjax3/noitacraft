@@ -192,13 +192,13 @@ public class Wand {
 
     public double getFinalRechargeTime(@Nonnull SpellItem[] spellItems){
         double toReturn = RechargeTime;
-        System.out.println(Arrays.toString(spellItems));
+        // System.out.println(Arrays.toString(spellItems));
         for (SpellItem spellItem : spellItems){
             if (spellItem != null){
                 toReturn += spellItem.spell.getRechargeTime();
             }
         }
-        System.out.println(toReturn);
+        // System.out.println(toReturn);
         return toReturn;
     }
 
