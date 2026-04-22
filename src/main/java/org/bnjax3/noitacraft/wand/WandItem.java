@@ -2,6 +2,7 @@ package org.bnjax3.noitacraft.wand;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,6 +22,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class WandItem extends Item {
 
@@ -32,6 +34,7 @@ public class WandItem extends Item {
         super(new Item.Properties().stacksTo(1).tab(ModItemGroup.WANDS_GROUP));
         Wand1 = wand;
     }
+
     public SpellItem[] getSpellItems(ItemStack stack) {
         CompoundNBT tag = stack.getOrCreateTag();
 
@@ -50,6 +53,14 @@ public class WandItem extends Item {
     public void setSpellItems(ItemStack stack, SpellItem[] spellItems) {
         CompoundNBT tag = stack.getOrCreateTag();
         tag.put("SpellItems", Utils.toNBT(spellItems));
+    }
+
+    public static int getMana(ItemStack stack) {
+        return stack.getOrCreateTag().getInt("mana");
+    }
+
+    public static void setMana(ItemStack stack, int value) {
+        stack.getOrCreateTag().putInt("mana", value);
     }
 
     @Override
@@ -74,6 +85,12 @@ public class WandItem extends Item {
     }
 
     @Override
+    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int i, boolean b) {
+        if (world.isClientSide) {return;}
+        setMana(itemStack, getMana(itemStack) + Math.round(Wand1.ManaChargeSpeed / 20f));
+    }
+
+    @Override
     @ParametersAreNonnullByDefault
     public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClientSide){
@@ -86,6 +103,16 @@ public class WandItem extends Item {
                     spells.add(spellItem.spell);
                 } else {
                     spells.add(null);
+                }
+            }
+            if (this.Wand1.Shuffle){
+                Random random = new Random();
+                for (int i = 0; i < spells.size(); i++){
+                    // swap the place of i with some random index
+                    int r = random.nextInt(spells.size());
+                    Spell temp = spells.get(r);
+                    spells.set(r, spells.get(i));
+                    spells.set(i, temp);
                 }
             }
             SpellGroup[] spellGroups = Wand1.GroupSpellsInWand(spells.toArray(new Spell[0]));
@@ -105,7 +132,7 @@ public class WandItem extends Item {
                 groupIndex = 0;
             }
 
-            Wand1.Cast(world, player, spellGroups, groupIndex);
+            setMana(player.getItemInHand(hand), Wand1.Cast(world, player, spellGroups, groupIndex, getMana(player.getItemInHand(hand))));
             // System.out.println("Applying Cast Delay...");
             double CD = spellGroups[groupIndex].getSpellProperties().getCastDelay();
             if (CD > 0) {
@@ -117,7 +144,24 @@ public class WandItem extends Item {
         }
         return super.use(world, player, hand);
     }
+    @Override
+    public boolean showDurabilityBar(ItemStack stack) {
+        return getMana(stack) / Wand1.ManaMax != 1;
+    }
 
+    @Override
+    public double getDurabilityForDisplay(ItemStack stack) {
+        int value = getMana(stack);
+        int max = 100;
+
+        // IMPORTANT: this is inverted (0 = full, 1 = empty)
+        return 1.0 - ((double) value / max);
+    }
+
+    @Override
+    public int getRGBDurabilityForDisplay(ItemStack stack) {
+        return 0x2222FF; // color
+    }
     public void setGroupIndex(int groupIndex) {
         this.groupIndex = groupIndex;
     }

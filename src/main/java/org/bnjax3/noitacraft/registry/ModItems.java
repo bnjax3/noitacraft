@@ -67,8 +67,13 @@ public class ModItems {
     // -----------------------------------------  SPELLITEMS -----------------------------------------------------------
 
     public static final RegistryObject<SpellItem> SPARK_BOLT_ITEM = registerSpellItem("spark_bolt", SpellsRegistry.SPARK_BOLT);
-
     public static final RegistryObject<SpellItem> BOUNCING_BURST_ITEM = registerSpellItem("bouncing_burst", SpellsRegistry.BOUNCING_BURST);
+    public static final RegistryObject<SpellItem> CHAINSAW_ITEM = registerSpellItem("chainsaw", SpellsRegistry.CHAINSAW);
+    public static final RegistryObject<SpellItem> DISC_ITEM = registerSpellItem("disc", SpellsRegistry.DISC);
+    public static final RegistryObject<SpellItem> SAWBLADE_ITEM = registerSpellItem("sawblade", SpellsRegistry.SAWBLADE);
+    public static final RegistryObject<SpellItem> SPITTER_BOLT_ITEM = registerSpellItem("spitter_bolt", SpellsRegistry.SPITTER_BOLT);
+    public static final RegistryObject<SpellItem> BUBBLE_ITEM = registerSpellItem("bubble", SpellsRegistry.BUBBLE);
+    public static final RegistryObject<SpellItem> HOLLOW_EGG_ITEM = registerSpellItem("hollow_egg", SpellsRegistry.HOLLOW_EGG);
 
     public static final RegistryObject<SpellItem> DOUBLE_CAST_ITEM = registerSpellItem("double_cast", SpellsRegistry.DOUBLE_CAST);
     public static final RegistryObject<SpellItem> TRIPLE_CAST_ITEM = registerSpellItem("triple_cast", SpellsRegistry.TRIPLE_CAST);

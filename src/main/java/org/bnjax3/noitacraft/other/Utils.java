@@ -39,7 +39,7 @@ public abstract class Utils {
         return (TranslationTextComponent) addCharUntilLenghtX(text, 20, charForFillingThatIMayChange).append(data);
     }
     public static TranslationTextComponent FormatSpellDescription(SpellItem item){
-        String resourceLocation = "tooltip.noitacraft." + item.getRegistryName().getPath() + "_description";
+        String resourceLocation = "tooltip.noitacraft." + item.getRegistryName().getPath();
         TranslationTextComponent text = new TranslationTextComponent(resourceLocation);
         return text;
     }

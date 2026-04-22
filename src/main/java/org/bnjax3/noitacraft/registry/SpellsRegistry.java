@@ -19,7 +19,7 @@ public class SpellsRegistry {
      */
     public static final ProjectileSpell SPARK_BOLT = (ProjectileSpell) new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(0.6f)
             .setCritChance(5)
-            .setSpeed(1.25f)
+            .setSpeed(1.5f)
             .setGravity(0.025f)
             .setLifetime(20).setKnockback(1)
     ).setDistPlayerFactor(0.15f).setCastDelay(0.05f).setSpread(-1);
@@ -27,19 +27,33 @@ public class SpellsRegistry {
     // porque sino /summon a cualquier proyectil crashea a la re bosta
     public static final ProjectileSpell DEFAULT_SPELL = new SparkBolt(5, ModEntities.SPARK_BOLT_PROJECTILE, new ProjectileProperties(3));
 
-    public static final ProjectileSpell BOUNCING_BURST = new BouncyBall(5, ModEntities.BOUNCING_BURST_PROJECTILE, new ProjectileProperties());
+    public static final ProjectileSpell BOUNCING_BURST = (ProjectileSpell) new BouncyBall(5, ModEntities.BOUNCING_BURST_PROJECTILE,
+            new ProjectileProperties().setDamage((float)3/5).setGravity(0.025f).setSpeed(1.15f)
+                    .setBounces(10)).setSpread(-1).setCastDelay(-0.03f).setLifetime(40).setRecoil(0.05f);
 
-    public static final ProjectileSpell CHAINSAW = new Chainsaw(5, ModEntities.CHAINSAW_PROJECTILE, new ProjectileProperties());
+    public static final ProjectileSpell CHAINSAW = (ProjectileSpell) new Chainsaw(1, ModEntities.CHAINSAW_PROJECTILE,
+            new ProjectileProperties().setLifetime(0).setSpeed(0).setDamage(12.75f/5)
+    ).setRechargeTime(-0.17f).setSpread(6);
 
-    public static final ProjectileSpell DISC = new Disc(20, ModEntities.DISC_PROJECTILE, new ProjectileProperties());
+    public static final ProjectileSpell DISC = (ProjectileSpell) new Disc(20, ModEntities.DISC_PROJECTILE,
+            new ProjectileProperties().setDamage(4).setFriendlyFire(true).setBounces(2)
+                    .setSpeed(0.9f).setGravity(0.025f).setLifetime(20)).setCastDelay(0.17f).setSpread(2).setRecoil(0.2f);
 
-    public static final ProjectileSpell SAWBLADE = new Sawblade(20, ModEntities.SAWBLADE_PROJECTILE, new ProjectileProperties());
+    public static final ProjectileSpell SAWBLADE = (ProjectileSpell) new Sawblade(40, ModEntities.SAWBLADE_PROJECTILE,
+            new ProjectileProperties().setGravity(0).setLifetime(40).setSpeed(0.5f).setFriendlyFire(true).setBounces(2)
+                    .setDamage(62.5f/5)).setCastDelay(0.33f).setSpread(4).setRecoil(0.2f);
 
-    public static final ProjectileSpell BUBBLE = new Bubble(20, ModEntities.BUBBLE_PROJECTILE, new ProjectileProperties());
+    public static final ProjectileSpell BUBBLE = (ProjectileSpell) new Bubble(5, ModEntities.BUBBLE_PROJECTILE,
+            new ProjectileProperties().setSpeed(0.5f).setGravity(0).setBounces(20).setLifetime(200/6).setDamage(1)
+    ).setSpread(23).setCastDelay(-0.08f);
 
-    public static final ProjectileSpell SPITTER_BOLT = new Spitter(20, ModEntities.SPITTER_PROJECTILE, new ProjectileProperties());
+    public static final ProjectileSpell SPITTER_BOLT = (ProjectileSpell) new Spitter(5, ModEntities.SPITTER_PROJECTILE,
+            new ProjectileProperties().setLifetime(54/6).setSpeed(1.2f).setBounces(10).setGravity(0.01f).setDamage(1.5f))
+            .setCastDelay(-0.02f).setSpread(6);
 
-    public static final TriggerSpell HOLLOW_EGG = new EggProjectile(ModEntities.EGG_PROJECTILE, new ProjectileProperties());
+    public static final TriggerSpell HOLLOW_EGG = (TriggerSpell) new EggProjectile(ModEntities.EGG_PROJECTILE,
+            new ProjectileProperties().setSpeed(0.75f).setGravity(0.3f).setDamage(1)
+    ).setCastDelay(-0.2f).setManaDrain(30);
 
     public static final MulticastSpell DOUBLE_CAST = new MulticastSpell(0,2);
     public static final MulticastSpell TRIPLE_CAST = new MulticastSpell(2,3);
