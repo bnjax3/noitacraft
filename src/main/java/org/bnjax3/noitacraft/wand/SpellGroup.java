@@ -18,35 +18,15 @@ public class SpellGroup {
     }
 
     public int Cast(Entity entity, World world, Vector3d position, Vector3d viewVector, int spendableMana){
-        int inputMana = spendableMana;
-        if (inputMana == -1){
-            Modify();
-            for (Spell spell : Spells){
-                spell.Cast(this, entity, world, position, viewVector);
-            }
-            return 0;
-        }
-        ArrayList<Spell> toCast = new ArrayList<>();
-        for (Spell spell : Spells) {
-            if (spell.getManaDrain() <= spendableMana) {
-                toCast.add(spell);
-                spendableMana -= spell.getManaDrain();
-            }
-        }
-        for (Spell spell : toCast){
+        for (Spell spell : Spells){
             spell.Modify(this);
         }
-        for (Spell spell : toCast){
+        for (Spell spell : Spells){
             spell.Cast(this, entity, world, position, viewVector);
         }
-        return inputMana - spendableMana;
+        return 0;
     }
 
-    public boolean canAffordPayload(Spell spell){
-        if (spell.hasPayload()){
-
-        }
-    }
 
     public void Modify(){
         for (Spell spell : Spells){

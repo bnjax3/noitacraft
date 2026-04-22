@@ -98,13 +98,21 @@ public class WandItem extends Item {
             // System.out.println(Arrays.toString(spellItems));
             ArrayList<Spell> spells = new ArrayList<>();
             // initializes spells with the spellItem array
+            // Removes all spells that are too expensive or null
+            int budget = getMana(player.getItemInHand(hand));
             for (SpellItem spellItem : spellItems) {
                 if (spellItem != null){
-                    spells.add(spellItem.spell);
+                    if (spellItem.spell.getManaDrain() <= budget) {
+                        budget -= spellItem.spell.getManaDrain();
+                        spells.add(spellItem.spell);
+                    } else {
+                        spells.add(null);
+                    }
                 } else {
                     spells.add(null);
                 }
             }
+            // Shuffle
             if (this.Wand1.Shuffle){
                 Random random = new Random();
                 for (int i = 0; i < spells.size(); i++){
@@ -132,7 +140,8 @@ public class WandItem extends Item {
                 groupIndex = 0;
             }
 
-            setMana(player.getItemInHand(hand), Wand1.Cast(world, player, spellGroups, groupIndex, getMana(player.getItemInHand(hand))));
+            Wand1.Cast(world, player, spellGroups, groupIndex);
+            setMana(player.getItemInHand(hand), budget);
             // System.out.println("Applying Cast Delay...");
             double CD = spellGroups[groupIndex].getSpellProperties().getCastDelay();
             if (CD > 0) {

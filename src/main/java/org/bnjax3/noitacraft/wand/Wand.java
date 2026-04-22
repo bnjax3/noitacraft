@@ -34,8 +34,8 @@ public class Wand {
         SpeedMult = speedMult;
     }
 
-    public void Cast(World world, PlayerEntity player, SpellGroup[] spellGroups, int groupIndex, int mana){
-        spellGroups[groupIndex].Cast(player, world, player.getEyePosition(1), player.getViewVector(1), mana);
+    public void Cast(World world, PlayerEntity player, SpellGroup[] spellGroups, int groupIndex){
+        spellGroups[groupIndex].Cast(player, world, player.getEyePosition(1), player.getViewVector(1));
 
     }
 
