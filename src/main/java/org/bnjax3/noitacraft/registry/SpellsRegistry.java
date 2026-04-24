@@ -63,6 +63,8 @@ public class SpellsRegistry {
     public static final MulticastSpell TRIPLE_SCATTER = new MulticastSpell(1, 3, 20);
     public static final MulticastSpell QUAD_SCATTER = new MulticastSpell(2,4,40);
 
+    public static final ModifierSpell ADD_MANA = new ModifierSpell(new SpellProperties().setManaDrain(-30).setCastDelay(0.17f));
+
     public static final Light LIGHT = new Light(10,1);
     public static final Light MORE_LIGHT = new Light(15,2);
 

@@ -41,7 +41,7 @@ public class LoadedTriggerSpell extends TriggerSpell {
             System.out.println("Payload is null");
             return;
         }
-        payload.Cast(projectile.getOwner(), projectile.getCommandSenderWorld(), projectile.position(), projectile.getDeltaMovement().normalize(), -1);
+        payload.Cast(projectile.getOwner(), projectile.getCommandSenderWorld(), projectile.position(), projectile.getDeltaMovement().normalize());
     }
 
     @Override

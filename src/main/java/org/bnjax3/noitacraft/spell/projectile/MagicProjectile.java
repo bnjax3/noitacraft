@@ -137,7 +137,7 @@ public class MagicProjectile extends AbstractArrowEntity {
                 ((LivingEntity)owner).setLastHurtMob(entity);
             }
         }
-        boolean isOwner = entity == owner && !this.spellGroup.getSpellProperties().isFriendlyFire();
+        boolean isOwner = entity == owner && (!this.spellGroup.getSpellProperties().isFriendlyFire() && !this.Spell.isFriendlyFire());
         boolean enderman = entity.getType() == EntityType.ENDERMAN;
         int remainingFireTicks = entity.getRemainingFireTicks();
         if (this.isOnFire() && !enderman) {

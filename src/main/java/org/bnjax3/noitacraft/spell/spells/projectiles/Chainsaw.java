@@ -1,6 +1,9 @@
 package org.bnjax3.noitacraft.spell.spells.projectiles;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import org.bnjax3.noitacraft.spell.main_classes.ProjectileProperties;
 import org.bnjax3.noitacraft.spell.main_classes.ProjectileSpell;
@@ -14,6 +17,11 @@ public class Chainsaw extends ProjectileSpell {
 
     public Chainsaw(int manaDrain, RegistryObject<? extends EntityType<? extends MagicProjectile>> projectileRegistryObject, ProjectileProperties projectileProperties) {
         super(manaDrain, projectileRegistryObject, projectileProperties);
+    }
+
+    @Override
+    public void Shoot(SpellGroup spellGroup, Entity owner, World world, Vector3d position, Vector3d DirVector) {
+
     }
 
     @Override

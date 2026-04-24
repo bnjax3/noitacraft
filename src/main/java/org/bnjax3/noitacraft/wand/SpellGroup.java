@@ -17,7 +17,7 @@ public class SpellGroup {
         spellProperties = new SpellProperties(wand);
     }
 
-    public int Cast(Entity entity, World world, Vector3d position, Vector3d viewVector, int spendableMana){
+    public int Cast(Entity entity, World world, Vector3d position, Vector3d viewVector){
         for (Spell spell : Spells){
             spell.Modify(this);
         }

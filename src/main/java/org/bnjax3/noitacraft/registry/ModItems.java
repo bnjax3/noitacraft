@@ -83,6 +83,8 @@ public class ModItems {
     public static final RegistryObject<SpellItem> TRIPLE_SCATTER_ITEM = registerSpellItem("triple_scatter", SpellsRegistry.TRIPLE_SCATTER);
     public static final RegistryObject<SpellItem> QUAD_SCATTER_ITEM = registerSpellItem("quad_scatter", SpellsRegistry.QUAD_SCATTER);
 
+    public static final RegistryObject<SpellItem> ADD_MANA_ITEM = registerSpellItem("add_mana", SpellsRegistry.ADD_MANA);
+
     public static final RegistryObject<SpellItem> LIGHT_ITEM = registerSpellItem("light", SpellsRegistry.LIGHT);
     public static final RegistryObject<SpellItem> MORE_LIGHT_ITEM = registerSpellItem("more_light", SpellsRegistry.MORE_LIGHT);
 

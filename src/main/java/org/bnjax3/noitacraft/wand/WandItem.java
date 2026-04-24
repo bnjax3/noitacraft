@@ -29,6 +29,7 @@ public class WandItem extends Item {
     public final Wand Wand1;
     // public SpellItem[] spellItems;
     private int groupIndex = 0;
+    private int invTickCount= 0;
 
     public WandItem(Wand wand) {
         super(new Item.Properties().stacksTo(1).tab(ModItemGroup.WANDS_GROUP));
@@ -82,12 +83,6 @@ public class WandItem extends Item {
             textComponents.add(new TranslationTextComponent("tooltip.noitacraft.shiftForDetail"));
         }
         super.appendHoverText(itemStack, world, textComponents, tooltipFlag);
-    }
-
-    @Override
-    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int i, boolean b) {
-        if (world.isClientSide) {return;}
-        setMana(itemStack, getMana(itemStack) + Math.round(Wand1.ManaChargeSpeed / 20f));
     }
 
     @Override
@@ -153,23 +148,35 @@ public class WandItem extends Item {
         }
         return super.use(world, player, hand);
     }
+
+    @Override
+    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int i, boolean b) {
+        if (world.isClientSide) {return;}
+        if (getMana(itemStack) == Wand1.ManaMax) { return;}
+        if (invTickCount <= Wand1.ManaChargeSpeed % 20) {
+            setMana(itemStack, getMana(itemStack) + (Wand1.ManaChargeSpeed / 20) + 1);
+        } else {
+            setMana(itemStack, getMana(itemStack) + (Wand1.ManaChargeSpeed / 20));
+        }
+        if (invTickCount == 20) {
+            invTickCount = 0;
+        }
+        if (getMana(itemStack) > Wand1.ManaMax) { setMana(itemStack, Wand1.ManaMax);}
+        invTickCount++;
+    }
     @Override
     public boolean showDurabilityBar(ItemStack stack) {
-        return getMana(stack) / Wand1.ManaMax != 1;
+        return stack.hasTag() && getMana(stack) / Wand1.ManaMax < 1;
     }
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        int value = getMana(stack);
-        int max = 100;
-
-        // IMPORTANT: this is inverted (0 = full, 1 = empty)
-        return 1.0 - ((double) value / max);
+        return stack.hasTag()? 1.0f - ((double) getMana(stack) / Wand1.ManaMax) : 0f;
     }
 
     @Override
     public int getRGBDurabilityForDisplay(ItemStack stack) {
-        return 0x2222FF; // color
+        return 0x6688FF; // color
     }
     public void setGroupIndex(int groupIndex) {
         this.groupIndex = groupIndex;

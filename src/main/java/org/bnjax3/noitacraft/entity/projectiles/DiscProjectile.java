@@ -30,4 +30,5 @@ public class DiscProjectile extends MagicProjectile {
         this(entityType,shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), world, spell);
         this.setOwner(shooter);
     }
+
 }

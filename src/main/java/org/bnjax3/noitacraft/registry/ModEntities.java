@@ -46,12 +46,12 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<DiscProjectile>> DISC_PROJECTILE = ENTITY_TYPES.register("disc", () -> EntityType.Builder
             .<DiscProjectile>of(DiscProjectile::new, EntityClassification.MISC)
-            .sized(0.15f, 0.6f)
+            .sized(0.3f, 0.6f)
             .build("disc"));
 
     public static final RegistryObject<EntityType<SawbladeProjectile>> SAWBLADE_PROJECTILE = ENTITY_TYPES.register("sawblade", () -> EntityType.Builder
             .<SawbladeProjectile>of(SawbladeProjectile::new, EntityClassification.MISC)
-            .sized(0.15f, 1f)
+            .sized(0.3f, 1f)
             .build("sawblade"));
 
     public static final RegistryObject<EntityType<SpitterProjectile>> SPITTER_PROJECTILE = ENTITY_TYPES.register("spitter", () -> EntityType.Builder

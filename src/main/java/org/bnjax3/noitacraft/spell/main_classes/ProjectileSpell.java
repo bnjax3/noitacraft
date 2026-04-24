@@ -42,7 +42,7 @@ public abstract class ProjectileSpell extends Spell {
 
     public void Shoot(SpellGroup spellGroup, Entity owner, World world, Vector3d position, Vector3d DirVector){
         if (!world.isClientSide) {
-            position.add(DirVector.scale(0.3f));
+            position.add(DirVector.scale(this.distPlayerFactor));
             MagicProjectile projectile = new MagicProjectile(projectileRegistryObject.get(), position, world, this);
             projectile.setSpellGroup(spellGroup);
             projectile.setOwner(owner);
@@ -51,7 +51,7 @@ public abstract class ProjectileSpell extends Spell {
             projectile.shoot(spreadedRot.x, spreadedRot.y, spreadedRot.z, this.getSpeed() * spellGroup.getSpellProperties().getSpeedMult(), 0);
             world.addFreshEntity(projectile);
         }
-    }
+    };
 
     public Vector3d applySpread(Vector3d dirVector, float spread){
         // dir vector is guaranteed to be unit i think

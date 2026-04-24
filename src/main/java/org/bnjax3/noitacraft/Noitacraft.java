@@ -19,6 +19,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bnjax3.noitacraft.client.render.BouncyBallRenderer;
+import org.bnjax3.noitacraft.client.render.DiscProjectileRenderer;
 import org.bnjax3.noitacraft.registry.ModBlocks;
 import org.bnjax3.noitacraft.registry.ModContainers;
 import org.bnjax3.noitacraft.registry.ModEntities;
@@ -103,6 +104,7 @@ public class Noitacraft {
         ScreenManager.register(ModContainers.WAND_ALTAR_CONTAINER.get(), WandAltarScreen::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SPARK_BOLT_PROJECTILE.get(), SparkBoltRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.BOUNCING_BURST_PROJECTILE.get(), BouncyBallRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.DISC_PROJECTILE.get(), DiscProjectileRenderer::new);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
